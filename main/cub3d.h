@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:30:49 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/03 09:04:08 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 01:02:30 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void			ft_putchar(char c);
 void			ft_putstr(char *str);
 int				ft_atoi(char *str);
 void			ft_putnbr(int nbr);
-t_settings		ft_load(char *filename, t_settings *settings);
+t_settings		ft_load(char *path, t_settings *settings);
+int				ft_vermap(char **map);
 
 #endif

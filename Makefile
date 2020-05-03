@@ -6,15 +6,27 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/05/03 07:01:27 by ahallain         ###   ########.fr        #
+#    Updated: 2020/05/04 00:51:27 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= Cub3D
-SRCS	= main/cub3d.c main/utils.c parse/load.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c parse/edit.c
-OBJS	= ${SRCS:.c=.o}
-CFLAGS	= -Werror -Wextra -Wall
-LIBS	= -lmlx -lX11 -lXext
+NAME	=	Cub3D
+
+SRCS	=	main/cub3d.c \
+			main/utils.c \
+			parse/load.c \
+			get_next_line/get_next_line.c \
+			get_next_line/get_next_line_utils.c \
+			parse/edit.c \
+			parse/check.c \
+			#runtime/game.c \
+			runtime/event.c
+
+OBJS	=	${SRCS:.c=.o}
+
+CFLAGS	=	-Werror -Wextra -Wall
+
+LIBS	=	-lmlx -lX11 -lXext
 
 .c.o:
 	gcc ${CFLAGS} -c $< -o ${<:.c=.o}

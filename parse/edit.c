@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:11:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/03 09:23:21 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 00:48:54 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_settings	ft_map_line(char *line, t_settings *settings)
 	size_t	length;
 	char	**copy;
 
-	length = 1;
+	length = 0;
 	if ((*settings).map)
 		while ((*settings).map[length])
 			length++;
@@ -43,7 +43,7 @@ t_settings	ft_map_line(char *line, t_settings *settings)
 	}
 	ft_stradhere(&(*settings).map[length], '3');
 	if (copy)
-		while (--length)
+		while (length--)
 			(*settings).map[length] = copy[length];
 	if (copy)
 		free(copy);
@@ -113,7 +113,5 @@ t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 		(*settings).color.f = ft_line_hex(line);
 	else if (*flag == 'C')
 		(*settings).color.c = ft_line_hex(line);
-	else
-		ft_putstr("\033[0m");
 	return (*settings);
 }

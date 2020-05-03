@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:48:25 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/03 09:23:41 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 00:53:25 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,22 @@ t_settings	ft_scan(char *line, t_settings *settings)
 	return (*settings);
 }
 
-t_settings	ft_load(char *filename, t_settings *settings)
+t_settings	ft_load(char *path, t_settings *settings)
 {
 	int		fd;
 	char	*line;
 	int		ret;
 
-	if ((fd = open(filename, O_RDONLY)) == -1)
+	ft_putstr("Loading ");
+	ft_putstr(path);
+	ft_putstr(".\n");
+	if ((fd = open(path, O_RDONLY)) == -1)
 		return (*settings);
 	ret = 1;
 	while (ret)
 	{
 		ret = get_next_line(fd, &line);
 		ft_scan(line, settings);
-		ft_putstr(line);
-		ft_putstr("\033[0m\n");
 		free(line);
 	}
 	return (*settings);
