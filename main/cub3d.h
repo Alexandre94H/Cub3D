@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:30:49 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 01:02:30 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 18:07:26 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef	struct	s_texture
 
 typedef	struct	s_color
 {
-	char	*f;
-	char	*c;
+	int	f;
+	int	c;
 }				t_color;
 
 typedef	struct	s_settings
@@ -46,5 +46,6 @@ int				ft_atoi(char *str);
 void			ft_putnbr(int nbr);
 t_settings		ft_load(char *path, t_settings *settings);
 int				ft_vermap(char **map);
+int				ft_run(char *title, t_settings settings);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:24:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 01:03:06 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 18:07:37 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ int		main(int argc, char **argv)
 		ft_putstr("Invalid Map.");
 		return (3);
 	}
+	return (ft_run(argv[0] + 2, settings));
 }

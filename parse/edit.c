@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:11:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 00:48:54 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 15:42:02 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,44 +50,20 @@ t_settings	ft_map_line(char *line, t_settings *settings)
 	return (*settings);
 }
 
-char		*ft_hex(char *str)
+int			ft_line_color(char *line)
 {
-	int		nbr;
-	char	*hex;
+	int	color;
 
-	nbr = ft_atoi(str);
-	hex = 0;
-	if (nbr < 16)
-		ft_stradhere(&hex, '0');
-	else
-		ft_stradhere(&hex, "0123456789ABCDEF"[nbr / 16]);
-	ft_stradhere(&hex, "0123456789ABCDEF"[nbr % 16]);
-	return (hex);
-}
-
-char		*ft_line_hex(char *line)
-{
-	char	*ret;
-	char	*current;
-	size_t	index;
-
-	ret = ft_hex(line);
+	color = ft_atoi(line);
 	while (*line++ != ',')
 		;
-	current = ft_hex(line);
-	index = 0;
-	while (current[index])
-		ft_stradhere(&ret, current[index++]);
-	free(current);
+	color *= 256;
+	color += ft_atoi(line);
 	while (*line++ != ',')
 		;
-	current = ft_hex(line);
-	index = 0;
-	while (current[index])
-		ft_stradhere(&ret, current[index++]);
-	free(current);
-	free(ret);
-	return (ret);
+	color *= 256;
+	color += ft_atoi(line);
+	return (color);
 }
 
 t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
@@ -110,8 +86,8 @@ t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 	else if (*flag == 'S')
 		(*settings).texture.s = line;
 	else if (*flag == 'F')
-		(*settings).color.f = ft_line_hex(line);
+		(*settings).color.f = ft_line_color(line);
 	else if (*flag == 'C')
-		(*settings).color.c = ft_line_hex(line);
+		(*settings).color.c = ft_line_color(line);
 	return (*settings);
 }

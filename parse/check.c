@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 00:51:35 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 01:21:28 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/04 03:35:30 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,29 @@
 
 int	ft_valdir(char **map, int *x, int *y, int direction)
 {
-	int axe;
+	int	axe;
+
 	if (direction % 2)
 	{
 		axe = (direction % 4 - 2) * -1;
-		if (*x + axe >= 0 && *x + axe < (int)ft_strlen(map[*y], 0)
-			&& map[*y][*x + axe] != '3') {
-				*x += axe;
-				return (1);
-			}
+		if (*x + axe >= 0
+			&& *x + axe < (int)ft_strlen(map[*y], 0)
+			&& map[*y][*x + axe] != '3')
+		{
+			*x += axe;
+			return (1);
+		}
 	}
 	else
 	{
 		axe = direction % 4 - 1;
 		if (*y + axe >= 0 && map[*y + axe]
-			&& *x < (int)ft_strlen(map[*y + axe], 0) && map[*y + axe][*x] != '3') {
-				*y += axe;
-				return (1);
-			}
+			&& *x < (int)ft_strlen(map[*y + axe], 0)
+			&& map[*y + axe][*x] != '3')
+		{
+			*y += axe;
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -73,7 +78,7 @@ int	ft_vermap(char **map)
 			|| map[y][x] != '1')
 			return (1);
 		if (x == begin && y == 0)
-			break;
+			break ;
 	}
 	return (0);
 }

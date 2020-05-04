@@ -6,7 +6,7 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/05/04 00:51:27 by ahallain         ###   ########.fr        #
+#    Updated: 2020/05/04 03:15:34 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,9 @@ SRCS	=	main/cub3d.c \
 			get_next_line/get_next_line_utils.c \
 			parse/edit.c \
 			parse/check.c \
-			#runtime/game.c \
-			runtime/event.c
+			runtime/game.c \
+			runtime/event.c \
+			runtime/update.c
 
 OBJS	=	${SRCS:.c=.o}
 
