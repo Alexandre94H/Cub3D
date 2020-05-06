@@ -1,6 +1,6 @@
 .gitignore
 .vscode
 *.o
-Cub3D
+cub3D
 *.subject.pdf
 maps

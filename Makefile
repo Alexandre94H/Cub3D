@@ -6,11 +6,11 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/05/04 03:15:34 by ahallain         ###   ########.fr        #
+#    Updated: 2020/05/06 20:13:16 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	Cub3D
+NAME	=	cub3D
 
 SRCS	=	main/cub3d.c \
 			main/utils.c \
@@ -21,13 +21,14 @@ SRCS	=	main/cub3d.c \
 			parse/check.c \
 			runtime/game.c \
 			runtime/event.c \
-			runtime/update.c
+			runtime/update.c \
+			runtime/raycaster.c
 
 OBJS	=	${SRCS:.c=.o}
 
 CFLAGS	=	-Werror -Wextra -Wall
 
-LIBS	=	-lmlx -lX11 -lXext
+LIBS	=	-lmlx -lX11 -lXext -lm
 
 .c.o:
 	gcc ${CFLAGS} -c $< -o ${<:.c=.o}

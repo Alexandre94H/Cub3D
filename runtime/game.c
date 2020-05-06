@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:18:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 18:40:54 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/06 23:39:38 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ float		ft_degree(char **map, size_t x, size_t y)
 	if (map[y][x] == 'N')
 		return (0);
 	if (map[y][x] == 'E')
-		return (90);
+		return (270);
 	if (map[y][x] == 'S')
 		return (180);
 	if (map[y][x] == 'W')
-		return (270);
+		return (90);
 	return (-1);
 }
 
@@ -39,12 +39,12 @@ t_player	ft_init_player(char **map)
 		while (map[y][x])
 		{
 			if ((degree = ft_degree(map, x, y)) != -1)
-				return ((t_player){degree, x, y, 1});
+				return ((t_player){degree, {x + .5, y + .5}, 1});
 			x++;
 		}
 		y++;
 	}
-	return ((t_player){0, 0, 0, 0});
+	return ((t_player){0, {0, 0}, 0});
 }
 
 t_mlx		ft_init_mlx(char *title, t_settings settings, t_player player)
@@ -79,7 +79,7 @@ int			ft_run(char *title, t_settings settings)
 		ft_putstr("Unable to initialize the mlx.");
 		return (4);
 	}
-	ft_update(mlx);
-	ft_detect(mlx);
+	mlx_do_key_autorepeaton(mlx.mlx);
+	ft_detect(&mlx);
 	return (0);
 }
