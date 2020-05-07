@@ -6,29 +6,23 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 19:38:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/06 23:48:44 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/07 22:24:39 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "runtime.h"
 #define __USE_MISC
 #include <math.h>
-#include <stdio.h>
 
 t_ajust	ft_ajust(t_player player)
 {
 	float	degree;
-	float	fov;
 
 	degree = player.degree * M_PI / 180;
-	fov = FOV * M_PI / 180;
 	return ((t_ajust) {player.position, {
 		sin(degree),
 		-1 * cos(degree)
-	}, {
-		sin(degree + fov) - sin(degree - fov),
-		-1 * (cos(degree + fov) - cos(degree - fov))
-	}});
+	}, player.degree});
 }
 
 float	ft_abs(float nbr)
@@ -40,14 +34,14 @@ float	ft_abs(float nbr)
 
 t_ray	ft_load_ray(float cameraX, t_ajust ajust)
 {
-	t_ray ray;
+	t_ray	ray;
 
 	ray = (t_ray) {{
 		(int) ajust.position.x,
 		(int) ajust.position.y
 	}, {
-		ajust.direction.x + ajust.plan.x * cameraX,
-		ajust.direction.y + ajust.plan.y * cameraX
+		sin((ajust.degree + FOV * cameraX) * M_PI / 180),
+		-1 * cos((ajust.degree + FOV * cameraX) * M_PI / 180)
 	}, {0, 0}, {0, 0}, {0, 0}};
 	ray.delta = (t_position) {
 		ft_abs(1 / ray.direction.x),
@@ -79,12 +73,10 @@ t_ray	ft_load_ray(float cameraX, t_ajust ajust)
 float	ft_distance(float cameraX, t_ajust ajust, char **map)
 {
 	t_ray	ray;
-	int		hit;
 	int		side;
 
 	ray = ft_load_ray(cameraX, ajust);
-	hit = 0;
-	while (hit == 0)
+	while (1)
 	{
 		if (ray.side.x < ray.side.y)
 		{
@@ -98,7 +90,8 @@ float	ft_distance(float cameraX, t_ajust ajust, char **map)
 			ray.position.y += ray.step.y;
 			side = 1;
 		}
-		hit = map[(int)ray.position.y][(int)ray.position.x] == '1';
+		if (map[(int)ray.position.y][(int)ray.position.x] == '1')
+			break;
 	}
 	if (!side)
 		return ((ray.position.x - ajust.position.x + (1 - ray.step.x) / 2) / ray.direction.x);

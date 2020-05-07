@@ -6,27 +6,59 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 03:16:20 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/06 23:39:22 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/07 22:21:50 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "runtime.h"
-#include "../get_next_line/get_next_line.h"
+#define XK_MISCELLANY
+#include <X11/keysymdef.h>
 
-int		*ft_data(t_mlx mlx)
+void	ft_update_key(int code, int value, t_mlx *mlx)
 {
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-
-	bits_per_pixel = 32;
-	size_line = mlx.settings.width * 4;
-	endian = 0;
-	return ((int *)mlx_get_data_addr(mlx.img,
-		&bits_per_pixel, &size_line, &endian));
+	if (code == FORWARD)
+		(*mlx).input.forward = value;
+	else if (code == BACKWARD)
+		(*mlx).input.backward = value;
+	else if (code == TURN_LEFT)
+		(*mlx).input.turn_left = value;
+	else if (code == TURN_RIGHT)
+		(*mlx).input.turn_right = value;
+	else if (code == XK_Left)
+		(*mlx).input.rotate_left = value;
+	else if (code == XK_Right)
+		(*mlx).input.rotate_right = value;
 }
 
-void	ft_update_line(float distance, size_t width, int *data, t_mlx mlx)
+void	ft_update_position(t_ajust ajust, t_mlx *mlx)
+{
+	if ((*mlx).input.forward)
+	{
+		(*mlx).player.position.x += ajust.direction.x / 50;
+		(*mlx).player.position.y += ajust.direction.y / 50;
+	}
+	if ((*mlx).input.backward)
+	{
+		(*mlx).player.position.x -= ajust.direction.x / 50;
+		(*mlx).player.position.y -= ajust.direction.y / 50;
+	}
+	if ((*mlx).input.turn_left)
+	{
+		(*mlx).player.position.x += ajust.direction.y / 50;
+		(*mlx).player.position.y += -1 * ajust.direction.x / 50;
+	}
+	if ((*mlx).input.turn_right)
+	{
+		(*mlx).player.position.x -= ajust.direction.y / 50;
+		(*mlx).player.position.y -= -1 * ajust.direction.x / 50;
+	}
+	if ((*mlx).input.rotate_left)
+		(*mlx).player.degree = (*mlx).player.degree - 1;
+	if ((*mlx).input.rotate_right)
+		(*mlx).player.degree = (*mlx).player.degree + 1;
+}
+
+void	ft_update_line(float distance, size_t width, t_mlx mlx)
 {
 	int		color;
 	size_t	first;
@@ -36,7 +68,6 @@ void	ft_update_line(float distance, size_t width, int *data, t_mlx mlx)
 	height = 0;
 	while (height < mlx.settings.height)
 	{
-		#include <stdio.h>
 		if ((long)first < 0)
 			first = 0;
 		color = 0;
@@ -44,25 +75,24 @@ void	ft_update_line(float distance, size_t width, int *data, t_mlx mlx)
 			color = mlx.settings.color.c;
 		else if (height > mlx.settings.height - first)
 			color = mlx.settings.color.f;
-		data[height * mlx.settings.width + width] = color;
+		mlx.data[height * mlx.settings.width + width] = color;
 		height++;
 	}
 }
 
 int		ft_update(t_mlx *mlx)
 {
-	int		*data;
 	size_t	width;
 	t_ajust	ajust;
 	float	distance;
 
-	data = ft_data(*mlx);
 	width = 0;
 	ajust = ft_ajust((*mlx).player);
+	ft_update_position(ajust, mlx);
 	while (width < (*mlx).settings.width)
 	{
 		distance = ft_distance(2 * width / (float)(*mlx).settings.width - 1, ajust, (*mlx).settings.map);
-		ft_update_line(distance, width, data, *mlx);
+		ft_update_line(distance, width, *mlx);
 		width++;
 	}
 	mlx_put_image_to_window((*mlx).mlx, (*mlx).win, (*mlx).img, 0, 0);
