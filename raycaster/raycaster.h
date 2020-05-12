@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycaster.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/10 05:57:44 by ahallain          #+#    #+#             */
+/*   Updated: 2020/05/11 07:03:24 by ahallain         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef RAYCASTER_H
+# define RAYCASTER_H
+
+# ifndef FOV
+#  define FOV 70
+# endif
+
+#include "../runtime/runtime.h"
+
+typedef struct	s_ray
+{
+	t_position	direction;
+	t_position	plane;
+	float		degree;
+}				t_ray;
+
+typedef struct	s_caster
+{
+	t_position	direction;
+	t_position	delta;
+	t_position	side;
+	t_position	step;
+}				t_caster;
+
+t_ray			ft_init_ray(float degree);
+float			ft_distance(t_ray ray, float cameraX, t_position position, char **map);
+
+#endif

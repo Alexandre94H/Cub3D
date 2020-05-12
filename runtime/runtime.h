@@ -6,16 +6,12 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/07 21:31:23 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/12 09:00:11 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RUNTIME_H
 # define RUNTIME_H
-
-# ifndef FOV
-#  define FOV 70
-# endif
 
 # ifndef FORWARD
 #  define FORWARD 119
@@ -31,6 +27,10 @@
 
 # ifndef TURN_RIGHT
 #  define TURN_RIGHT 100
+# endif
+
+# ifndef FPS
+#  define FPS 30
 # endif
 
 # include "../main/cub3d.h"
@@ -63,6 +63,7 @@ typedef struct	s_mlx
 {
 	t_settings	settings;
 	t_player	player;
+	t_player	playerold;
 	t_input		input;
 	void		*mlx;
 	void		*win;
@@ -70,26 +71,8 @@ typedef struct	s_mlx
 	int			*data;
 }				t_mlx;
 
-typedef struct	s_ajust
-{
-	t_position	position;
-	t_position	direction;
-	float		degree;
-}				t_ajust;
-
-typedef struct	s_ray
-{
-	t_position	position;
-	t_position	direction;
-	t_position	side;
-	t_position	delta;
-	t_position	step;
-}				t_ray;
-
 void			ft_detect(t_mlx *mlx);
 void			ft_update_key(int code, int value, t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
-t_ajust			ft_ajust(t_player player);
-float			ft_distance(float cameraX, t_ajust ajust, char **map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:18:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/07 21:54:17 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/08 18:27:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int		*ft_data(t_mlx mlx)
 	int		size_line;
 	int		endian;
 
-	bits_per_pixel = 32;
+	bits_per_pixel = 24;
 	size_line = mlx.settings.width * 4;
-	endian = 1;
+	endian = 0;
 	return ((int *)mlx_get_data_addr(mlx.img,
 		&bits_per_pixel, &size_line, &endian));
 }
@@ -65,7 +65,7 @@ t_mlx		ft_init_mlx(char *title, t_settings settings, t_player player)
 	t_mlx	mlx;
 
 	ft_putstr("MLX initialization.\n");
-	mlx = (t_mlx){settings, player, {0, 0, 0, 0, 0 ,0}, 0, 0, 0, 0};
+	mlx = (t_mlx){settings, player, {0, {0, 0}, 0}, {0, 0, 0, 0, 0 ,0}, 0, 0, 0, 0};
 	if (!(mlx.mlx = mlx_init()))
 		return (mlx);
 	if (!(mlx.win = mlx_new_window(mlx.mlx, settings.width, settings.height,
@@ -94,7 +94,6 @@ int			ft_run(char *title, t_settings settings)
 		ft_putstr("Unable to initialize the mlx.");
 		return (4);
 	}
-	mlx_do_key_autorepeatoff(mlx.mlx);
 	ft_detect(&mlx);
 	return (0);
 }

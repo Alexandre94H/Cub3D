@@ -6,7 +6,7 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/05/06 20:13:16 by ahallain         ###   ########.fr        #
+#    Updated: 2020/05/11 01:53:47 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS	=	main/cub3d.c \
 			runtime/game.c \
 			runtime/event.c \
 			runtime/update.c \
-			runtime/raycaster.c
+			raycaster/engine.c
 
 OBJS	=	${SRCS:.c=.o}
 

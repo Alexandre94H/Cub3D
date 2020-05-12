@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:39:07 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/07 20:52:25 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/12 07:38:38 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	ft_detect(t_mlx *mlx)
 {
 	mlx_hook((*mlx).win, DestroyNotify, StructureNotifyMask, ft_destroy, mlx);
 	mlx_hook((*mlx).win, MotionNotify, PointerMotionMask, ft_mouse, mlx);
-	mlx_loop_hook((*mlx).mlx, ft_update, mlx);
 	mlx_mouse_hide((*mlx).mlx, (*mlx).win);
 	ft_mouse(0, 0, mlx);
 	mlx_hook((*mlx).win, KeyPress, KeyPressMask, ft_key_press, mlx);
 	mlx_hook((*mlx).win, KeyRelease, KeyReleaseMask, ft_key_release, mlx);
+	mlx_loop_hook((*mlx).mlx, ft_update, mlx);
 	mlx_loop((*mlx).mlx);
 }

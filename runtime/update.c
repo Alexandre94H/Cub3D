@@ -6,13 +6,17 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 03:16:20 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/07 22:21:50 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/05/12 09:26:19 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "runtime.h"
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
+#include "../raycaster/raycaster.h"
+#define __USE_MISC
+#include <math.h>
+#include <time.h>
 
 void	ft_update_key(int code, int value, t_mlx *mlx)
 {
@@ -30,27 +34,32 @@ void	ft_update_key(int code, int value, t_mlx *mlx)
 		(*mlx).input.rotate_right = value;
 }
 
-void	ft_update_position(t_ajust ajust, t_mlx *mlx)
+void	ft_update_position(t_mlx *mlx, t_position direction)
 {
+	direction = (t_position) {
+		sin((*mlx).player.degree * M_PI / 180),
+		-1 * cos((*mlx).player.degree * M_PI / 180)
+	};
+	(*mlx).playerold = (*mlx).player;
 	if ((*mlx).input.forward)
 	{
-		(*mlx).player.position.x += ajust.direction.x / 50;
-		(*mlx).player.position.y += ajust.direction.y / 50;
+		(*mlx).player.position.x += direction.x / 20;
+		(*mlx).player.position.y += direction.y / 20;
 	}
 	if ((*mlx).input.backward)
 	{
-		(*mlx).player.position.x -= ajust.direction.x / 50;
-		(*mlx).player.position.y -= ajust.direction.y / 50;
+		(*mlx).player.position.x -= direction.x / 20;
+		(*mlx).player.position.y -= direction.y / 20;
 	}
 	if ((*mlx).input.turn_left)
 	{
-		(*mlx).player.position.x += ajust.direction.y / 50;
-		(*mlx).player.position.y += -1 * ajust.direction.x / 50;
+		(*mlx).player.position.x += direction.y / 20;
+		(*mlx).player.position.y += -1 * direction.x / 20;
 	}
 	if ((*mlx).input.turn_right)
 	{
-		(*mlx).player.position.x -= ajust.direction.y / 50;
-		(*mlx).player.position.y -= -1 * ajust.direction.x / 50;
+		(*mlx).player.position.x -= direction.y / 20;
+		(*mlx).player.position.y -= -1 * direction.x / 20;
 	}
 	if ((*mlx).input.rotate_left)
 		(*mlx).player.degree = (*mlx).player.degree - 1;
@@ -64,7 +73,7 @@ void	ft_update_line(float distance, size_t width, t_mlx mlx)
 	size_t	first;
 	size_t	height;
 
-	first = (mlx.settings.height - mlx.settings.height / distance) / 2;
+	first = (mlx.settings.height - mlx.settings.height / distance * 3 / 4) / 2;
 	height = 0;
 	while (height < mlx.settings.height)
 	{
@@ -82,16 +91,27 @@ void	ft_update_line(float distance, size_t width, t_mlx mlx)
 
 int		ft_update(t_mlx *mlx)
 {
-	size_t	width;
-	t_ajust	ajust;
-	float	distance;
+	size_t			width;
+	bool			verify;
+	t_ray			ray;
+	float			distance;
+	static long int	last_frame; 
 
+	if (last_frame && (long)(1000000 / FPS) > clock() - last_frame)
+		return (1);
+	last_frame = clock();
 	width = 0;
-	ajust = ft_ajust((*mlx).player);
-	ft_update_position(ajust, mlx);
+	verify = (*mlx).playerold.initiate;
+	ray = ft_init_ray((*mlx).player.degree);
+	ft_update_position(mlx, ray.direction);
+	if (verify
+		&& (*mlx).playerold.degree == (*mlx).player.degree
+		&& (*mlx).playerold.position.x == (*mlx).player.position.x
+		&& (*mlx).playerold.position.y == (*mlx).player.position.y)
+			return (0);
 	while (width < (*mlx).settings.width)
 	{
-		distance = ft_distance(2 * width / (float)(*mlx).settings.width - 1, ajust, (*mlx).settings.map);
+		distance = ft_distance(ray, 2 * width / (float)(*mlx).settings.width - 1, (*mlx).player.position, (*mlx).settings.map);
 		ft_update_line(distance, width, *mlx);
 		width++;
 	}
