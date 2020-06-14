@@ -6,19 +6,27 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:27 by ahallain          #+#    #+#             */
-/*   Updated: 2019/11/26 18:48:06 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/14 12:30:48 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
 #include "get_next_line.h"
 
-void	verify(char **memory, int ret)
+int		get_next_line_init(char **line, char **memory, char **buffer)
 {
-	if (!ret)
+	if (!line || BUFFER_SIZE <= 0)
+		return (1);
+	if (!*memory)
 	{
-		free(*memory);
-		*memory = 0;
+		if (!(*memory = malloc(sizeof(char *))))
+			return (1);
+		**memory = 0;
 	}
+	if (!(*buffer = malloc(BUFFER_SIZE + 1)))
+		return (1);
+	return (0);
 }
 
 int		get_next_line(int fd, char **line)
@@ -26,25 +34,24 @@ int		get_next_line(int fd, char **line)
 	static char	*memory[256];
 	char		*buffer;
 	int			ret;
-	int			read_value;
 
-	if (!line || BUFFER_SIZE <= 0 || !(fd + 1)
-		|| (!memory[fd] && (!(memory[fd] = malloc(1))
-		|| (*memory[fd] = 0)))
-		|| !(buffer = malloc(BUFFER_SIZE + 1)))
+	if (get_next_line_init(line, &memory[fd], &buffer))
 		return (-1);
+	ret = 1;
 	while (!ft_strcchr(memory[fd], '\n')
-		&& (read_value = read(fd, buffer, BUFFER_SIZE)) > 0)
+		&& (ret = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
-		buffer[read_value] = 0;
+		buffer[ret] = 0;
 		ft_stradd(&memory[fd], buffer);
 	}
 	*line = ft_firstchr(memory[fd], '\n');
-	ret = ft_strcchr(memory[fd], '\n');
 	ft_chrmove(&memory[fd], '\n');
 	free(buffer);
-	if (read_value == -1)
-		return (-1);
-	verify(&memory[fd], ret);
-	return (ret);
+	if (ret <= 0)
+	{
+		free(memory[fd]);
+		memory[fd] = 0;
+		return (ret);
+	}
+	return (1);
 }

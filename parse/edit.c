@@ -6,13 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:11:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 15:42:02 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/13 00:47:29 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
 #include <stdlib.h>
+#include "parse.h"
 #include "../get_next_line/get_next_line.h"
+#include "../main/cub3d.h"
 
 char		ft_charline(char *str, size_t length)
 {
@@ -66,6 +67,20 @@ int			ft_line_color(char *line)
 	return (color);
 }
 
+void		*ft_strdup(char *str)
+{
+	char	*ret;
+	size_t	index;
+
+	index = ft_strlen(str, 0);
+	if (!(ret = malloc(sizeof(char *) * (index + 1))))
+		return (0);
+	ret[index] = 0;
+	while (index--)
+		ret[index] = str[index];
+	return (ret);
+}
+
 t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 {
 	if (*flag == 'R')
@@ -76,18 +91,18 @@ t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 		(*settings).height = ft_atoi(line);
 	}
 	else if (*flag == 'N' && flag[1] == 'O')
-		(*settings).texture.no = line;
+		(*settings).textures.no.data = ft_strdup(line);
 	else if (*flag == 'S' && flag[1] == 'O')
-		(*settings).texture.so = line;
+		(*settings).textures.so.data = ft_strdup(line);
 	else if (*flag == 'W' && flag[1] == 'E')
-		(*settings).texture.we = line;
+		(*settings).textures.we.data = ft_strdup(line);
 	else if (*flag == 'E' && flag[1] == 'A')
-		(*settings).texture.ea = line;
+		(*settings).textures.ea.data = ft_strdup(line);
 	else if (*flag == 'S')
-		(*settings).texture.s = line;
+		(*settings).textures.s.data = ft_strdup(line);
 	else if (*flag == 'F')
-		(*settings).color.f = ft_line_color(line);
+		(*settings).colors.f = ft_line_color(line);
 	else if (*flag == 'C')
-		(*settings).color.c = ft_line_color(line);
+		(*settings).colors.c = ft_line_color(line);
 	return (*settings);
 }

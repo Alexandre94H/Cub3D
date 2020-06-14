@@ -6,7 +6,7 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/05/11 01:53:47 by ahallain         ###   ########.fr        #
+#    Updated: 2020/06/11 18:23:35 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,16 +19,17 @@ SRCS	=	main/cub3d.c \
 			get_next_line/get_next_line_utils.c \
 			parse/edit.c \
 			parse/check.c \
+			runtime/mlx.c \
 			runtime/game.c \
 			runtime/event.c \
 			runtime/update.c \
-			raycaster/engine.c
+			engine/raycaster.c
 
 OBJS	=	${SRCS:.c=.o}
 
 CFLAGS	=	-Werror -Wextra -Wall
 
-LIBS	=	-lmlx -lX11 -lXext -lm
+LIBS	=	-lmlx -lX11 -lXext -lbsd -lm
 
 .c.o:
 	gcc ${CFLAGS} -c $< -o ${<:.c=.o}

@@ -6,14 +6,15 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:48:25 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 15:10:04 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/13 00:47:25 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../get_next_line/get_next_line.h"
-#include "parse.h"
-#include <fcntl.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include "parse.h"
+#include "../get_next_line/get_next_line.h"
+#include "../main/cub3d.h"
 
 char		*ft_stradhere(char **str, char c)
 {
@@ -30,7 +31,7 @@ char		*ft_stradhere(char **str, char c)
 	ret[--length] = c;
 	if (*str)
 	{
-		while ((*str)[--length])
+		while (length--)
 			ret[length] = (*str)[length];
 		free(*str);
 	}
@@ -54,7 +55,7 @@ t_settings	ft_scan(char *line, t_settings *settings)
 			;
 		if (!(flag = malloc(sizeof(char *) * index)))
 			return (*settings);
-		flag[--index] = '\0';
+		flag[--index] = 0;
 		while (index--)
 			flag[index] = line[index];
 		while (*line++ != ' ')

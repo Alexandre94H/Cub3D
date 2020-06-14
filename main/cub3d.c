@@ -6,11 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:24:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/04 18:07:37 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/13 00:46:10 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "../parse/parse.h"
+#include "../runtime/runtime.h"
 
 int		main(int argc, char **argv)
 {
@@ -21,7 +23,8 @@ int		main(int argc, char **argv)
 		ft_putstr("You must indicate the parameters file (.cub).");
 		return (1);
 	}
-	settings = (t_settings) {0, 0, {0, 0, 0, 0, 0}, {0, 0}, 0};
+	settings = (t_settings) {0, 0, {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
+		{0, 0}, 0};
 	ft_load(argv[1], &settings);
 	if (!settings.map)
 	{

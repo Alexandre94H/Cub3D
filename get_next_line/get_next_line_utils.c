@@ -6,10 +6,11 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:58 by ahallain          #+#    #+#             */
-/*   Updated: 2019/11/26 18:37:25 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/14 12:30:19 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "get_next_line.h"
 
 int		ft_strcchr(char *src, int c)
@@ -36,8 +37,9 @@ char	*ft_stradd(char **dst, char *str)
 	size_t	index;
 	size_t	len;
 
-	if (!(res = malloc(ft_strlen(*dst, 0) + ft_strlen(str, 0) + 1)))
-		return (NULL);
+	if (!(res = malloc(sizeof(char *) * (ft_strlen(*dst, 0)
+		+ ft_strlen(str, 0) + 1))))
+		return (0);
 	len = 0;
 	while ((*dst)[len])
 	{
@@ -63,7 +65,7 @@ char	*ft_firstchr(char *src, int c)
 
 	len = ft_strlen(src, c);
 	if (!(res = malloc(len + 1)))
-		return (NULL);
+		return (0);
 	res[len] = 0;
 	while (len--)
 		res[len] = src[len];
@@ -78,7 +80,7 @@ char	*ft_chrmove(char **dst, int c)
 
 	index = ft_strlen(*dst, c);
 	if (!(res = malloc(ft_strlen(*dst, 0) - index + 1)))
-		return (NULL);
+		return (0);
 	len = ft_strlen(*dst, 0) - index;
 	res[len] = 0;
 	while (len--)

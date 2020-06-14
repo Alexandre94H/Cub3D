@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:18 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/03 07:38:53 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/14 12:29:58 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #  define BUFFER_SIZE 32
 # endif
 
-# include <stdlib.h>
-# include <unistd.h>
+#include <stddef.h>
 
 int		ft_strcchr(char *src, int c);
 size_t	ft_strlen(char *src, int c);

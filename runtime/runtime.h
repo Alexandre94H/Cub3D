@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/12 09:00:11 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/13 00:49:00 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 # endif
 
 # ifndef FPS
-#  define FPS 30
+#  define FPS 60
 # endif
 
-# include "../main/cub3d.h"
-# include <mlx.h>
+# include <stdbool.h>
+# include "../parse/parse.h"
 
 typedef struct	s_position
 {
@@ -63,7 +63,6 @@ typedef struct	s_mlx
 {
 	t_settings	settings;
 	t_player	player;
-	t_player	playerold;
 	t_input		input;
 	void		*mlx;
 	void		*win;
@@ -71,8 +70,10 @@ typedef struct	s_mlx
 	int			*data;
 }				t_mlx;
 
+t_mlx			ft_init_mlx(char *title, t_settings settings, t_player player);
 void			ft_detect(t_mlx *mlx);
 void			ft_update_key(int code, int value, t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
+int				ft_run(char *title, t_settings settings);
 
 #endif

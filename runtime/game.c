@@ -6,11 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:18:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/08 18:27:52 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/13 00:49:57 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include "runtime.h"
+#include "../main/cub3d.h"
 
 float		ft_degree(char **map, size_t x, size_t y)
 {
@@ -45,36 +47,6 @@ t_player	ft_init_player(char **map)
 		y++;
 	}
 	return ((t_player){0, {0, 0}, 0});
-}
-
-int		*ft_data(t_mlx mlx)
-{
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-
-	bits_per_pixel = 24;
-	size_line = mlx.settings.width * 4;
-	endian = 0;
-	return ((int *)mlx_get_data_addr(mlx.img,
-		&bits_per_pixel, &size_line, &endian));
-}
-
-t_mlx		ft_init_mlx(char *title, t_settings settings, t_player player)
-{
-	t_mlx	mlx;
-
-	ft_putstr("MLX initialization.\n");
-	mlx = (t_mlx){settings, player, {0, {0, 0}, 0}, {0, 0, 0, 0, 0 ,0}, 0, 0, 0, 0};
-	if (!(mlx.mlx = mlx_init()))
-		return (mlx);
-	if (!(mlx.win = mlx_new_window(mlx.mlx, settings.width, settings.height,
-		title)))
-		return (mlx);
-	mlx.img = mlx_new_image(mlx.mlx, settings.width, settings.height);
-	if (mlx.img)
-		mlx.data = ft_data(mlx);
-	return (mlx);
 }
 
 int			ft_run(char *title, t_settings settings)
