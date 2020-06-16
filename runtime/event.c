@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:39:07 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/14 15:37:51 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/16 21:17:42 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		ft_destroy(t_mlx *mlx)
 	while ((*mlx).settings.map[index])
 		free((*mlx).settings.map[index++]);
 	free((*mlx).settings.map);
-	mlx_mouse_show((*mlx).mlx, (*mlx).win);
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.no.img);
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.so.img);
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.we.img);
@@ -39,17 +38,20 @@ int		ft_destroy(t_mlx *mlx)
 	return (0);
 }
 
-int		ft_mouse(int x, int y, t_mlx *mlx)
+void	ft_update_key(int code, int value, t_mlx *mlx)
 {
-	t_position	middle;
-
-	middle = (t_position) {
-		(*mlx).settings.width / 2,
-		(*mlx).settings.height / 2
-	};
-	if (x != middle.x || y != middle.y)
-		mlx_mouse_move((*mlx).mlx, (*mlx).win, middle.x, middle.y);
-	return (0);
+	if (code == FORWARD)
+		(*mlx).input.forward = value;
+	else if (code == BACKWARD)
+		(*mlx).input.backward = value;
+	else if (code == TURN_LEFT)
+		(*mlx).input.turn_left = value;
+	else if (code == TURN_RIGHT)
+		(*mlx).input.turn_right = value;
+	else if (code == XK_Left)
+		(*mlx).input.rotate_left = value;
+	else if (code == XK_Right)
+		(*mlx).input.rotate_right = value;
 }
 
 int		ft_key_press(int code, t_mlx *mlx)
@@ -72,9 +74,6 @@ int		ft_key_release(int code, t_mlx *mlx)
 void	ft_detect(t_mlx *mlx)
 {
 	mlx_hook((*mlx).win, DestroyNotify, StructureNotifyMask, ft_destroy, mlx);
-	//mlx_hook((*mlx).win, MotionNotify, PointerMotionMask, ft_mouse, mlx);
-	//mlx_mouse_hide((*mlx).mlx, (*mlx).win);
-	//ft_mouse(0, 0, mlx);
 	mlx_hook((*mlx).win, KeyPress, KeyPressMask, ft_key_press, mlx);
 	mlx_hook((*mlx).win, KeyRelease, KeyReleaseMask, ft_key_release, mlx);
 	mlx_loop_hook((*mlx).mlx, ft_update, mlx);

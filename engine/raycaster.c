@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 05:56:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/14 15:34:00 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/16 21:14:51 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ t_calc		ft_distance(t_ray ray, float camerax, t_position position,
 {
 	t_caster	caster;
 	t_position	map_position;
-	int		side;
+	int			side;
 	t_calc		calc;
 
-	map_position = (t_position) {(int)position.x, (int)position.y};
+	map_position = (t_position){(int)position.x, (int)position.y};
 	caster = ft_init_caster(ray, camerax, position, map_position);
 	while (1)
 	{
@@ -98,11 +98,11 @@ t_calc		ft_distance(t_ray ray, float camerax, t_position position,
 			break ;
 	}
 	if (side % 2)
-		calc = (t_calc) {((map_position.y - position.y + (1 - caster.step.y) / 2)
-			/ caster.direction.y), 0, side};
+		calc = (t_calc){((map_position.y - position.y
+			+ (1 - caster.step.y) / 2) / caster.direction.y), 0, side};
 	else
-		calc = (t_calc) {((map_position.x - position.x + (1 - caster.step.x) / 2)
-			/ caster.direction.x), 0, side};
+		calc = (t_calc){((map_position.x - position.x
+			+ (1 - caster.step.x) / 2) / caster.direction.x), 0, side};
 	if (side % 2)
 		calc.texture_x = position.x + calc.distance * caster.direction.x;
 	else

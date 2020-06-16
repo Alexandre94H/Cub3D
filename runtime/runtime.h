@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/13 00:49:00 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/16 21:44:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # endif
 
 # include <stdbool.h>
+# include <stddef.h>
 # include "../parse/parse.h"
 
 typedef struct	s_position
@@ -70,9 +71,17 @@ typedef struct	s_mlx
 	int			*data;
 }				t_mlx;
 
+typedef struct	s_loop
+{
+	int		length;
+	size_t	first;
+	size_t	last;
+	float	texture_y;
+	size_t	y;
+}				t_loop;
+
 t_mlx			ft_init_mlx(char *title, t_settings settings, t_player player);
 void			ft_detect(t_mlx *mlx);
-void			ft_update_key(int code, int value, t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 int				ft_run(char *title, t_settings settings);
 

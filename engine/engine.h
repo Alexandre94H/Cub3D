@@ -6,18 +6,18 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 05:57:44 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/14 15:16:55 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/16 21:13:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYCASTER_H
-# define RAYCASTER_H
+#ifndef ENGINE_H
+# define ENGINE_H
 
 # ifndef FOV
 #  define FOV 70
 # endif
 
-#include "../runtime/runtime.h"
+# include "../runtime/runtime.h"
 
 typedef struct	s_ray
 {
@@ -42,6 +42,7 @@ typedef struct	s_calc
 }				t_calc;
 
 t_ray			ft_init_ray(float degree);
-t_calc			ft_distance(t_ray ray, float cameraX, t_position position, char **map);
+t_calc			ft_distance(t_ray ray, float camerax, t_position position,
+	char **map);
 
 #endif
