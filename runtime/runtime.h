@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 21:44:52 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 20:02:41 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ typedef struct	s_loop
 	size_t	last;
 	float	texture_y;
 	size_t	y;
+	int		filter;
 }				t_loop;
 
 t_mlx			ft_init_mlx(char *title, t_settings settings, t_player player);
 void			ft_detect(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 int				ft_run(char *title, t_settings settings);
+void			ft_bitmap(t_mlx mlx, char *filename);
+int				ft_destroy(t_mlx *mlx);
 
 #endif

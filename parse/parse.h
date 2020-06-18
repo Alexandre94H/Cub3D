@@ -6,12 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:49:25 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 19:24:16 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 17:04:36 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
+
+# include <stdbool.h>
 
 typedef	struct	s_xpm
 {
@@ -41,12 +43,14 @@ typedef	struct	s_settings
 	t_texture		textures;
 	t_color			colors;
 	char			**map;
+	char			*bitmap;
 }				t_settings;
 
 t_settings		ft_flag_set(char *flag, char *line, t_settings *settings);
 t_settings		ft_map_line(char *line, t_settings *settings);
 char			*ft_stradhere(char **str, char c);
 t_settings		ft_load(char *path, t_settings *settings);
-int				ft_vermap(char **map);
+bool			ft_vermap(char **map);
+void			*ft_strdup(char *str);
 
 #endif

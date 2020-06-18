@@ -6,17 +6,19 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:39:07 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 21:17:42 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 20:47:02 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <time.h>
 #include <mlx.h>
 #include <X11/X.h>
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 #include "runtime.h"
 #include "../main/cub3d.h"
+#include "../get_next_line/get_next_line.h"
 
 int		ft_destroy(t_mlx *mlx)
 {
@@ -32,8 +34,11 @@ int		ft_destroy(t_mlx *mlx)
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.we.img);
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.ea.img);
 	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.s.img);
-	mlx_destroy_image((*mlx).mlx, (*mlx).img);
-	mlx_destroy_window((*mlx).mlx, (*mlx).win);
+	if (!(*mlx).settings.bitmap)
+	{
+		mlx_destroy_image((*mlx).mlx, (*mlx).img);
+		mlx_destroy_window((*mlx).mlx, (*mlx).win);
+	}
 	exit(0);
 	return (0);
 }
@@ -56,12 +61,20 @@ void	ft_update_key(int code, int value, t_mlx *mlx)
 
 int		ft_key_press(int code, t_mlx *mlx)
 {
-	if (code == XK_Escape)
-	{
+	char	*filename;
+	time_t	current;
+
+	if (code == XK_Escape && code != XK_F2)
 		ft_destroy(mlx);
-		return (0);
+	else if (code == XK_F2)
+	{
+		filename = ft_strdup("screenshot ");
+		current = time(NULL);
+		ft_stradd(&filename, asctime(localtime(&current)));
+		ft_bitmap(*mlx, filename);
 	}
-	ft_update_key(code, 1, mlx);
+	else
+		ft_update_key(code, 1, mlx);
 	return (0);
 }
 

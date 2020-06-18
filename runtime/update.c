@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 03:16:20 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 21:46:05 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 17:10:03 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <mlx.h>
 #include "runtime.h"
 #include "../engine/engine.h"
+#include "../parse/parse.h"
 
 void	ft_update_position(t_mlx *mlx, float addx, float addy)
 {
@@ -70,6 +71,7 @@ void	ft_update_loop(t_mlx *mlx, t_loop *loop, t_calc calc, size_t x)
 			color = (*mlx).settings.textures.ea.data[index];
 		else
 			color = (*mlx).settings.textures.so.data[index];
+		color &= (*loop).filter;
 	}
 	(*mlx).data[x + (*loop).y * (*mlx).settings.width] = color;
 }
@@ -78,7 +80,8 @@ void	ft_update_line(t_mlx *mlx, t_calc calc, size_t x)
 {
 	t_loop	loop;
 
-	loop = (t_loop){(*mlx).settings.height / calc.distance * 3 / 4, 0, 0, 0, 0};
+	loop = (t_loop){(*mlx).settings.height / calc.distance * 3 / 4, 0, 0, 0, 0,
+		(255 * 256 + 255) * 256 + 255};
 	loop.first = -loop.length / 2 + (*mlx).settings.height / 2;
 	if ((int)loop.first < 0)
 		loop.first = 0;
@@ -113,6 +116,7 @@ int		ft_update(t_mlx *mlx)
 		ft_update_line(mlx, calc, x);
 		x++;
 	}
-	mlx_put_image_to_window((*mlx).mlx, (*mlx).win, (*mlx).img, 0, 0);
+	if (!(*mlx).settings.bitmap)
+		mlx_put_image_to_window((*mlx).mlx, (*mlx).win, (*mlx).img, 0, 0);
 	return (0);
 }

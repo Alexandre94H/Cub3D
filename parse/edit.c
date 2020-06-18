@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:11:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 19:12:09 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 16:32:02 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int			ft_line_color(char *line)
 	color = ft_atoi(line);
 	while (*line++ != ',')
 		;
-	color *= 256;
+	color *= 16 * 16;
 	color += ft_atoi(line);
 	while (*line++ != ',')
 		;
-	color *= 256;
+	color *= 16 * 16;
 	color += ft_atoi(line);
 	return (color);
 }

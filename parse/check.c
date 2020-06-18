@@ -6,14 +6,15 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 00:51:35 by ahallain          #+#    #+#             */
-/*   Updated: 2020/05/07 23:17:32 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 17:04:07 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include "parse.h"
 #include "../get_next_line/get_next_line.h"
 
-int	ft_valdir(char **map, int *x, int *y, int direction)
+int		ft_valdir(char **map, int *x, int *y, int direction)
 {
 	int	axe;
 
@@ -42,7 +43,7 @@ int	ft_valdir(char **map, int *x, int *y, int direction)
 	return (0);
 }
 
-int	ft_movship(char **map, int *x, int *y, int *direction)
+int		ft_movship(char **map, int *x, int *y, int *direction)
 {
 	int way;
 
@@ -59,7 +60,7 @@ int	ft_movship(char **map, int *x, int *y, int *direction)
 	return (-1);
 }
 
-int	ft_vermap(char **map)
+bool	ft_vermap(char **map)
 {
 	int	begin;
 	int	x;
@@ -76,9 +77,9 @@ int	ft_vermap(char **map)
 	{
 		if (ft_movship(map, &x, &y, &direction) == -1
 			|| map[y][x] != '1')
-			return (1);
+			return (false);
 		if (x == begin && y == 0)
 			break ;
 	}
-	return (0);
+	return (true);
 }

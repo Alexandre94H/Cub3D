@@ -6,10 +6,11 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:18:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/13 00:49:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 20:47:08 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stddef.h>
 #include "runtime.h"
 #include "../main/cub3d.h"
@@ -56,16 +57,18 @@ int			ft_run(char *title, t_settings settings)
 
 	player = ft_init_player(settings.map);
 	if (!player.initiate)
-	{
-		ft_putstr("Unable to initialize the player.");
-		return (4);
-	}
+		ft_error("Unable to initialize the player.", 3);
 	mlx = ft_init_mlx(title, settings, player);
-	if (!mlx.img)
+	if (settings.bitmap)
 	{
-		ft_putstr("Unable to initialize the mlx.");
-		return (4);
+		if (!(mlx.data = malloc(sizeof(int *)
+			* (settings.width * settings.height))))
+			return (0);
+		ft_update(&mlx);
+		ft_bitmap(mlx, mlx.settings.bitmap);
+		ft_destroy(&mlx);
 	}
-	ft_detect(&mlx);
+	else
+		ft_detect(&mlx);
 	return (0);
 }

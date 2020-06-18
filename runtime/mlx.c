@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 14:01:10 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/16 21:16:27 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 19:26:15 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			*ft_data(void *img_ptr, int size_line)
 	int		bits_per_pixel;
 	int		endian;
 
-	bits_per_pixel = 24;
+	bits_per_pixel = 32;
 	endian = 0;
 	size_line *= 4;
 	return ((int *)mlx_get_data_addr(img_ptr,
@@ -59,16 +59,16 @@ t_mlx		ft_init_mlx(char *title, t_settings settings, t_player player)
 
 	ft_putstr("MLX initialization.\n");
 	mlx = (t_mlx){settings, player,
-		{0, 0, 0, 0, 0, 0}, 0, 0, 0, 0};
-	if (!(mlx.mlx = mlx_init()))
-		return (mlx);
-	ft_check_resolution(&mlx);
-	if (!(mlx.win = mlx_new_window(mlx.mlx, mlx.settings.width,
-		mlx.settings.height, title)))
-		return (mlx);
-	mlx.img = mlx_new_image(mlx.mlx, mlx.settings.width, mlx.settings.height);
-	if (mlx.img)
+		{0, 0, 0, 0, 0, 0}, mlx_init(), 0, 0, 0};
+	if (!settings.bitmap)
+	{
+		ft_check_resolution(&mlx);
+		mlx.win = mlx_new_window(mlx.mlx, mlx.settings.width,
+			mlx.settings.height, title);
+		mlx.img = mlx_new_image(mlx.mlx, mlx.settings.width,
+			mlx.settings.height);
 		mlx.data = ft_data(mlx.img, mlx.settings.width);
+	}
 	ft_path_to_data(mlx.mlx, &mlx.settings.textures.no);
 	ft_path_to_data(mlx.mlx, &mlx.settings.textures.so);
 	ft_path_to_data(mlx.mlx, &mlx.settings.textures.we);
