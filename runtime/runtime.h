@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 20:02:41 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 17:25:33 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,16 @@
 #  define TURN_RIGHT 100
 # endif
 
+# ifndef CAMERA_UP
+#  define CAMERA_UP 65362
+# endif
+
+# ifndef CAMERA_DOWN
+#  define CAMERA_DOWN 65364
+# endif
+
 # ifndef FPS
-#  define FPS 60
+#  define FPS 30
 # endif
 
 # include <stdbool.h>
@@ -45,9 +53,10 @@ typedef struct	s_position
 
 typedef struct	s_player
 {
+	bool		initiate;
 	float		degree;
 	t_position	position;
-	bool		initiate;
+	float		camera;
 }				t_player;
 
 typedef struct	s_input
@@ -58,6 +67,8 @@ typedef struct	s_input
 	bool	turn_right;
 	bool	rotate_left;
 	bool	rotate_right;
+	bool	camera_up;
+	bool	camera_down;
 }				t_input;
 
 typedef struct	s_mlx
@@ -71,21 +82,41 @@ typedef struct	s_mlx
 	int			*data;
 }				t_mlx;
 
-typedef struct	s_loop
+typedef struct	s_wall
 {
 	int		length;
 	size_t	first;
 	size_t	last;
 	float	texture_y;
 	size_t	y;
-	int		filter;
-}				t_loop;
+}				t_wall;
+
+typedef struct	s_ray
+{
+	t_position	direction;
+	t_position	plane;
+	float		degree;
+}				t_ray;
+
+typedef struct	s_calc
+{
+	float	distance;
+	float	texture_x;
+	int		side;
+}				t_calc;
 
 t_mlx			ft_init_mlx(char *title, t_settings settings, t_player player);
 void			ft_detect(t_mlx *mlx);
 int				ft_update(t_mlx *mlx);
 int				ft_run(char *title, t_settings settings);
-void			ft_bitmap(t_mlx mlx, char *filename);
+void			ft_bitmap(t_mlx *mlx);
+int				ft_destroy(t_mlx *mlx);
+void			ft_update_input(t_mlx *mlx, t_position direction);
+int				ft_fade(int color, float divide);
+void			ft_set_floor(t_mlx *mlx, t_ray ray);
+void			ft_set_wall(t_mlx *mlx, t_ray ray);
+int				*ft_data(void *img_ptr, int size_line);
+int				ft_get_color(t_xpm xpm, size_t index);
 int				ft_destroy(t_mlx *mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:49:25 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 17:04:36 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 05:22:56 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef	struct	s_xpm
 {
+	bool	initiate;
 	void	*img;
 	int		*data;
 }				t_xpm;
@@ -28,22 +29,18 @@ typedef	struct	s_texture
 	t_xpm	we;
 	t_xpm	ea;
 	t_xpm	s;
+	t_xpm	f;
+	t_xpm	c;
 }				t_texture;
-
-typedef	struct	s_color
-{
-	int	f;
-	int	c;
-}				t_color;
 
 typedef	struct	s_settings
 {
 	unsigned int	width;
 	unsigned int	height;
 	t_texture		textures;
-	t_color			colors;
 	char			**map;
 	char			*bitmap;
+	bool			save;
 }				t_settings;
 
 t_settings		ft_flag_set(char *flag, char *line, t_settings *settings);
@@ -52,5 +49,6 @@ char			*ft_stradhere(char **str, char c);
 t_settings		ft_load(char *path, t_settings *settings);
 bool			ft_vermap(char **map);
 void			*ft_strdup(char *str);
+int				ft_line_color(char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:39:07 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 20:47:02 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 05:37:03 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,6 @@
 #include "runtime.h"
 #include "../main/cub3d.h"
 #include "../get_next_line/get_next_line.h"
-
-int		ft_destroy(t_mlx *mlx)
-{
-	size_t	index;
-
-	ft_putstr("Deletion of all variables.\n");
-	index = 0;
-	while ((*mlx).settings.map[index])
-		free((*mlx).settings.map[index++]);
-	free((*mlx).settings.map);
-	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.no.img);
-	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.so.img);
-	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.we.img);
-	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.ea.img);
-	mlx_destroy_image((*mlx).mlx, (*mlx).settings.textures.s.img);
-	if (!(*mlx).settings.bitmap)
-	{
-		mlx_destroy_image((*mlx).mlx, (*mlx).img);
-		mlx_destroy_window((*mlx).mlx, (*mlx).win);
-	}
-	exit(0);
-	return (0);
-}
 
 void	ft_update_key(int code, int value, t_mlx *mlx)
 {
@@ -57,6 +34,10 @@ void	ft_update_key(int code, int value, t_mlx *mlx)
 		(*mlx).input.rotate_left = value;
 	else if (code == XK_Right)
 		(*mlx).input.rotate_right = value;
+	else if (code == CAMERA_UP)
+		(*mlx).input.camera_up = value;
+	else if (code == CAMERA_DOWN)
+		(*mlx).input.camera_down = value;
 }
 
 int		ft_key_press(int code, t_mlx *mlx)
@@ -71,7 +52,7 @@ int		ft_key_press(int code, t_mlx *mlx)
 		filename = ft_strdup("screenshot ");
 		current = time(NULL);
 		ft_stradd(&filename, asctime(localtime(&current)));
-		ft_bitmap(*mlx, filename);
+		(*mlx).settings.bitmap = filename;
 	}
 	else
 		ft_update_key(code, 1, mlx);

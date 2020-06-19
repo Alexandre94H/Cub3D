@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 05:56:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 14:40:52 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 17:34:49 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_ray		ft_init_ray(float degree)
 		sin(degree * M_PI / 180),
 		-1 * cos(degree * M_PI / 180)
 	}, {
-		sin((degree + FOV / 2) * M_PI / 180)
-			- sin((degree - FOV / 2) * M_PI / 180),
-		cos((degree - FOV / 2) * M_PI / 180)
-			- cos((degree + FOV / 2) * M_PI / 180)
+		sin((degree + FOV / 3) * M_PI / 180)
+			- sin((degree - FOV / 3) * M_PI / 180),
+		cos((degree - FOV / 3) * M_PI / 180)
+			- cos((degree + FOV / 3) * M_PI / 180)
 	}, degree};
 	return (ray);
 }

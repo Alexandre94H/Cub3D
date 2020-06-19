@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:11:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 16:32:02 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 05:23:40 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 	else if (*flag == 'S')
 		(*settings).textures.s.data = ft_strdup(line);
 	else if (*flag == 'F')
-		(*settings).colors.f = ft_line_color(line);
+		(*settings).textures.f.data = ft_strdup(line);
 	else if (*flag == 'C')
-		(*settings).colors.c = ft_line_color(line);
+		(*settings).textures.c.data = ft_strdup(line);
 	return (*settings);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 15:52:50 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 20:49:54 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/18 23:21:34 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,17 @@ int		ft_create_bitmap(char *filename)
 	return (fd);
 }
 
-void	ft_bitmap_header(t_mlx mlx, int fd, int null)
+void	ft_bitmap_header(t_mlx mlx, int fd)
 {
 	int	header;
 	int	plane;
 	int	bpp;
+	int	null;
 
 	header = 40;
 	plane = 1;
 	bpp = 32;
+	null = 0;
 	write(fd, &header, sizeof(int));
 	write(fd, &mlx.settings.width, sizeof(int));
 	write(fd, &mlx.settings.height, sizeof(int));
@@ -53,37 +55,37 @@ void	ft_bitmap_loop(t_mlx mlx, int fd)
 	unsigned int	x;
 	unsigned int	y;
 
-	y = 0;
-	while (y < mlx.settings.width)
+	y = mlx.settings.height;
+	while (y-- > 0)
 	{
 		x = 0;
-		while (x < mlx.settings.height)
+		while (x < mlx.settings.width)
 		{
-			write(fd, &mlx.data[x + y * mlx.settings.height], sizeof(int));
-			x++;
+			write(fd, &mlx.data[x + y * mlx.settings.width], sizeof(int));
+			y++;
 		}
-		y++;
 	}
 }
 
-void	ft_bitmap(t_mlx mlx, char *filename)
+void	ft_bitmap(t_mlx *mlx)
 {
-	int	fd;
-	int	null;
-	int	first;
-	int	total;
+	int		fd;
+	int		null;
+	int		first;
+	int		total;
 
-	fd = ft_create_bitmap(filename);
+	fd = ft_create_bitmap((*mlx).settings.bitmap);
+	(*mlx).settings.bitmap = 0;
 	null = 0;
 	first = 14 + 40;
-	total = first + 4 + mlx.settings.width * mlx.settings.height * 4;
+	total = first + 4 + (*mlx).settings.width * (*mlx).settings.height * 4;
 	write(fd, "BM", sizeof(char) * 2);
 	write(fd, &total, sizeof(int));
 	write(fd, &null, sizeof(short int));
 	write(fd, &null, sizeof(short int));
 	write(fd, &first, sizeof(int));
-	ft_bitmap_header(mlx, fd, null);
-	ft_bitmap_loop(mlx, fd);
+	ft_bitmap_header((*mlx), fd);
+	ft_bitmap_loop((*mlx), fd);
 	close(fd);
 	ft_putstr(" Done\n");
 }

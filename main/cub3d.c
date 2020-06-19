@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:24:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 20:09:37 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/19 05:23:20 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,16 @@ int		main(int argc, char **argv)
 
 	if (argc < 2)
 		ft_error("You must indicate the parameters file (.cub).", 1);
-	settings = (t_settings) {0, 0, {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
-		{0, 0}, 0, 0};
+	settings = (t_settings) {0, 0, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, 0, 0, 0};
 	ft_load(argv[1], &settings);
 	if (!settings.map)
 		ft_error("Map not initialized.", 1);
 	if (!ft_vermap(settings.map))
 		ft_error("Invalid Map.", 2);
 	if (argc > 2 && ft_equal(ft_tolowercase(argv[2]), "--save"))
+	{
 		settings.bitmap = argc > 3 ? argv[3] : "save";
+		settings.save = true;
+	}
 	return (ft_run(argv[0] + 2, settings));
 }
