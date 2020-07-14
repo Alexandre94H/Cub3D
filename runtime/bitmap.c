@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 15:52:50 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 23:21:34 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/28 20:43:49 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int		ft_create_bitmap(char *filename)
 
 	filename = ft_strdup(filename);
 	ft_stradd(&filename, ".bmp");
-	ft_putstr("Creating ");
-	ft_putstr(filename);
-	ft_putstr("...");
+	ft_putstr("Creating ", 1);
+	ft_putstr(filename, 1);
+	ft_putstr("...", 1);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	free(filename);
 	return (fd);
@@ -62,7 +62,7 @@ void	ft_bitmap_loop(t_mlx mlx, int fd)
 		while (x < mlx.settings.width)
 		{
 			write(fd, &mlx.data[x + y * mlx.settings.width], sizeof(int));
-			y++;
+			x++;
 		}
 	}
 }
@@ -87,5 +87,5 @@ void	ft_bitmap(t_mlx *mlx)
 	ft_bitmap_header((*mlx), fd);
 	ft_bitmap_loop((*mlx), fd);
 	close(fd);
-	ft_putstr(" Done\n");
+	ft_putstr(" Done\n", 1);
 }

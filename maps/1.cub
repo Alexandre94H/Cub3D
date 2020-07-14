@@ -1,12 +1,14 @@
-R 7680 4320 
-NO assets/greystone.xpm
-SO assets/bluestone.xpm
-WE assets/colorstone.xpm
-EA assets/redbrick.xpm
+R 7680 4320
+NO assets/white.xpm
+SO assets/white.xpm
+WE assets/white.xpm
+EA assets/white.xpm
 
-S assets/eagle.xpm
-F 220,100,0
-C 225,30,0
+S assets/white.xpm
+F assets/white.xpm
+C assets/white.xpm
+
+MC assets/notomorrow.wav
 
 1111111111111111111111
 1001010100010000001001

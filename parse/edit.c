@@ -104,5 +104,7 @@ t_settings	ft_flag_set(char *flag, char *line, t_settings *settings)
 		(*settings).textures.f.data = ft_strdup(line);
 	else if (*flag == 'C')
 		(*settings).textures.c.data = ft_strdup(line);
+	else if (*flag == 'M' && flag[1] == 'C')
+		(*settings).music = ft_strdup(line);
 	return (*settings);
 }

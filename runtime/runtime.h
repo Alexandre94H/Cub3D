@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:17:23 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/19 17:25:33 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/20 18:36:32 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@
 # endif
 
 # ifndef FPS
-#  define FPS 30
+#  define FPS 24
+# endif
+
+# ifndef TEXTURE_SIDE
+#  define TEXTURE_SIDE 64
 # endif
 
 # include <stdbool.h>
@@ -85,11 +89,19 @@ typedef struct	s_mlx
 typedef struct	s_wall
 {
 	int		length;
-	size_t	first;
+	size_t	y;
 	size_t	last;
 	float	texture_y;
-	size_t	y;
 }				t_wall;
+
+typedef struct	s_floor
+{
+	float	distance;
+	float	floorx;
+	float	floory;
+	float	stepx;
+	float	stepy;
+}				t_floor;
 
 typedef struct	s_ray
 {
@@ -111,12 +123,16 @@ int				ft_update(t_mlx *mlx);
 int				ft_run(char *title, t_settings settings);
 void			ft_bitmap(t_mlx *mlx);
 int				ft_destroy(t_mlx *mlx);
+bool			ft_check_input(t_mlx mlx);
 void			ft_update_input(t_mlx *mlx, t_position direction);
 int				ft_fade(int color, float divide);
 void			ft_set_floor(t_mlx *mlx, t_ray ray);
 void			ft_set_wall(t_mlx *mlx, t_ray ray);
+void			ft_set_skybox(t_mlx *mlx);
 int				*ft_data(void *img_ptr, int size_line);
 int				ft_get_color(t_xpm xpm, size_t index);
 int				ft_destroy(t_mlx *mlx);
+void			ft_music(char *path);
+void			ft_music_clear();
 
 #endif

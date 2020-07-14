@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:39:07 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/19 05:37:03 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/28 20:43:21 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		ft_key_press(int code, t_mlx *mlx)
 		current = time(NULL);
 		ft_stradd(&filename, asctime(localtime(&current)));
 		(*mlx).settings.bitmap = filename;
+		ft_putstr((*mlx).settings.bitmap, 1);
 	}
 	else
 		ft_update_key(code, 1, mlx);

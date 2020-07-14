@@ -37,8 +37,9 @@ typedef	struct	s_settings
 {
 	unsigned int	width;
 	unsigned int	height;
-	t_texture		textures;
 	char			**map;
+	t_texture		textures;
+	char			*music;
 	char			*bitmap;
 	bool			save;
 }				t_settings;

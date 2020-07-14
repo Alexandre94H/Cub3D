@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 03:16:20 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/19 00:50:18 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/20 05:03:01 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,25 @@ void	ft_update_input(t_mlx *mlx, t_position direction)
 		(*mlx).player.camera += 2.0 / FPS;
 	if ((*mlx).input.camera_down)
 		(*mlx).player.camera -= 2.0 / FPS;
+}
+
+bool	ft_check_input(t_mlx mlx)
+{
+	if (mlx.input.forward)
+		return (true);
+	if (mlx.input.backward)
+		return (true);
+	if (mlx.input.turn_left)
+		return (true);
+	if (mlx.input.turn_right)
+		return (true);
+	if (mlx.input.rotate_left)
+		return (true);
+	if (mlx.input.rotate_right)
+		return (true);
+	if (mlx.input.camera_up)
+		return (true);
+	if (mlx.input.camera_down)
+		return (true);
+	return (false);
 }

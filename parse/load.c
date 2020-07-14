@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:48:25 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 16:31:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/28 20:42:49 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ t_settings	ft_load(char *path, t_settings *settings)
 	char	*line;
 	int		ret;
 
-	ft_putstr("Loading ");
-	ft_putstr(path);
-	ft_putstr(".\n");
+	ft_putstr("Loading ", 1);
+	ft_putstr(path, 1);
+	ft_putstr(".\n", 1);
 	if ((fd = open(path, O_RDONLY)) == -1)
 		return (*settings);
 	ret = 1;

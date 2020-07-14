@@ -38,8 +38,8 @@ g++ *.cpp -lSDL
 // or to 0 to use the slower vertical floor algorithm.
 #define FLOOR_HORIZONTAL 1
 
-#define screenWidth 640
-#define screenHeight 480
+#define screenWidth 1360
+#define screenHeight 768
 #define texWidth 64 // must be power of two
 #define texHeight 64 // must be power of two
 #define mapWidth 24

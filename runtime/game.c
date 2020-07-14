@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 22:18:08 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/18 21:54:04 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/28 20:42:57 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_player	ft_init_player(char **map)
 	size_t		y;
 	float		degree;
 
-	ft_putstr("Player initialization.\n");
+	ft_putstr("Player initialization.\n", 1);
 	y = 0;
 	while (map[y])
 	{
@@ -66,8 +66,10 @@ int			ft_run(char *title, t_settings settings)
 			return (0);
 		ft_update(&mlx);
 		ft_destroy(&mlx);
+		return (0);
 	}
-	else
-		ft_detect(&mlx);
+	if (settings.music)
+		ft_music(settings.music);
+	ft_detect(&mlx);
 	return (0);
 }

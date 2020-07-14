@@ -1,12 +1,14 @@
-R 720 480
-NO assets/bluestone.xpm
-SO assets/colorstone.xpm
-WE assets/greystone.xpm
-EA assets/purplestone.xpm
+R 1360 768
+NO assets/white.xpm
+SO assets/white.xpm
+WE assets/white.xpm
+EA assets/white.xpm
 
-S assets/barrel.xpm
-F assets/redbrick.xpm
-C assets/wood.xpm
+S assets/white.xpm
+F assets/white.xpm
+C assets/white.xpm
+
+MC assets/mysterious_paths.wav
 
         1111111111111111111111111
         1000000000110000000000001

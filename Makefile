@@ -6,7 +6,7 @@
 #    By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/18 23:00:35 by ahallain          #+#    #+#              #
-#    Updated: 2020/06/19 19:10:25 by ahallain         ###   ########.fr        #
+#    Updated: 2020/06/22 16:49:52 by ahallain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ SRCS	=	main/cub3d.c \
 			runtime/update_screen.c \
 			runtime/floor.c \
 			runtime/wall.c \
+			runtime/skybox.c \
 			runtime/bitmap.c \
+			runtime/music.c \
 			engine/raycaster.c
 
 OBJS	=	${SRCS:.c=.o}
@@ -55,9 +57,11 @@ ${NAME}:
 all: ${NAME}
 
 offline_clean:
-	@printf "Removing .o"
-	@rm -rf ${OBJS}
-	@printf "\033[50G✓\n"
+	@for OBJ in ${OBJS} ; do \
+		printf "Removing $$OBJ"; \
+		rm -rf $$OBJ; \
+		printf "\033[50G✓\n"; \
+	done
 
 clean:
 	@printf "\033[1;31mRemoving compilation file...\033[0m\n"

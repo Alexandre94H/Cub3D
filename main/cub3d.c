@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 04:24:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/19 05:23:20 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/28 20:44:10 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ bool	ft_equal(char *str, char *str1)
 
 void	ft_error(char *str, int code)
 {
-	ft_putstr("Error (");
-	ft_putnbr(code);
-	ft_putstr("): ");
-	ft_putstr(str);
+	ft_putstr("Error (", 2);
+	ft_putnbr(code, 2);
+	ft_putstr("): ", 2);
+	ft_putstr(str, 2);
 	exit(code);
 }
 
@@ -57,7 +57,7 @@ int		main(int argc, char **argv)
 
 	if (argc < 2)
 		ft_error("You must indicate the parameters file (.cub).", 1);
-	settings = (t_settings) {0, 0, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, 0, 0, 0};
+	settings = (t_settings) {0, 0, 0, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, 0, 0, 0};
 	ft_load(argv[1], &settings);
 	if (!settings.map)
 		ft_error("Map not initialized.", 1);

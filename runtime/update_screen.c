@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 03:16:20 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/19 17:41:14 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/06/20 18:36:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_ray	ft_init_update(t_mlx *mlx)
 		(*mlx).player.camera = 2;
 	if ((*mlx).player.camera < 0)
 		(*mlx).player.camera = 0;
-	if (!(*mlx).settings.bitmap)
+	if (!(*mlx).settings.save)
 	{
 		(*mlx).img = mlx_new_image((*mlx).mlx, (*mlx).settings.width, (*mlx).settings.height);
 		(*mlx).data = ft_data((*mlx).img, (*mlx).settings.width);
@@ -58,12 +58,15 @@ int		ft_update(t_mlx *mlx)
 	t_ray			ray;
 	static long int	last_frame;
 
-	if (last_frame && (long)(1000000 / FPS) > clock() - last_frame)
+	if (last_frame && !(*mlx).settings.bitmap && !ft_check_input(*mlx))
 		return (1);
+	if (last_frame && (long)(1000000 / FPS) > clock() - last_frame)
+		return (2);
 	last_frame = clock();
 	ray = ft_init_update(mlx);
 	ft_set_floor(mlx, ray);
 	ft_set_wall(mlx, ray);
+	ft_set_skybox(mlx);
 	if ((*mlx).settings.bitmap)
 		ft_bitmap(mlx);
 	if (!(*mlx).settings.save)
