@@ -65,8 +65,8 @@ int		ft_update(t_mlx *mlx)
 	last_frame = clock();
 	ray = ft_init_update(mlx);
 	ft_set_floor(mlx, ray);
-	ft_set_wall(mlx, ray);
 	ft_set_skybox(mlx);
+	ft_set_wall(mlx, ray);
 	if ((*mlx).settings.bitmap)
 		ft_bitmap(mlx);
 	if (!(*mlx).settings.save)

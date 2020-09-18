@@ -14,5 +14,20 @@
 
 void	ft_set_skybox(t_mlx *mlx)
 {
-	(void)mlx;
+	size_t x;
+	size_t y;
+	size_t max;
+
+	y = 0;
+	max = (*mlx).settings.height * (*mlx).player.camera / 2 + 1;
+	while (y < max)
+	{
+		x = 0;
+		while (x < (*mlx).settings.width)
+		{
+			(*mlx).data[x + y * (*mlx).settings.width] = 255;
+			x++;
+		}
+		y++;
+	}
 }
