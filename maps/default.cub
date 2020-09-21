@@ -1,14 +1,12 @@
-R 720 480
-NO assets/magenta.xpm
+R 600 400
+NO assets/black.xpm
 SO assets/white.xpm
-WE assets/white.xpm
+WE assets/black.xpm
 EA assets/white.xpm
 
-S assets/white.xpm
-F assets/white.xpm
-C assets/white.xpm
-
-MC assets/mysterious_paths.wav
+S assets/sprite.xpm
+F 0,0,0
+C 255,255,255
 
         1111111111111111111111111
         1000000000110000000000001
