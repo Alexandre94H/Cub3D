@@ -1,14 +1,29 @@
-#ifndef		FILE_H
-# define	FILE_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
+/*   Updated: 2020/09/23 23:42:25 by ahallain         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct	s_resolution {
-    unsigned short  width;
-    unsigned short  height;
+#ifndef FILE_H
+# define FILE_H
+
+typedef struct	s_resolution
+{
+	unsigned short	width;
+	unsigned short	height;
 }				t_resolution;
 
-typedef struct	s_texture {
-    unsigned int*			data;
-    t_resolution	resolution;
+typedef struct	s_texture
+{
+	void			*image;
+	unsigned int	*data;
+	t_resolution	resolution;
 }				t_texture;
 
 typedef struct	s_file
@@ -24,5 +39,5 @@ typedef struct	s_file
 	unsigned char	**map;
 }				t_file;
 
-int		init_file(char *path, t_file *file);
+int				init_file(char *path, t_file *file);
 #endif

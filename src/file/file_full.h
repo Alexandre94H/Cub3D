@@ -1,8 +1,6 @@
 #ifndef		PRIVATE_FULL_H
 # define	PRIVATE_FULL_H
 
-#define		TEXTURE_SIZE 64
-
 #include <stdbool.h>
 #include "file.h"
 #include "../../lib/get_next_line/get_next_line.h"

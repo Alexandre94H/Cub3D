@@ -6,14 +6,15 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/21 15:42:26 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/09/23 23:43:26 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "file_full.h"
 
-int		validate(unsigned char **map, unsigned int *x, unsigned int *y, unsigned char axe)
+int		validate(unsigned char **map, unsigned int *x, unsigned int *y,
+	unsigned char axe)
 {
 	char	direction;
 
@@ -42,7 +43,8 @@ int		validate(unsigned char **map, unsigned int *x, unsigned int *y, unsigned ch
 	return (0);
 }
 
-int		ship_move(unsigned char **map, unsigned int *x, unsigned int *y, unsigned int *axe)
+int		ship_move(unsigned char **map, unsigned int *x, unsigned int *y,
+	unsigned int *axe)
 {
 	unsigned char way;
 

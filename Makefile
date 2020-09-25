@@ -2,12 +2,15 @@ SRCS	=	lib/get_next_line/get_next_line.c \
 			lib/get_next_line/get_next_line_utils.c \
 			src/error.c \
 			src/lib.c \
-			src/main.c \
 			src/file/flag.c \
 			src/file/map.c \
 			src/file/scan.c \
 			src/file/check_map.c \
-			src/file/init.c
+			src/file/init.c \
+			src/player/init.c \
+			src/mlx/update.c \
+			src/mlx/init.c \
+			src/main.c
 
 OBJS	=	${SRCS:.c=.o}
 

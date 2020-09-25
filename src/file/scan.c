@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/21 14:48:49 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/09/23 23:45:09 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ void		divide_line(char *line, t_file *file)
 	char			*flag;
 
 	if (*line == '\0')
-		return;
+		return ;
 	if (*line == '1' || *line == ' ')
 		map_add(line, file);
-	else {
+	else
+	{
 		index = 0;
 		while (line[index++] != ' ')
 			;
@@ -52,9 +53,9 @@ void		divide_line(char *line, t_file *file)
 		flag[--index] = 0;
 		while (index--)
 			flag[index] = line[index];
-		while (*line++ != ' ')
+		while (*++line != ' ')
 			;
-		while (*line++ == ' ')
+		while (*++line == ' ')
 			;
 		dispatch_flag(flag, line, file);
 		free(flag);
