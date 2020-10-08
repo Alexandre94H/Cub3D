@@ -6,15 +6,16 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/25 11:13:21 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:40:33 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include "../lib.h"
+#include <X11/X.h>
 #include "mlx_full.h"
+#include "../library.h"
 
-void			ft_check_resolution(void *mlx, t_file *file)
+void			check_resolution(void *mlx, t_file *file)
 {
 	unsigned int width;
 	unsigned int height;
@@ -45,7 +46,9 @@ t_texture		color(char *line)
 	color *= 16 * 16;
 	color += ft_atoi(line);
 	texture = (t_texture){0, 0, {1, 1}};
-	texture.data = &color;
+	if (!(texture.data = malloc(sizeof(unsigned int))))
+		return texture;
+	*texture.data = color;
 	return (texture);
 }
 
@@ -76,21 +79,56 @@ void			init_texture(void *mlx, t_texture *texture, unsigned short width, unsigne
 	texture->resolution.height = height;
 }
 
-void			loop(char *name, t_runtime runtime) {
+void			init_sprites(void *mlx, t_file *file, t_player *player)
+{
+	t_sprite		*sprite;
+	unsigned char	length;
+	unsigned short	x;
+	unsigned short	y;
+
+	length = 0;
+	while (file->sprites[length])
+		init_texture(mlx, file->sprites[length++], TEXTURE_SIDE, TEXTURE_SIDE);
+	y = 0;
+	while (file->map[y])
+	{
+		x = 0;
+		while (file->map[y][x])
+		{
+			if (file->map[y][x] >= '2' && file->map[y][x] <= '2' + length)
+			{
+				if (!(sprite = malloc(sizeof(malloc))))
+					return ;
+				sprite->position = (t_position) {x, y};
+				sprite->index = file->map[y][x] - '2';
+				file->map[y][x] = '0';
+				array_add((void ***)&player->sprites, sprite);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void			loop(char *name, t_runtime runtime)
+{
+	mlx_do_key_autorepeatoff(runtime.mlx.mlx);
 	runtime.mlx.window = mlx_new_window(runtime.mlx.mlx, runtime.file.resolution.width, runtime.file.resolution.height, name);
+	mlx_hook(runtime.mlx.window, KeyPress, KeyPressMask, press, &runtime);
+	mlx_hook(runtime.mlx.window, KeyRelease, KeyReleaseMask, release, &runtime);
 	mlx_loop_hook(runtime.mlx.mlx, update_image, &runtime);
 	mlx_loop(runtime.mlx.mlx);
 }
 
-void			init_mlx(t_file *file, t_mlx *mlx)
+void			init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 {
 	*mlx = (t_mlx) {mlx_init(), 0, 0, 0};
-	ft_check_resolution(mlx->mlx, file);
+	check_resolution(mlx->mlx, file);
 	init_texture(mlx->mlx, &file->north, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->south, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->west, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->east, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->sprite, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->floor, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->ceil, TEXTURE_SIDE, TEXTURE_SIDE);
+	init_sprites(mlx->mlx, file, player);
 }

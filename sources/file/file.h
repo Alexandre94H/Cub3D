@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/23 23:42:25 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/09/29 22:24:56 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef struct	s_texture
 	t_resolution	resolution;
 }				t_texture;
 
+typedef struct	s_position
+{
+	float	x;
+	float	y;
+}				t_position;
+
 typedef struct	s_file
 {
 	t_resolution	resolution;
@@ -33,10 +39,10 @@ typedef struct	s_file
 	t_texture		south;
 	t_texture		east;
 	t_texture		west;
-	t_texture		sprite;
+	t_texture		**sprites;
 	t_texture		floor;
 	t_texture		ceil;
-	unsigned char	**map;
+	char			**map;
 }				t_file;
 
 int				init_file(char *path, t_file *file);

@@ -6,14 +6,15 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/23 23:43:26 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:39:57 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "file_full.h"
+#include "../library.h"
 
-int		validate(unsigned char **map, unsigned int *x, unsigned int *y,
+int		validate(char **map, unsigned int *x, unsigned int *y,
 	unsigned char axe)
 {
 	char	direction;
@@ -23,7 +24,7 @@ int		validate(unsigned char **map, unsigned int *x, unsigned int *y,
 		direction = (axe % 4 - 2) * -1;
 		if ((int)*x + direction >= 0
 			&& *x + direction < ft_strlen((char *)map[*y], 0)
-			&& map[*y][*x + direction] != '3')
+			&& map[*y][*x + direction] != '.')
 		{
 			*x += direction;
 			return (1);
@@ -34,7 +35,7 @@ int		validate(unsigned char **map, unsigned int *x, unsigned int *y,
 		direction = axe % 4 - 1;
 		if ((int)*y + direction >= 0 && map[*y + direction]
 			&& *x < ft_strlen((char *)map[*y + direction], 0)
-			&& map[*y + direction][*x] != '3')
+			&& map[*y + direction][*x] != '.')
 		{
 			*y += direction;
 			return (1);
@@ -43,7 +44,7 @@ int		validate(unsigned char **map, unsigned int *x, unsigned int *y,
 	return (0);
 }
 
-int		ship_move(unsigned char **map, unsigned int *x, unsigned int *y,
+int		ship_move(char **map, unsigned int *x, unsigned int *y,
 	unsigned int *axe)
 {
 	unsigned char way;
@@ -61,7 +62,7 @@ int		ship_move(unsigned char **map, unsigned int *x, unsigned int *y,
 	return (-1);
 }
 
-bool	verification(unsigned char **map)
+bool	verification(char **map)
 {
 	unsigned int	begin;
 	unsigned int	x;
@@ -69,7 +70,7 @@ bool	verification(unsigned char **map)
 	unsigned int	axe;
 
 	begin = 0;
-	while (map[0][begin] == '3')
+	while (map[0][begin] == '.')
 		begin++;
 	x = begin;
 	y = 0;

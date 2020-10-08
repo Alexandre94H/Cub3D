@@ -6,12 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:31:13 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/21 14:49:48 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:39:47 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "file_full.h"
+#include "../library.h"
 
 void	str_add(char **str, char c)
 {
@@ -37,8 +38,8 @@ void	str_add(char **str, char c)
 
 void	map_add(char *line, t_file *file)
 {
-	unsigned int	length;
-	unsigned char	**copy;
+	unsigned short	length;
+	char	**copy;
 
 	length = 0;
 	if (file->map)
@@ -46,16 +47,16 @@ void	map_add(char *line, t_file *file)
 			length++;
 	length++;
 	copy = file->map;
-	if (!(file->map = malloc(sizeof(unsigned char **) * (length + 1))))
+	if (!(file->map = malloc(sizeof(char **) * (length + 1))))
 		return ;
 	file->map[length] = 0;
 	file->map[--length] = 0;
 	while (*line)
 	{
-		str_add((char **)&file->map[length], *line == ' ' ? '3' : *line);
+		str_add((char **)&file->map[length], *line == ' ' ? '.' : *line);
 		line++;
 	}
-	str_add((char **)&file->map[length], '3');
+	str_add((char **)&file->map[length], '.');
 	if (copy)
 		while (length--)
 			file->map[length] = copy[length];

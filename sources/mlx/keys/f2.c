@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update.c                                           :+:      :+:    :+:   */
+/*   f2.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/25 11:01:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/25 11:11:02 by ahallain         ###   ########.fr       */
+/*   Created: 2020/10/07 00:37:42 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/08 18:25:02 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib.h"
-#include "mlx_full.h"
+#include "../mlx1.h"
 
-int	update_image(t_runtime *runtime)
+void	f2(t_runtime *runtime)
 {
-	(void)runtime;
-	ft_putstr_fd("work\n", 1);
-	return (0);
+	runtime->save = true;
 }

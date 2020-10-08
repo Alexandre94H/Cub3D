@@ -5,8 +5,8 @@ WE assets/black.xpm
 EA assets/white.xpm
 
 S assets/sprite.xpm
-F 0,0,0
-C 255,255,255
+C 146,161,207
+F 45, 74, 26
 
         1111111111111111111111111
         1000000000110000000000001

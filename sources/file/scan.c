@@ -6,13 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/23 23:45:09 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/08 18:39:53 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <fcntl.h>
 #include "file_full.h"
+#include "../library.h"
 
 void		dispatch_flag(char *flag, char *line, t_file *file)
 {
@@ -26,12 +27,12 @@ void		dispatch_flag(char *flag, char *line, t_file *file)
 		file->west = texture(line);
 	else if (flag[0] == 'E' && flag[1] == 'A')
 		file->east = texture(line);
-	else if (flag[0] == 'S')
-		file->sprite = texture(line);
 	else if (flag[0] == 'F')
 		file->floor = texture(line);
 	else if (flag[0] == 'C')
 		file->ceil = texture(line);
+	else if (flag[0] == 'S')
+		add_sprite(file, line);
 }
 
 void		divide_line(char *line, t_file *file)

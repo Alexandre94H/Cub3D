@@ -6,13 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 20:18:33 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/24 23:37:58 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/06 21:45:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 
-unsigned short	degree(char c)
+float	degree(char c)
 {
 	if (c == 'E')
 		return (90);
@@ -23,10 +23,10 @@ unsigned short	degree(char c)
 	return (0);
 }
 
-int		init_player(unsigned char **map, t_player *player)
+int		init_player(char **map, t_player *player)
 {
-	unsigned int x;
-	unsigned int y;
+	unsigned short x;
+	unsigned short y;
 
 	y = 0;
 	while (map[y])
@@ -39,7 +39,7 @@ int		init_player(unsigned char **map, t_player *player)
 				|| map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
-				*player = (t_player) {degree(map[y][x]), {x, y}};
+				*player = (t_player) {degree(map[y][x]), {x + 0.5, y + 0.5}, 0, 0};
 				return (0);
 			}
 			x++;

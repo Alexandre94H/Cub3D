@@ -3,11 +3,11 @@
 
 #include <stdbool.h>
 #include "file.h"
-#include "../../lib/get_next_line/get_next_line.h"
 
 t_resolution	resolution(char *line);
 t_texture		texture(char *line);
+void			add_sprite(t_file *file, char *line);
 void			map_add(char *line, t_file *file);
-bool			verification(unsigned char **map);
+bool			verification(char **map);
 void			scan_file(char *path, t_file *file);
 #endif
