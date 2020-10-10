@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
-/*   Updated: 2020/09/29 22:24:56 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/10 20:27:21 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ typedef struct	s_texture
 	unsigned int	*data;
 	t_resolution	resolution;
 }				t_texture;
-
-typedef struct	s_position
-{
-	float	x;
-	float	y;
-}				t_position;
 
 typedef struct	s_file
 {

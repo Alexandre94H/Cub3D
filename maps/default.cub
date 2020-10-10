@@ -1,12 +1,12 @@
 R 600 400
-NO assets/black.xpm
-SO assets/white.xpm
-WE assets/black.xpm
-EA assets/white.xpm
+NO assets/north.xpm
+SO assets/south.xpm
+WE assets/west.xpm
+EA assets/east.xpm
 
 S assets/sprite.xpm
-C 146,161,207
-F 45, 74, 26
+C assets/ceil.xpm
+F assets/floor.xpm
 
         1111111111111111111111111
         1000000000110000000000001
