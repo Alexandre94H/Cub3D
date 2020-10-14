@@ -1,8 +1,20 @@
-#ifndef		PRIVATE_FULL_H
-# define	PRIVATE_FULL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_full.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/14 21:31:28 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/14 21:33:31 by ahallain         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdbool.h>
-#include "file.h"
+#ifndef FILE_FULL_H
+# define FILE_FULL_H
+
+# include <stdbool.h>
+# include "file.h"
 
 t_resolution	resolution(char *line);
 t_texture		texture(char *line);

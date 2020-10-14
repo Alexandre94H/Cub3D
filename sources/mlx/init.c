@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alexandre <alexandre@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 18:40:33 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/14 14:54:23 by alexandre        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,15 @@ void			init_texture(void *mlx, t_texture *texture, unsigned short width, unsigne
 
 	path = (char *)texture->data;
 	if (ft_strcchr(path, ','))
-	{
 		*texture = color(path);
-		return ;
+	else
+	{
+		texture->image = mlx_xpm_file_to_image(mlx, path, (int *)&width, (int *)&height);
+		texture->data = image_data(texture->image, width);
+		texture->resolution.width = width;
+		texture->resolution.height = height;
 	}
-	texture->image = mlx_xpm_file_to_image(mlx, path, (int *)&width, (int *)&height);
-	texture->data = image_data(texture->image, width);
-	texture->resolution.width = width;
-	texture->resolution.height = height;
+	free(path);
 }
 
 void			init_sprites(void *mlx, t_file *file, t_player *player)
@@ -97,9 +98,9 @@ void			init_sprites(void *mlx, t_file *file, t_player *player)
 		{
 			if (file->map[y][x] >= '2' && file->map[y][x] <= '2' + length)
 			{
-				if (!(sprite = malloc(sizeof(malloc))))
+				if (!(sprite = malloc(sizeof(t_sprite))))
 					return ;
-				sprite->position = (t_position) {x, y};
+				sprite->position = (t_position) {x + 0.5, y + 0.5};
 				sprite->index = file->map[y][x] - '2';
 				file->map[y][x] = '0';
 				array_add((void ***)&player->sprites, sprite);

@@ -1,8 +1,20 @@
-#ifndef		PLAYER_H
-# define	PLAYER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/14 21:36:06 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/14 21:36:37 by ahallain         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdbool.h>
-#include "../file/file.h"
+#ifndef PLAYER_H
+# define PLAYER_H
+
+# include <stdbool.h>
+# include "../file/file.h"
 
 typedef struct	s_position
 {
@@ -32,6 +44,5 @@ typedef struct	s_player
 	bool			updated;
 }				t_player;
 
-int		init_player(char **map, t_player *player);
-
+int				init_player(char **map, t_player *player);
 #endif

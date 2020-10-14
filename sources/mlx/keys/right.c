@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 19:44:12 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/06 21:46:46 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/11 18:36:56 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	right(t_runtime *runtime)
 {
-	runtime->player.degree += (float)100 / 2 / MAX_FPS;
+	runtime->player.degree += (float)100 / MAX_FPS;
 	if (runtime->player.degree > 360)
 		runtime->player.degree -= 360;
 }

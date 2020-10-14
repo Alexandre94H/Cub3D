@@ -5,7 +5,7 @@
 #include "../file/file.h"
 #include "../player/player.h"
 
-#define		MAX_FPS 60
+#define		MAX_FPS 24
 
 typedef struct	s_mlx
 {

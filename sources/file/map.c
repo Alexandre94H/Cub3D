@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:31:13 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 18:39:47 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/14 21:33:47 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	str_add(char **str, char c)
 void	map_add(char *line, t_file *file)
 {
 	unsigned short	length;
-	char	**copy;
+	char			**copy;
 
 	length = 0;
 	if (file->map)

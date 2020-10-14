@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alexandre <alexandre@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 18:42:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 20:46:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/14 19:53:32 by alexandre        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,24 @@ void	leave(t_runtime *runtime)
 	while (runtime->file.sprites[index])
 	{
 		free_texture(runtime->mlx.mlx, runtime->file.sprites[index]);
-		index++;
+		free(runtime->file.sprites[index++]);
 	}
+	free(runtime->file.sprites);
+	index = 0;
+	while (runtime->player.sprites[index])
+		free(runtime->player.sprites[index++]);
+	free(runtime->player.sprites);
+	index = 0;
+	while (runtime->file.map[index])
+		free(runtime->file.map[index++]);
+	free(runtime->file.map);
+	free(runtime->keys);
 	free_texture(runtime->mlx.mlx, &runtime->file.north);
 	free_texture(runtime->mlx.mlx, &runtime->file.south);
 	free_texture(runtime->mlx.mlx, &runtime->file.east);
 	free_texture(runtime->mlx.mlx, &runtime->file.west);
 	free_texture(runtime->mlx.mlx, &runtime->file.floor);
 	free_texture(runtime->mlx.mlx, &runtime->file.ceil);
-	free(runtime->file.map);
 	mlx_destroy_window(runtime->mlx.mlx, runtime->mlx.window);
 }
 
