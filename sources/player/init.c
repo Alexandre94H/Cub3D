@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 20:18:33 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:36:47 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/15 19:26:28 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int		init_player(char **map, t_player *player)
 		}
 		y++;
 	}
-	return (3);
+	return (4);
 }

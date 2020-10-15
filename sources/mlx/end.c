@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexandre <alexandre@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 18:42:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 19:53:32 by alexandre        ###   ########.fr       */
+/*   Updated: 2020/10/15 04:50:41 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "mlx1.h"
 
-void	free_texture(void	*mlx_ptr, t_texture *texture)
+void	free_texture(void *mlx_ptr, t_texture *texture)
 {
 	if (texture->image)
 		mlx_destroy_image(mlx_ptr, texture->image);

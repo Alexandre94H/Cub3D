@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:18 by ahallain          #+#    #+#             */
-/*   Updated: 2019/11/13 15:19:03 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/15 06:22:43 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # endif
 
 # include <stdlib.h>
-# include <unistd.h>
 
 int		ft_strcchr(char *src, int c);
 size_t	ft_strlen(char *src, int c);

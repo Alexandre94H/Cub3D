@@ -1,55 +1,69 @@
-SRCS	=	libraries/get_next_line/get_next_line.c \
-			libraries/get_next_line/get_next_line_utils.c \
-			sources/error.c \
-			sources/library_1.c \
-			sources/library_2.c \
-			sources/file/flag.c \
-			sources/file/map.c \
-			sources/file/scan.c \
-			sources/file/check_map.c \
-			sources/file/init.c \
-			sources/player/init.c \
-			sources/mlx/end.c \
-			sources/mlx/bitmap.c \
-			sources/mlx/keys/w.c \
-			sources/mlx/keys/s.c \
-			sources/mlx/keys/a.c \
-			sources/mlx/keys/d.c \
-			sources/mlx/keys/up.c \
-			sources/mlx/keys/down.c \
-			sources/mlx/keys/left.c \
-			sources/mlx/keys/right.c \
-			sources/mlx/keys/f2.c \
-			sources/mlx/keys/esc.c \
-			sources/mlx/key.c \
-			sources/mlx/update.c \
-			sources/mlx/init.c \
-			sources/main.c
+SOURCES				=	libraries/get_next_line/get_next_line.c \
+						libraries/get_next_line/get_next_line_utils.c \
+						sources/error.c \
+						sources/library_1.c \
+						sources/library_2.c \
+						sources/file/flag.c \
+						sources/file/map.c \
+						sources/file/scan.c \
+						sources/file/check_map.c \
+						sources/file/init.c \
+						sources/player/init.c \
+						sources/mlx/end.c \
+						sources/mlx/bitmap.c \
+						sources/mlx/keys/w.c \
+						sources/mlx/keys/s.c \
+						sources/mlx/keys/a.c \
+						sources/mlx/keys/d.c \
+						sources/mlx/keys/left.c \
+						sources/mlx/keys/right.c \
+						sources/mlx/keys/f2.c \
+						sources/mlx/keys/esc.c \
+						sources/mlx/key.c \
+						sources/mlx/update/floor.c \
+						sources/mlx/update/wall.c \
+						sources/mlx/update/sprite.c \
+						sources/mlx/update/update.c \
+						sources/mlx/texture.c \
+						sources/mlx/init.c \
+						sources/main.c
+SOURCES_BONUS		=	bonus/mlx/keys/up.c \
+						bonus/mlx/keys/down.c \
+						bonus/mlx/keys/alt.c \
+						bonus/mlx/keys/shift.c
 
-OBJS	=	${SRCS:.c=.o}
+OBJECTS				=	${SOURCES:.c=.o}
+OBJECTS_BONUS		=	${SOURCES_BONUS:.c=.o}
 
-NAME	=	cub3D
+NAME				=	cub3D
 
-CC		=	cc
-RM		=	rm -f
+COMPILE				=	cc
+REMOVE				=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror
-LIBS	=	-lmlx -lX11 -lXext -lbsd -lm
+BONUS				=	0
+COMPILATION_FLAGS	=	-Wall -Wextra -Werror
+LIBRARIES			=	-lmlx -lX11 -lXext -lbsd -lm
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+	${COMPILE} ${COMPILATION_FLAGS} -DBONUS=${BONUS} -c $< -o ${<:.c=.o}
 
-${NAME}: ${OBJS}
-	${CC} -o ${NAME} ${OBJS} ${LIBS}
+${NAME}: ${OBJECTS}
+	${COMPILE} -o ${NAME} ${OBJECTS} ${LIBRARIES}
 
 all: ${NAME}
 
 clean:
-	${RM} ${OBJS}
+	${REMOVE} ${OBJECTS} ${OBJECTS_BONUS}
 
 fclean: clean
-	${RM} ${NAME}
+	${REMOVE} ${NAME}
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus_init:
+	${eval BONUS = 1}
+	${eval OBJECTS += ${OBJECTS_BONUS}}
+
+bonus: bonus_init ${OBJECTS_BONUS} all
+
+.PHONY: all clean fclean re bonus_init bonus

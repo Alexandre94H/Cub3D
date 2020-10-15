@@ -6,16 +6,17 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 18:39:53 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/15 19:31:54 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "file_full.h"
 #include "../library.h"
 
-void		dispatch_flag(char *flag, char *line, t_file *file)
+int	dispatch_flag(char *flag, char *line, t_file *file)
 {
 	if (flag[0] == 'R')
 		file->resolution = resolution(line);
@@ -33,15 +34,18 @@ void		dispatch_flag(char *flag, char *line, t_file *file)
 		file->ceil = texture(line);
 	else if (flag[0] == 'S')
 		add_sprite(file, line);
+	else if (flag[0] == 'B' && flag[1] == 'O' && flag[2] == 'N' && flag[3] == 'U' && flag[4] == 'S' && BONUS == 0)
+		return (1);
+	return (0);
 }
 
-void		divide_line(char *line, t_file *file)
+int	divide_line(char *line, t_file *file)
 {
 	unsigned int	index;
 	char			*flag;
 
 	if (*line == '\0')
-		return ;
+		return (0);
 	if (*line == '1' || *line == ' ')
 		map_add(line, file);
 	else
@@ -50,7 +54,7 @@ void		divide_line(char *line, t_file *file)
 		while (line[index++] != ' ')
 			;
 		if (!(flag = malloc(sizeof(char *) * index)))
-			return ;
+			return (0);
 		flag[--index] = 0;
 		while (index--)
 			flag[index] = line[index];
@@ -58,25 +62,29 @@ void		divide_line(char *line, t_file *file)
 			;
 		while (*++line == ' ')
 			;
-		dispatch_flag(flag, line, file);
+		if (dispatch_flag(flag, line, file))
+			return (1);
 		free(flag);
 	}
+	return (0);
 }
 
-void		scan_file(char *path, t_file *file)
+int	scan_file(char *path, t_file *file)
 {
 	int		fd;
 	char	*line;
 	int		ret;
 
 	if ((fd = open(path, O_RDONLY)) == -1)
-		return ;
+		return (0);
 	ret = 1;
 	while (ret)
 	{
 		ret = get_next_line(fd, &line);
-		divide_line(line, file);
+		if (divide_line(line, file))
+			return (1);
 		free(line);
 	}
 	close(fd);
+	return (0);
 }

@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f2.c                                               :+:      :+:    :+:   */
+/*   down.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/07 00:37:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 22:15:51 by ahallain         ###   ########.fr       */
+/*   Created: 2020/10/15 22:31:43 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/15 22:50:42 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mlx1.h"
+#include "../../../sources/mlx/mlx1.h"
 
-void	f2(t_runtime *runtime)
+void	down(t_runtime *runtime)
 {
-	runtime->save = true;
+	runtime->player.pitch -= (float)5 / MAX_FPS;
+	if (runtime->player.pitch < -1)
+		runtime->player.pitch = -1;
 }

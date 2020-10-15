@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:31:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:33:31 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/15 19:29:03 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ t_texture		texture(char *line);
 void			add_sprite(t_file *file, char *line);
 void			map_add(char *line, t_file *file);
 bool			verification(char **map);
-void			scan_file(char *path, t_file *file);
+int				scan_file(char *path, t_file *file);
 #endif

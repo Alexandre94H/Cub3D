@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f2.c                                               :+:      :+:    :+:   */
+/*   update.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/07 00:37:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 22:15:51 by ahallain         ###   ########.fr       */
+/*   Created: 2020/10/15 07:30:40 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/15 17:56:00 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mlx1.h"
+#ifndef UPDATE_H
+# define UPDATE_H
 
-void	f2(t_runtime *runtime)
-{
-	runtime->save = true;
-}
+int		texture_color(t_texture texture, t_resolution position);
+void	update_floor(t_runtime *runtime, t_ray ray);
+void	update_wall(t_runtime *runtime, t_ray ray);
+void	update_sprite(t_runtime *runtime, t_ray ray);
+#endif

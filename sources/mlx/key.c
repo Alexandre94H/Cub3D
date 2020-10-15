@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:44:56 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 18:40:05 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/15 22:34:58 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 void	update_keys(t_runtime *runtime)
 {
 	unsigned short	index;
+	t_key_f			key;
 
 	if (!runtime->player.updated)
-		return;
+		return ;
 	index = 0;
 	if (runtime->keys)
 		while (runtime->keys[index])
 		{
-			key key = runtime->keys[index++];
+			key = runtime->keys[index++];
 			if (*key)
 				(*key)(runtime);
 			runtime->player.updated = false;
@@ -36,17 +37,19 @@ int		press(int code, t_runtime *runtime)
 	t_key			*key;
 
 	index = 0;
-	while ((key = &key_board[index++])->input)
+	while ((key = &g_key_board[index++])->input)
 	{
 		if (key->input == code)
 		{
 			if (key->index != -1)
 				return (1);
 			key->index = array_add((void ***)&runtime->keys, key->function);
-			break;
+			break ;
 		}
 	}
 	update_keys(runtime);
+	ft_putnbr_fd(code, 1);
+	ft_putchar_fd('\n', 1);
 	return (0);
 }
 
@@ -59,7 +62,7 @@ int		release(int code, t_runtime *runtime)
 	if (!runtime->keys)
 		return (1);
 	index = 0;
-	while ((key = &key_board[index++])->input)
+	while ((key = &g_key_board[index++])->input)
 	{
 		if (key->input == code)
 		{
@@ -69,10 +72,10 @@ int		release(int code, t_runtime *runtime)
 			old_index = key->index;
 			key->index = -1;
 			index = 0;
-			while ((key = &key_board[index++])->input)
+			while ((key = &g_key_board[index++])->input)
 				if (key->index > old_index)
 					key->index--;
-			break;
+			break ;
 		}
 	}
 	return (0);

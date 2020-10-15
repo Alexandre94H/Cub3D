@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f2.c                                               :+:      :+:    :+:   */
+/*   alt.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/07 00:37:42 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 22:15:51 by ahallain         ###   ########.fr       */
+/*   Created: 2020/10/15 22:45:11 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/15 23:10:57 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mlx1.h"
+#define XK_MISCELLANY
+#include <X11/keysymdef.h>
+#include "../../../sources/mlx/mlx_full.h"
 
-void	f2(t_runtime *runtime)
+void	alt(t_runtime *runtime)
 {
-	runtime->save = true;
+	runtime->player.position.z = 0.9;
+	release(XK_Alt_L, runtime);
 }

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexandre <alexandre@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 14:54:23 by alexandre        ###   ########.fr       */
+/*   Updated: 2020/10/15 22:42:31 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <X11/X.h>
+#include <stdlib.h>
 #include "mlx_full.h"
 #include "../library.h"
 
@@ -27,62 +28,19 @@ void			check_resolution(void *mlx, t_file *file)
 		file->resolution.height = height;
 }
 
-t_texture		color(char *line)
+t_sprite		*malloc_sprite(t_sprite sprite)
 {
-	unsigned int	color;
-	t_texture		texture;
+	t_sprite	*copy;
 
-	color = ft_atoi(line);
-	while (*line >= '0' && *line <= '9')
-		line++;
-	while (*line < '0' || *line > '9')
-		line++;
-	color *= 16 * 16;
-	color += ft_atoi(line);
-	while (*line >= '0' && *line <= '9')
-		line++;
-	while (*line < '0' || *line > '9')
-		line++;
-	color *= 16 * 16;
-	color += ft_atoi(line);
-	texture = (t_texture){0, 0, {1, 1}};
-	if (!(texture.data = malloc(sizeof(unsigned int))))
-		return texture;
-	*texture.data = color;
-	return (texture);
-}
-
-unsigned int	*image_data(void *image, unsigned short width)
-{
-	unsigned int	bits_per_pixel;
-	unsigned char	endian;
-
-	bits_per_pixel = 32;
-	endian = 0;
-	width *= 4;
-	return ((unsigned int *)mlx_get_data_addr(image, (int *)&bits_per_pixel, (int *)&width, (int *)&endian));
-}
-
-void			init_texture(void *mlx, t_texture *texture, unsigned short width, unsigned short height)
-{
-	char		*path;
-
-	path = (char *)texture->data;
-	if (ft_strcchr(path, ','))
-		*texture = color(path);
-	else
-	{
-		texture->image = mlx_xpm_file_to_image(mlx, path, (int *)&width, (int *)&height);
-		texture->data = image_data(texture->image, width);
-		texture->resolution.width = width;
-		texture->resolution.height = height;
-	}
-	free(path);
+	if (!(copy = malloc(sizeof(t_sprite))))
+		return (0);
+	copy->position = sprite.position;
+	copy->index = sprite.index;
+	return (copy);
 }
 
 void			init_sprites(void *mlx, t_file *file, t_player *player)
 {
-	t_sprite		*sprite;
 	unsigned char	length;
 	unsigned short	x;
 	unsigned short	y;
@@ -96,14 +54,11 @@ void			init_sprites(void *mlx, t_file *file, t_player *player)
 		x = 0;
 		while (file->map[y][x])
 		{
-			if (file->map[y][x] >= '2' && file->map[y][x] <= '2' + length)
+			if (file->map[y][x] >= '2' && file->map[y][x] < '2' + length)
 			{
-				if (!(sprite = malloc(sizeof(t_sprite))))
-					return ;
-				sprite->position = (t_position) {x + 0.5, y + 0.5};
-				sprite->index = file->map[y][x] - '2';
+				array_add((void ***)&player->sprites, malloc_sprite(
+					(t_sprite){{x + 0.5, y + 0.5}, file->map[y][x] - '2'}));
 				file->map[y][x] = '0';
-				array_add((void ***)&player->sprites, sprite);
 			}
 			x++;
 		}
@@ -114,17 +69,20 @@ void			init_sprites(void *mlx, t_file *file, t_player *player)
 void			loop(char *name, t_runtime runtime)
 {
 	mlx_do_key_autorepeatoff(runtime.mlx.mlx);
-	runtime.mlx.window = mlx_new_window(runtime.mlx.mlx, runtime.file.resolution.width, runtime.file.resolution.height, name);
+	runtime.mlx.window = mlx_new_window(runtime.mlx.mlx,
+		runtime.file.resolution.width, runtime.file.resolution.height, name);
 	mlx_hook(runtime.mlx.window, KeyPress, KeyPressMask, press, &runtime);
 	mlx_hook(runtime.mlx.window, KeyRelease, KeyReleaseMask, release, &runtime);
-	mlx_loop_hook(runtime.mlx.mlx, update_image, &runtime);
+	mlx_loop_hook(runtime.mlx.mlx, update, &runtime);
 	mlx_loop(runtime.mlx.mlx);
 }
 
 void			init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 {
-	*mlx = (t_mlx) {mlx_init(), 0, 0, 0};
+	*mlx = (t_mlx) {mlx_init(), 0, 0, 0, 0};
 	check_resolution(mlx->mlx, file);
+	if (!(mlx->buffer = malloc(sizeof(float *) * file->resolution.width)))
+		return ;
 	init_texture(mlx->mlx, &file->north, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->south, TEXTURE_SIDE, TEXTURE_SIDE);
 	init_texture(mlx->mlx, &file->west, TEXTURE_SIDE, TEXTURE_SIDE);
