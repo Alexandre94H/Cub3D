@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:31:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:29:03 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 10:45:55 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include "file.h"
+
+# define TEXTURE_SIDE 64
 
 t_resolution	resolution(char *line);
 t_texture		texture(char *line);

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:31:54 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:42:18 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	dispatch_flag(char *flag, char *line, t_file *file)
 		file->ceil = texture(line);
 	else if (flag[0] == 'S')
 		add_sprite(file, line);
-	else if (flag[0] == 'B' && flag[1] == 'O' && flag[2] == 'N' && flag[3] == 'U' && flag[4] == 'S' && BONUS == 0)
+	else if (flag[0] == 'B' && flag[1] == 'O' && flag[2] == 'N'
+		&& flag[3] == 'U' && flag[4] == 'S' && BONUS == 0)
 		return (1);
 	return (0);
 }
@@ -46,11 +47,11 @@ int	divide_line(char *line, t_file *file)
 
 	if (*line == '\0')
 		return (0);
+	index = 0;
 	if (*line == '1' || *line == ' ')
 		map_add(line, file);
 	else
 	{
-		index = 0;
 		while (line[index++] != ' ')
 			;
 		if (!(flag = malloc(sizeof(char *) * index)))
@@ -62,11 +63,10 @@ int	divide_line(char *line, t_file *file)
 			;
 		while (*++line == ' ')
 			;
-		if (dispatch_flag(flag, line, file))
-			return (1);
+		index = dispatch_flag(flag, line, file);
 		free(flag);
 	}
-	return (0);
+	return (index);
 }
 
 int	scan_file(char *path, t_file *file)

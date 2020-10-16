@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:25:15 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 23:09:02 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:32:13 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 #include <mlx.h>
 #include "../mlx_full.h"
 #include "update.h"
-
-int		texture_color(t_texture texture, t_resolution position)
-{
-	return (texture.data[texture.resolution.width * (position.height & (texture.resolution.height - 1)) + (position.width & (texture.resolution.height - 1))]);
-}
 
 void	update_window(t_runtime *runtime)
 {
@@ -61,7 +56,7 @@ void	update_z(t_runtime *runtime)
 	float	amount;
 
 	if (!runtime->player.position.z)
-		return;
+		return ;
 	amount = (float)5 / MAX_FPS;
 	if (fabs(runtime->player.position.z) - amount < 0)
 		amount = runtime->player.position.z;

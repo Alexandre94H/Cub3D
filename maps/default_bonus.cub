@@ -1,17 +1,20 @@
 BONUS
 R 600 400
-NO assets/north.xpm
-SO assets/south.xpm
-WE assets/west.xpm
-EA assets/east.xpm
+NO assets/bonus_wall.xpm 1200 1200
+SO assets/bonus_wall.xpm 1200 1200
+WE assets/bonus_wall.xpm 1200 1200
+EA assets/bonus_wall.xpm 1200 1200
 
-S assets/sprite.xpm
-C assets/ceil.xpm
-F assets/floor.xpm
+C assets/bonus_ceil.xpm 626 626
+F assets/bonus_floor.xpm 480 480
+
+S assets/bonus_barrel.xpm 2325 3289
+S assets/bonus_barrel_coins.xpm 2325 3289
+S assets/bonus_barrel_dynamite.xpm 2325 3289
 
         1111111111111111111111111
         1000000000110000000000001
-        1011000001110000002000001
+        1011000001110040002000301
         1001000000000000000000001
 111111111011000001110000000000001
 100000000011000001110111110111111

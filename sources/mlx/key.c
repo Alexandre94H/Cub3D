@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:44:56 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 22:34:58 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 11:01:06 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	update_keys(t_runtime *runtime)
 	if (runtime->keys)
 		while (runtime->keys[index])
 		{
+			(void)key;
 			key = runtime->keys[index++];
 			if (*key)
 				(*key)(runtime);
@@ -48,8 +49,6 @@ int		press(int code, t_runtime *runtime)
 		}
 	}
 	update_keys(runtime);
-	ft_putnbr_fd(code, 1);
-	ft_putchar_fd('\n', 1);
 	return (0);
 }
 

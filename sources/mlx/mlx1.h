@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:57:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:22:58 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:34:07 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include "../file/file.h"
 # include "../player/player.h"
 
-# define MAX_FPS 24
-
+# define MAX_FPS 60
 
 typedef struct	s_mlx
 {

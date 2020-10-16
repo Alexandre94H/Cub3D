@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 20:12:17 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 18:39:16 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct	s_resolution
 typedef struct	s_texture
 {
 	void			*image;
-	unsigned int	*data;
+	int				*data;
 	t_resolution	resolution;
 }				t_texture;
 

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:38:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:44:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 10:44:37 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ int		ft_atoi(char *str)
 	return (nbr * multiply);
 }
 
-void	*ft_strdup(char *str)
+void	*ft_strdup(char *str, size_t length)
 {
 	char	*ret;
 	size_t	index;
 
-	index = ft_strlen(str, 0);
+	if (length)
+		index = length;
+	else
+		index = ft_strlen(str, 0);
 	if (!(ret = malloc(sizeof(char *) * (index + 1))))
 		return (0);
 	ret[index] = 0;

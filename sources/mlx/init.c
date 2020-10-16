@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 22:42:31 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 10:52:49 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			init_sprites(void *mlx, t_file *file, t_player *player)
 
 	length = 0;
 	while (file->sprites[length])
-		init_texture(mlx, file->sprites[length++], TEXTURE_SIDE, TEXTURE_SIDE);
+		init_texture(mlx, file->sprites[length++]);
 	y = 0;
 	while (file->map[y])
 	{
@@ -83,11 +83,11 @@ void			init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 	check_resolution(mlx->mlx, file);
 	if (!(mlx->buffer = malloc(sizeof(float *) * file->resolution.width)))
 		return ;
-	init_texture(mlx->mlx, &file->north, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->south, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->west, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->east, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->floor, TEXTURE_SIDE, TEXTURE_SIDE);
-	init_texture(mlx->mlx, &file->ceil, TEXTURE_SIDE, TEXTURE_SIDE);
+	init_texture(mlx->mlx, &file->north);
+	init_texture(mlx->mlx, &file->south);
+	init_texture(mlx->mlx, &file->west);
+	init_texture(mlx->mlx, &file->east);
+	init_texture(mlx->mlx, &file->floor);
+	init_texture(mlx->mlx, &file->ceil);
 	init_sprites(mlx->mlx, file, player);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 22:05:26 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 22:54:15 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 10:51:23 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "mlx1.h"
 
-# define TEXTURE_SIDE 64
 # define FOV 70
 
 typedef struct	s_ray {
@@ -31,7 +30,5 @@ int				release(int key, t_runtime *runtime);
 void			update_keys(t_runtime *runtime);
 void			bitmap(char *filename, t_runtime *runtime);
 void			end(t_runtime *runtime);
-void			init_texture(void *mlx, t_texture *texture,
-	unsigned short width, unsigned short height);
-int				release(int code, t_runtime *runtime);
+void			init_texture(void *mlx, t_texture *texture);
 #endif

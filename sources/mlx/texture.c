@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 06:19:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 07:12:48 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/16 19:38:39 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "../file/file.h"
 #include "../library.h"
 
-t_texture		color(char *line)
+t_texture	color(char *line)
 {
-	unsigned int	color;
-	t_texture		texture;
+	int			color;
+	t_texture	texture;
 
 	color = ft_atoi(line);
 	while (*line >= '0' && *line <= '9')
@@ -39,7 +39,7 @@ t_texture		color(char *line)
 	return (texture);
 }
 
-unsigned int	*image_data(void *image, unsigned short width)
+int			*image_data(void *image, unsigned short width)
 {
 	unsigned int	bits_per_pixel;
 	unsigned char	endian;
@@ -47,12 +47,11 @@ unsigned int	*image_data(void *image, unsigned short width)
 	bits_per_pixel = 32;
 	endian = 0;
 	width *= 4;
-	return ((unsigned int *)mlx_get_data_addr(image, (int *)&bits_per_pixel,
+	return ((int *)mlx_get_data_addr(image, (int *)&bits_per_pixel,
 		(int *)&width, (int *)&endian));
 }
 
-void			init_texture(void *mlx, t_texture *texture,
-	unsigned short width, unsigned short height)
+void		init_texture(void *mlx, t_texture *texture)
 {
 	char		*path;
 
@@ -62,10 +61,9 @@ void			init_texture(void *mlx, t_texture *texture,
 	else
 	{
 		texture->image = mlx_xpm_file_to_image(mlx, path,
-			(int *)&width, (int *)&height);
-		texture->data = image_data(texture->image, width);
-		texture->resolution.width = width;
-		texture->resolution.height = height;
+			(int *)&texture->resolution.width,
+			(int *)&texture->resolution.height);
+		texture->data = image_data(texture->image, texture->resolution.width);
 	}
 	free(path);
 }
