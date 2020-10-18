@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:57:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 19:34:07 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/17 19:25:15 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ struct			s_runtime
 };
 
 void			init_mlx(t_file *file, t_mlx *mlx, t_player *player);
-void			loop(char *name, t_runtime runtime);
+void			loop(char *name, t_runtime runtime, bool save);
 #endif

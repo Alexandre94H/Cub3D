@@ -6,13 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:39:02 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:44:55 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/17 19:27:37 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-short			array_add(void ***list, void *item)
+short			ft_array_add(void ***list, void *item)
 {
 	unsigned short	length;
 	void			**new;
@@ -35,7 +35,7 @@ short			array_add(void ***list, void *item)
 	return (index);
 }
 
-void			array_remove(void ***list, unsigned short index)
+void			ft_array_remove(void ***list, unsigned short index)
 {
 	unsigned short	length;
 	void			**new;

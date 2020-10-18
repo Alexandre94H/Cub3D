@@ -3,6 +3,7 @@ SOURCES				=	libraries/get_next_line/get_next_line.c \
 						sources/error.c \
 						sources/library_1.c \
 						sources/library_2.c \
+						sources/library_3.c \
 						sources/file/flag.c \
 						sources/file/map.c \
 						sources/file/scan.c \

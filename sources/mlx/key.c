@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 14:44:56 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 11:01:06 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/17 19:31:40 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		press(int code, t_runtime *runtime)
 		{
 			if (key->index != -1)
 				return (1);
-			key->index = array_add((void ***)&runtime->keys, key->function);
+			key->index = ft_array_add((void ***)&runtime->keys, key->function);
 			break ;
 		}
 	}
@@ -67,7 +67,7 @@ int		release(int code, t_runtime *runtime)
 		{
 			if (key->index == -1)
 				return (1);
-			array_remove((void ***)&runtime->keys, key->index);
+			ft_array_remove((void ***)&runtime->keys, key->index);
 			old_index = key->index;
 			key->index = -1;
 			index = 0;

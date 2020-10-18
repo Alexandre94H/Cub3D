@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:25:15 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 19:32:13 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/18 04:42:33 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	update_window(t_runtime *runtime)
 	update_floor(runtime, ray);
 	update_wall(runtime, ray);
 	update_sprite(runtime, ray);
-	mlx_put_image_to_window(runtime->mlx.mlx,
-		runtime->mlx.window, runtime->mlx.image, 0, 0);
+	if (runtime->mlx.window)
+		mlx_put_image_to_window(runtime->mlx.mlx,
+			runtime->mlx.window, runtime->mlx.image, 0, 0);
 	runtime->player.updated = true;
 }
 

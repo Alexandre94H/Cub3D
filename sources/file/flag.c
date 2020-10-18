@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 23:24:47 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 19:53:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/17 19:31:32 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void			add_sprite(t_file *file, char *line)
 	}
 	else
 		sprite->resolution = (t_resolution){TEXTURE_SIDE, TEXTURE_SIDE};
-	array_add((void ***)&file->sprites, sprite);
+	ft_array_add((void ***)&file->sprites, sprite);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 20:05:46 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:27:07 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/17 19:39:05 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "file/file.h"
 #include "player/player.h"
 #include "mlx/mlx1.h"
+#include "library.h"
 
 int	main(int argc, char **argv)
 {
@@ -32,7 +33,7 @@ int	main(int argc, char **argv)
 	if (!ret)
 	{
 		init_mlx(&file, &mlx, &player);
-		loop(*argv + 2, (t_runtime) {file, player, mlx, 0, 0, 0});
+		loop(*argv + 2, (t_runtime) {file, player, mlx, 0, 0, 0}, ft_equals(argv[2], "--save"));
 	}
 	return (error(ret));
 }
