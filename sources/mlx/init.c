@@ -6,12 +6,12 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/17 19:43:10 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/18 12:57:45 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# define XK_MISCELLANY
-# include <X11/keysymdef.h>
+#define XK_MISCELLANY
+#include <X11/keysymdef.h>
 #include <mlx.h>
 #include <X11/X.h>
 #include <stdlib.h>
@@ -79,11 +79,14 @@ void			loop(char *name, t_runtime runtime, bool save)
 	}
 	else
 	{
-		check_resolution(runtime.mlx.mlx, &runtime.file.resolution);
+		check_resolution(runtime.mlx.mlx,
+			&runtime.file.resolution);
 		runtime.mlx.window = mlx_new_window(runtime.mlx.mlx,
-			runtime.file.resolution.width, runtime.file.resolution.height, name);
+			runtime.file.resolution.width, runtime.file.resolution.height,
+				name);
 		mlx_hook(runtime.mlx.window, KeyPress, KeyPressMask, press, &runtime);
-		mlx_hook(runtime.mlx.window, KeyRelease, KeyReleaseMask, release, &runtime);
+		mlx_hook(runtime.mlx.window, KeyRelease, KeyReleaseMask, release,
+			&runtime);
 		mlx_loop_hook(runtime.mlx.mlx, update, &runtime);
 		mlx_loop(runtime.mlx.mlx);
 	}

@@ -23,6 +23,7 @@ SOURCES				=	libraries/get_next_line/get_next_line.c \
 						sources/mlx/key.c \
 						sources/mlx/update/floor.c \
 						sources/mlx/update/wall.c \
+						sources/mlx/update/sprite_loop.c \
 						sources/mlx/update/sprite.c \
 						sources/mlx/update/update.c \
 						sources/mlx/texture.c \

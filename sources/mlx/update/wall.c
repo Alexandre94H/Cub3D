@@ -6,11 +6,10 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:32:54 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:03:06 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/18 22:18:12 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include <stdbool.h>
 #include "../mlx_full.h"
 

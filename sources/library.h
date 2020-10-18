@@ -6,14 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:50:50 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/17 19:28:27 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/18 12:53:53 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBRARY_H
 # define LIBRARY_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 # include "../libraries/get_next_line/get_next_line.h"
 
 typedef struct	s_list
@@ -30,5 +30,4 @@ short			ft_array_add(void ***list, void *item);
 void			ft_array_remove(void ***list, unsigned short index);
 char			*ft_itoa(int n);
 bool			ft_equals(char *str, char *str1);
-
 #endif

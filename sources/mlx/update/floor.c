@@ -6,15 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:32:39 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 20:03:28 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/18 22:18:04 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "../mlx_full.h"
 #include "update.h"
-
-#include "../../library.h"
 
 void		floor_color(t_runtime *runtime, bool is_floor, t_position floor,
 	t_resolution position)
