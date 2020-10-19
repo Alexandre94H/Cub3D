@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:33:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 10:15:34 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 12:38:51 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ t_resolution	sprite_y(t_runtime runtime, t_position transform,
 
 	screen_move = runtime.player.pitch * 200
 		+ runtime.player.position.z * 200 / transform.y;
-	max = -sprite.height / 2
+	max = -1 * sprite.height / 2
 		+ runtime.file.resolution.height / 2 + screen_move;
 	if (max < 0)
 		max = 0;
-	y_max = (t_resolution){max, sprite.height / 2
-		+ runtime.file.resolution.height / 2 + screen_move};
+	y_max.width = max;
+	max = sprite.height / 2
+		+ runtime.file.resolution.height / 2 + screen_move;
+	if (max < 0)
+		max = 0;
+	y_max.height = max;
 	if (y_max.height >= runtime.file.resolution.height)
 		y_max.height = runtime.file.resolution.height - 1;
 	return (y_max);
