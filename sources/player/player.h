@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:36:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:36:37 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 20:41:06 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ typedef struct	s_player
 	bool			updated;
 }				t_player;
 
-int				init_player(char **map, t_player *player);
+unsigned char	init_player(char **map, t_player *player);
 #endif

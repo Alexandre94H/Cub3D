@@ -6,12 +6,12 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:50:36 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:50:41 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 20:18:27 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_H
 # define ERROR_H
 
-int		error(int error);
+int	error(unsigned char error);
 #endif

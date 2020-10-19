@@ -6,13 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 20:18:33 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:26:28 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 23:41:41 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 
-float	degree(char c)
+float			degree(char c)
 {
 	if (c == 'E')
 		return (90);
@@ -23,7 +23,7 @@ float	degree(char c)
 	return (0);
 }
 
-int		init_player(char **map, t_player *player)
+unsigned char	init_player(char **map, t_player *player)
 {
 	unsigned short x;
 	unsigned short y;

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 20:05:46 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:55:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 23:49:32 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 int	main(int argc, char **argv)
 {
-	int			ret;
-	t_file		file;
-	t_player	player;
-	t_mlx		mlx;
+	unsigned char	ret;
+	t_file			file;
+	t_player		player;
+	t_mlx			mlx;
 
 	ret = 0;
 	if (argc == 1)
@@ -31,10 +31,9 @@ int	main(int argc, char **argv)
 	if (!ret)
 		ret = init_player(file.map, &player);
 	if (!ret)
-	{
-		init_mlx(&file, &mlx, &player);
+		ret = init_mlx(&file, &mlx, &player);
+	if (!ret)
 		loop(*argv + 2, (t_runtime) {file, player, mlx, 0, 0, 0},
 			ft_equals(argv[2], "--save"));
-	}
 	return (error(ret));
 }

@@ -6,13 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 21:11:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 19:27:01 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 20:18:17 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "library.h"
 
-int		error(int error)
+int		error(unsigned char error)
 {
 	if (!error)
 		return (0);

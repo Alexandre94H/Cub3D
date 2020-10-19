@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:57:45 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 23:50:15 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,33 @@ t_sprite		*malloc_sprite(t_sprite sprite)
 	return (copy);
 }
 
-void			init_sprites(void *mlx, t_file *file, t_player *player)
+unsigned short	init_sprites(void *mlx, t_file *file, t_player *player)
 {
 	unsigned char	length;
 	unsigned short	x;
 	unsigned short	y;
 
+	x = 0;
 	length = 0;
-	while (file->sprites[length])
-		init_texture(mlx, file->sprites[length++]);
-	y = 0;
-	while (file->map[y])
-	{
-		x = 0;
-		while (file->map[y][x])
+	while (!x && file->sprites[length])
+		x = init_texture(mlx, file->sprites[length++]);
+	y = -1;
+	if (!x)
+		while (file->map[++y])
 		{
-			if (file->map[y][x] >= '2' && file->map[y][x] < '2' + length)
+			while (file->map[y][x])
 			{
-				ft_array_add((void ***)&player->sprites, malloc_sprite(
-					(t_sprite){{x + 0.5, y + 0.5}, file->map[y][x] - '2'}));
-				file->map[y][x] = '0';
+				if (file->map[y][x] >= '2' && file->map[y][x] < '2' + length)
+				{
+					ft_array_add((void ***)&player->sprites, malloc_sprite(
+						(t_sprite){{x + 0.5, y + 0.5}, file->map[y][x] - '2'}));
+					file->map[y][x] = '0';
+				}
+				x++;
 			}
-			x++;
+			x = 0;
 		}
-		y++;
-	}
+	return (x);
 }
 
 void			loop(char *name, t_runtime runtime, bool save)
@@ -93,16 +95,19 @@ void			loop(char *name, t_runtime runtime, bool save)
 	update(&runtime);
 }
 
-void			init_mlx(t_file *file, t_mlx *mlx, t_player *player)
+unsigned char	init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 {
+	unsigned char	ret;
+
 	*mlx = (t_mlx) {mlx_init(), 0, 0, 0, 0};
 	if (!(mlx->buffer = malloc(sizeof(float *) * file->resolution.width)))
-		return ;
-	init_texture(mlx->mlx, &file->north);
-	init_texture(mlx->mlx, &file->south);
-	init_texture(mlx->mlx, &file->west);
-	init_texture(mlx->mlx, &file->east);
-	init_texture(mlx->mlx, &file->floor);
-	init_texture(mlx->mlx, &file->ceil);
-	init_sprites(mlx->mlx, file, player);
+		return (2);
+	ret = init_texture(mlx->mlx, &file->north);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->south);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->west);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->east);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->floor);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->ceil);
+	ret = ret ? ret : init_sprites(mlx->mlx, file, player);
+	return (ret);
 }

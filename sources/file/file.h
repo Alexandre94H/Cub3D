@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/17 19:21:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 20:40:32 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ typedef struct	s_file
 	char			**map;
 }				t_file;
 
-int				init_file(char *path, t_file *file);
+unsigned char	init_file(char *path, t_file *file);
 #endif
