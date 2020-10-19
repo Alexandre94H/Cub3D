@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 23:16:11 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 23:26:58 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/19 10:26:22 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	sprite_loop_y(t_runtime *runtime, t_sprite_variable sprite,
 	unsigned short	y;
 	unsigned short	texture_x;
 
-	texture_x = (x - (-sprite.sprite.width / 2 + (short)(runtime->file.
+	texture_x = (x - (-sprite.sprite.width / 2 + (signed)(runtime->file.
 		resolution.width / 2 * (1 + sprite.transform.x / sprite.
 		transform.y)))) * sprite.texture.resolution.width
 		/ sprite.sprite.width;
@@ -38,10 +38,10 @@ void	sprite_loop_y(t_runtime *runtime, t_sprite_variable sprite,
 	while (y < y_max.height)
 	{
 		sprite_color(runtime, (t_resolution){x, y}, sprite.texture,
-		(t_resolution){texture_x, (y - runtime->player.pitch * 200 -
-		runtime->player.position.z * 200 / sprite.transform.y + (sprite.
-		sprite.height - runtime->file.resolution.height) / 2) * sprite.
-		texture.resolution.height / sprite.sprite.height});
+			(t_resolution){texture_x, ((y - (signed)(runtime->player.pitch * 200
+			+ runtime->player.position.z * 200 / sprite.transform.y))
+			+ (sprite.sprite.height - runtime->file.resolution.height) / 2)
+			* sprite.texture.resolution.height / sprite.sprite.height});
 		y++;
 	}
 }
