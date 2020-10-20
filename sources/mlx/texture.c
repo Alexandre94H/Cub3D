@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 06:19:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 15:48:27 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 20:39:17 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,24 @@ unsigned char	init_texture(void *mlx, t_texture *texture)
 {
 	char		*path;
 	int			fd;
+	int			ret;
 
 	path = (char *)texture->data;
+	ret = 0;
 	if (ft_strcchr(path, ','))
-		return (color(path, texture));
-	if (ft_strstr(path, ".xpm")
+		ret = color(path, texture);
+	else if (ft_strstr(path, ".xpm")
 		!= (int)(ft_strlen(path, 0) - ft_strlen(".xpm", 0))
 		|| (fd = open(path, O_RDONLY) == -1))
-		return (2);
-	close(fd);
-	texture->image = mlx_xpm_file_to_image(mlx, path,
-		(int *)&texture->resolution.width,
-		(int *)&texture->resolution.height);
-	texture->data = image_data(texture->image, texture->resolution.width);
+		ret = 2;
+	else
+	{
+		close(fd);
+		texture->image = mlx_xpm_file_to_image(mlx, path,
+			(int *)&texture->resolution.width,
+			(int *)&texture->resolution.height);
+		texture->data = image_data(texture->image, texture->resolution.width);
+	}
 	free(path);
-	return (0);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 18:42:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:55:34 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 20:09:56 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	leave(t_runtime *runtime)
 	free_texture(runtime->mlx.mlx, &runtime->file.west);
 	free_texture(runtime->mlx.mlx, &runtime->file.floor);
 	free_texture(runtime->mlx.mlx, &runtime->file.ceil);
+	free(runtime->mlx.buffer);
 }
 
 void	stop(t_runtime *runtime)

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:38:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 13:57:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:58:33 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		ft_atoi(const char *str)
 	return (nbr * multiply);
 }
 
-void	*ft_strdup(const char *str, const size_t length)
+char	*ft_strdup(const char *str, const size_t length)
 {
 	char	*ret;
 	size_t	index;
