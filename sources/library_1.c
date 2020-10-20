@@ -6,25 +6,26 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:38:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:53:36 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:57:40 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "library.h"
 
-void	ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(const char c, const int fd)
 {
 	write(fd, &c, 1);
 }
 
-void	ft_putstr_fd(char *str, int fd)
+void	ft_putstr_fd(const char *str, const int fd)
 {
 	while (*str)
 		ft_putchar_fd(*str++, fd);
 }
 
-void	ft_putnbr_fd(int nbr, int fd)
+void	ft_putnbr_fd(int nbr, const int fd)
 {
 	if (nbr < 0)
 	{
@@ -41,7 +42,7 @@ void	ft_putnbr_fd(int nbr, int fd)
 	ft_putchar_fd(nbr % 10 + '0', fd);
 }
 
-int		ft_atoi(char *str)
+int		ft_atoi(const char *str)
 {
 	char	multiply;
 	int		nbr;
@@ -62,7 +63,7 @@ int		ft_atoi(char *str)
 	return (nbr * multiply);
 }
 
-void	*ft_strdup(char *str, size_t length)
+void	*ft_strdup(const char *str, const size_t length)
 {
 	char	*ret;
 	size_t	index;

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 20:05:46 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 23:49:32 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 06:16:55 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	main(int argc, char **argv)
 		ret = init_mlx(&file, &mlx, &player);
 	if (!ret)
 		loop(*argv + 2, (t_runtime) {file, player, mlx, 0, 0, 0},
-			ft_equals(argv[2], "--save"));
+			ft_equals(ft_tolower(argv[2]), "--save"));
 	return (error(ret));
 }

@@ -6,13 +6,13 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:39:02 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/17 19:27:37 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:58:22 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-short			ft_array_add(void ***list, void *item)
+short			ft_array_add(void ***list, const void *item)
 {
 	unsigned short	length;
 	void			**new;
@@ -25,7 +25,7 @@ short			ft_array_add(void ***list, void *item)
 	if (!(new = malloc(sizeof(*list) * (length + 2))))
 		return (-1);
 	new[length + 1] = 0;
-	new[length] = item;
+	new[length] = (void *)item;
 	index = length;
 	while (length--)
 		new[length] = (*list)[length];
@@ -35,7 +35,7 @@ short			ft_array_add(void ***list, void *item)
 	return (index);
 }
 
-void			ft_array_remove(void ***list, unsigned short index)
+void			ft_array_remove(void ***list, const unsigned short index)
 {
 	unsigned short	length;
 	void			**new;
@@ -107,7 +107,7 @@ static char		*ft_setnbr(int n, char *nbr)
 	return (nbr);
 }
 
-char			*ft_itoa(int n)
+char			*ft_itoa(const int n)
 {
 	char *nbr;
 

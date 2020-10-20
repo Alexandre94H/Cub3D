@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:18 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 06:22:43 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:56:54 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #  define BUFFER_SIZE 32
 # endif
 
-# include <stdlib.h>
+# include <stddef.h>
 
-int		ft_strcchr(char *src, int c);
-size_t	ft_strlen(char *src, int c);
-char	*ft_stradd(char **dst, char *str);
-char	*ft_firstchr(char *src, int c);
-char	*ft_chrmove(char **dst, int c);
+int		ft_strcchr(const char *src, const int c);
+size_t	ft_strlen(const char *src, const int c);
+char	*ft_stradd(char **dst, const char *str);
+char	*ft_firstchr(const char *src, const int c);
+char	*ft_chrmove(char **dst, const int c);
 int		get_next_line(int fd, char **line);
 
 #endif

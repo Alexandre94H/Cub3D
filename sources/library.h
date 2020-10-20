@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:50:50 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 12:53:53 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:52:38 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ typedef struct	s_list
 	void*	items[255];
 }				t_list;
 
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *str, int fd);
-void			ft_putnbr_fd(int nbr, int fd);
-int				ft_atoi(char *str);
-void			*ft_strdup(char *str, size_t length);
-short			ft_array_add(void ***list, void *item);
-void			ft_array_remove(void ***list, unsigned short index);
-char			*ft_itoa(int n);
-bool			ft_equals(char *str, char *str1);
+void			ft_putchar_fd(const char c, const int fd);
+void			ft_putstr_fd(const char *str, const int fd);
+void			ft_putnbr_fd(int nbr, const int fd);
+int				ft_atoi(const char *str);
+void			*ft_strdup(const char *str, const size_t length);
+short			ft_array_add(void ***list, const void *item);
+void			ft_array_remove(void ***list, const unsigned short index);
+char			*ft_itoa(const int n);
+bool			ft_equals(const char *str, const char *str1);
+char			*ft_tolower(char *str);
+int				ft_strstr(const char *str, const char *chunk);
 #endif

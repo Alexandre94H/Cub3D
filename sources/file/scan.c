@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 22:12:46 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 14:14:57 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ int	scan_file(char *path, t_file *file)
 	int				ret;
 	unsigned char	error;
 
-	if ((fd = open(path, O_RDONLY)) == -1)
+	if (ft_strstr(path, ".cub")
+		!= (int)(ft_strlen(path, 0) - ft_strlen(".cub", 0))
+		|| (fd = open(path, O_RDONLY)) == -1)
 		return (2);
 	ret = 1;
 	while (ret)

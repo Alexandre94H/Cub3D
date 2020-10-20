@@ -6,11 +6,12 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:27 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/15 06:23:37 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:57:28 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "get_next_line.h"
 
 int		get_next_line_init(char **line, char **memory, char **buffer)

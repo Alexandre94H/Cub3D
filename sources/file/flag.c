@@ -6,10 +6,11 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 23:24:47 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 23:40:26 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:58:39 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "file_full.h"
 #include "../library.h"
 

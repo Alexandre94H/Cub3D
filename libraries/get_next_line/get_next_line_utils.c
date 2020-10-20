@@ -6,13 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 20:13:58 by ahallain          #+#    #+#             */
-/*   Updated: 2020/06/05 08:33:05 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 13:57:13 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "get_next_line.h"
 
-int		ft_strcchr(char *src, int c)
+int		ft_strcchr(const char *src, const int c)
 {
 	while (*src)
 		if (*src++ == c)
@@ -20,7 +21,7 @@ int		ft_strcchr(char *src, int c)
 	return (0);
 }
 
-size_t	ft_strlen(char *src, int c)
+size_t	ft_strlen(const char *src, const int c)
 {
 	size_t len;
 
@@ -30,7 +31,7 @@ size_t	ft_strlen(char *src, int c)
 	return (len);
 }
 
-char	*ft_stradd(char **dst, char *str)
+char	*ft_stradd(char **dst, const char *str)
 {
 	char	*res;
 	size_t	index;
@@ -57,7 +58,7 @@ char	*ft_stradd(char **dst, char *str)
 	return (res);
 }
 
-char	*ft_firstchr(char *src, int c)
+char	*ft_firstchr(const char *src, const int c)
 {
 	char	*res;
 	size_t	len;
@@ -71,7 +72,7 @@ char	*ft_firstchr(char *src, int c)
 	return (res);
 }
 
-char	*ft_chrmove(char **dst, int c)
+char	*ft_chrmove(char **dst, const int c)
 {
 	char	*res;
 	size_t	index;

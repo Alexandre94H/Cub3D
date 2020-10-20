@@ -6,11 +6,12 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 06:19:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 23:43:01 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 14:15:04 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <mlx.h>
 #include "../file/file.h"
 #include "../library.h"
@@ -60,7 +61,9 @@ unsigned char	init_texture(void *mlx, t_texture *texture)
 	path = (char *)texture->data;
 	if (ft_strcchr(path, ','))
 		return (color(path, texture));
-	if (access(path, F_OK) == -1)
+	if (ft_strstr(path, ".xpm")
+		!= (int)(ft_strlen(path, 0) - ft_strlen(".xpm", 0))
+		|| access(path, F_OK) == -1)
 		return (2);
 	texture->image = mlx_xpm_file_to_image(mlx, path,
 		(int *)&texture->resolution.width,
