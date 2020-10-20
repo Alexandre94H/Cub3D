@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:31:13 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/14 21:33:47 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 16:32:52 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "file_full.h"
 #include "../library.h"
 
-void	str_add(char **str, char c)
+void			str_add(char **str, char c)
 {
 	unsigned int	length;
 	char			*ret;
@@ -36,7 +36,7 @@ void	str_add(char **str, char c)
 	*str = ret;
 }
 
-void	map_add(char *line, t_file *file)
+unsigned char	map_add(char *line, t_file *file)
 {
 	unsigned short	length;
 	char			**copy;
@@ -48,7 +48,7 @@ void	map_add(char *line, t_file *file)
 	length++;
 	copy = file->map;
 	if (!(file->map = malloc(sizeof(char **) * (length + 1))))
-		return ;
+		return (0);
 	file->map[length] = 0;
 	file->map[--length] = 0;
 	while (*line)
@@ -62,4 +62,5 @@ void	map_add(char *line, t_file *file)
 			file->map[length] = copy[length];
 	if (copy)
 		free(copy);
+	return (0);
 }

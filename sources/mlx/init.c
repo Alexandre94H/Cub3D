@@ -6,12 +6,10 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 19:28:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 23:50:15 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:15:00 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define XK_MISCELLANY
-#include <X11/keysymdef.h>
 #include <mlx.h>
 #include <X11/X.h>
 #include <stdlib.h>
@@ -71,30 +69,6 @@ unsigned short	init_sprites(void *mlx, t_file *file, t_player *player)
 	return (x);
 }
 
-void			loop(char *name, t_runtime runtime, bool save)
-{
-	mlx_do_key_autorepeatoff(runtime.mlx.mlx);
-	if (save)
-	{
-		press(XK_F2, &runtime);
-		press(XK_Escape, &runtime);
-	}
-	else
-	{
-		check_resolution(runtime.mlx.mlx,
-			&runtime.file.resolution);
-		runtime.mlx.window = mlx_new_window(runtime.mlx.mlx,
-			runtime.file.resolution.width, runtime.file.resolution.height,
-				name);
-		mlx_hook(runtime.mlx.window, KeyPress, KeyPressMask, press, &runtime);
-		mlx_hook(runtime.mlx.window, KeyRelease, KeyReleaseMask, release,
-			&runtime);
-		mlx_loop_hook(runtime.mlx.mlx, update, &runtime);
-		mlx_loop(runtime.mlx.mlx);
-	}
-	update(&runtime);
-}
-
 unsigned char	init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 {
 	unsigned char	ret;
@@ -104,10 +78,10 @@ unsigned char	init_mlx(t_file *file, t_mlx *mlx, t_player *player)
 		return (2);
 	ret = init_texture(mlx->mlx, &file->north);
 	ret = ret ? ret : init_texture(mlx->mlx, &file->south);
-	ret = ret ? ret : init_texture(mlx->mlx, &file->west);
 	ret = ret ? ret : init_texture(mlx->mlx, &file->east);
-	ret = ret ? ret : init_texture(mlx->mlx, &file->floor);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->west);
 	ret = ret ? ret : init_texture(mlx->mlx, &file->ceil);
+	ret = ret ? ret : init_texture(mlx->mlx, &file->floor);
 	ret = ret ? ret : init_sprites(mlx->mlx, file, player);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 23:24:47 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 13:58:39 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:03:03 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ t_texture		texture(char *line)
 
 	texture = (t_texture) {0, 0, {TEXTURE_SIDE, TEXTURE_SIDE}};
 	length = 0;
-	while (line[length] && line[++length] != ' ')
-		;
+	if (!ft_strcchr(line, ','))
+		while (line[length] && line[++length] != ' ')
+			;
 	texture.data = ft_strdup(line, length);
 	while (line[++length] == ' ')
 		;

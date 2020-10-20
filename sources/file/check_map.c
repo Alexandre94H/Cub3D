@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/08 21:19:38 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 17:42:15 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,19 @@ bool	verification(char **map)
 		if (x == begin && y == 0)
 			break ;
 	}
+	return (true);
+}
+
+bool	is_init(t_file file)
+{
+	if (!file.resolution.width
+		|| !file.north.data
+		|| !file.south.data
+		|| !file.east.data
+		|| !file.west.data
+		|| !file.floor.data
+		|| !file.ceil.data
+		|| !file.sprites)
+		return (false);
 	return (true);
 }

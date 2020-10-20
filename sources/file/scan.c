@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 14:14:57 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:04:40 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "file_full.h"
 #include "../library.h"
 
-int	dispatch_flag(char *flag, char *line, t_file *file)
+unsigned char	dispatch_flag(char *flag, char *line, t_file *file)
 {
 	if (flag[0] == 'R' && !file->resolution.width)
 		file->resolution = resolution(line);
@@ -24,54 +24,56 @@ int	dispatch_flag(char *flag, char *line, t_file *file)
 		file->north = texture(line);
 	else if (flag[0] == 'S' && flag[1] == 'O' && !file->south.data)
 		file->south = texture(line);
-	else if (flag[0] == 'W' && flag[1] == 'E' && !file->west.data)
-		file->west = texture(line);
 	else if (flag[0] == 'E' && flag[1] == 'A' && !file->east.data)
 		file->east = texture(line);
-	else if (flag[0] == 'F' && !file->floor.data)
-		file->floor = texture(line);
+	else if (flag[0] == 'W' && flag[1] == 'E' && !file->west.data)
+		file->west = texture(line);
 	else if (flag[0] == 'C' && !file->ceil.data)
 		file->ceil = texture(line);
+	else if (flag[0] == 'F' && !file->floor.data)
+		file->floor = texture(line);
 	else if (flag[0] == 'S')
-		add_sprite(file, line);
-	else if (flag[0] == 'B' && flag[1] == 'O' && flag[2] == 'N'
-		&& flag[3] == 'U' && flag[4] == 'S' && !BONUS)
+		if (file->map)
+			return (2);
+		else
+			add_sprite(file, line);
+	else if (flag[0] == 'B' && !BONUS)
 		return (3);
 	else if (!BONUS && flag[0])
 		return (2);
 	return (0);
 }
 
-int	divide_line(char *line, t_file *file)
+unsigned char	divide_line(char *line, t_file *file)
 {
 	unsigned int	index;
 	char			*flag;
 
 	if (*line == '\0')
-		return (0);
-	index = 0;
-	if (*line == '1' || *line == ' ')
-		map_add(line, file);
-	else
-	{
-		while (line[index++] != ' ')
-			;
-		if (!(flag = malloc(sizeof(char *) * index)))
+		if (file->map)
+			return (2);
+		else
 			return (0);
-		flag[--index] = 0;
-		while (index--)
-			flag[index] = line[index];
-		while (*++line != ' ')
-			;
-		while (*++line == ' ')
-			;
-		index = dispatch_flag(flag, line, file);
-		free(flag);
-	}
+	else if ((*line == '1' || *line == ' ') && is_init(*file))
+		return (map_add(line, file));
+	index = 0;
+	while (line[index++] != ' ')
+		;
+	if (!(flag = malloc(sizeof(char *) * index)))
+		return (0);
+	flag[--index] = 0;
+	while (index--)
+		flag[index] = line[index];
+	while (*++line != ' ')
+		;
+	while (*++line == ' ')
+		;
+	index = dispatch_flag(flag, line, file);
+	free(flag);
 	return (index);
 }
 
-int	scan_file(char *path, t_file *file)
+unsigned char	scan_file(char *path, t_file *file)
 {
 	int				fd;
 	char			*line;

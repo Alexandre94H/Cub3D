@@ -27,6 +27,7 @@ SOURCES				=	libraries/get_next_line/get_next_line.c \
 						sources/mlx/update/sprite.c \
 						sources/mlx/update/update.c \
 						sources/mlx/texture.c \
+						sources/mlx/loop.c \
 						sources/mlx/init.c \
 						sources/main.c
 SOURCES_BONUS		=	bonus/mlx/keys/up.c \

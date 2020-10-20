@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 23:36:53 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 20:40:32 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 17:51:54 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ typedef struct	s_file
 	t_texture		south;
 	t_texture		east;
 	t_texture		west;
-	t_texture		**sprites;
-	t_texture		floor;
 	t_texture		ceil;
+	t_texture		floor;
+	t_texture		**sprites;
 	char			**map;
 }				t_file;
 

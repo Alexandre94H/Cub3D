@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 21:11:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 20:18:17 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:08:48 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		error(unsigned char error)
 {
 	if (!error)
 		return (0);
-	ft_putstr_fd("Error: ", 2);
+	ft_putstr_fd("Error\n", 2);
 	if (error == 1)
 		ft_putstr_fd("Please add the file path after the command.", 2);
 	else if (error == 2)

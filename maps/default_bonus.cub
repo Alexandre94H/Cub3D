@@ -1,9 +1,9 @@
-BONUS
+B
 R 600 400
 NO assets/bonus_wall.xpm 1200 1200
 SO assets/bonus_wall.xpm 1200 1200
-WE assets/bonus_wall.xpm 1200 1200
 EA assets/bonus_wall.xpm 1200 1200
+WE assets/bonus_wall.xpm 1200 1200
 
 C assets/bonus_ceil.xpm 626 626
 F assets/bonus_floor.xpm 512 512

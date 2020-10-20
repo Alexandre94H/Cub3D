@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 22:05:26 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 20:44:22 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/20 19:13:09 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ void			update_keys(t_runtime *runtime);
 void			bitmap(char *filename, t_runtime *runtime);
 void			end(t_runtime *runtime);
 unsigned char	init_texture(void *mlx, t_texture *texture);
+void			check_resolution(void *mlx, t_resolution *resolution);
+void			loop(char *name, t_runtime runtime, bool save);
 #endif
