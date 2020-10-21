@@ -6,14 +6,14 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 22:21:44 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/16 19:24:25 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:27:50 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BONUS_MLX_KEY_H
 # define BONUS_MLX_KEY_H
 
-# include "../../sources/mlx/mlx_key.h"
+# include "../../sources/runtime.h"
 
 void	up(t_runtime *runtime);
 void	down(t_runtime *runtime);

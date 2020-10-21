@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 22:05:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 23:35:14 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:27:13 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # define XK_MISCELLANY
 # include <X11/keysymdef.h>
 # include <stdbool.h>
-# include "mlx1.h"
 # include "keys.h"
+# include "../runtime.h"
 
 # if BONUS
 #  include "../../bonus/mlx/bonus_mlx_key.h"

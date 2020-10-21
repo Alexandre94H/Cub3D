@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 07:41:59 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 19:44:38 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ unsigned char	dispatch_flag(char *flag, char *line, t_file *file)
 	return (0);
 }
 
+bool	is_init(t_file file)
+{
+	if (!file.resolution.height
+		|| !file.north.data
+		|| !file.south.data
+		|| !file.east.data
+		|| !file.west.data
+		|| !file.floor.data
+		|| !file.ceil.data
+		|| !file.sprites)
+		return (false);
+	return (true);
+}
+
 unsigned char	divide_line(char *line, t_file *file)
 {
 	unsigned int	index;
@@ -53,17 +67,17 @@ unsigned char	divide_line(char *line, t_file *file)
 	else if ((*line == '1' || *line == ' ') && is_init(*file))
 		return (map_add(line, file));
 	index = 0;
-	while (line[index++] != ' ')
-		;
-	if (!(flag = malloc(sizeof(char *) * index)))
+	while (line[index] && line[index] != ' ')
+		index++;
+	if (!(flag = malloc(sizeof(char *) * (index + 1))))
 		return (0);
-	flag[--index] = 0;
+	flag[index] = 0;
 	while (index--)
 		flag[index] = line[index];
-	while (*++line != ' ')
-		;
-	while (*++line == ' ')
-		;
+	while (*line && *line != ' ')
+		line++;
+	while (*line == ' ')
+		line++;
 	index = dispatch_flag(flag, line, file);
 	free(flag);
 	return (index);

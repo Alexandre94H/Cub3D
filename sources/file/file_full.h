@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:31:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 07:44:12 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 19:44:47 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ unsigned char	add_sprite(t_file *file, char *line);
 unsigned char	map_add(char *line, t_file *file);
 bool			verification(char **map);
 unsigned char	scan_file(char *path, t_file *file);
-bool			is_init(t_file file);
 #endif

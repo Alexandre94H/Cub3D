@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:25:15 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/18 04:42:33 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:19:23 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	update_key(t_runtime *runtime)
 	}
 	mlx_destroy_image(runtime->mlx.mlx, runtime->mlx.image);
 	if (runtime->end)
-		end(runtime);
+		end(runtime, 0);
 }
 
 void	update_z(t_runtime *runtime)

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:50:50 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 17:10:01 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 18:54:15 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ char			*ft_itoa(const int n);
 bool			ft_equals(const char *str, const char *str1);
 char			*ft_tolower(char *str);
 int				ft_strstr(const char *str, const char *chunk);
-long long		ft_abs(long long number);
 #endif

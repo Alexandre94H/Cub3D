@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 15:43:00 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:03:59 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,32 @@ bool	ship(char **map)
 	return (true);
 }
 
+bool	check_zero_line(char **map, unsigned short x, unsigned short y)
+{
+	unsigned short	length_x;
+	unsigned short	length_y;
+
+	length_y = 0;
+	while (map[length_y])
+		length_y++;
+	if (length_y > y)
+	{
+		length_x = 0;
+		while (map[y][length_x])
+			length_x++;
+		if (x - 1 >= 0 && length_x > x - 1)
+			if (map[y][x - 1] == '0')
+				return (false);
+		if (length_x > x)
+			if (map[y][x] == '0')
+				return (false);
+		if (length_x > x + 1)
+			if (map[y][x + 1] == '0')
+				return (false);
+	}
+	return (true);
+}
+
 bool	verification(char **map)
 {
 	unsigned short	x;
@@ -98,33 +124,14 @@ bool	verification(char **map)
 		while (map[y][x])
 		{
 			if (map[y][x] == ' ')
-			{
-				if (map[y][x - 1] == '0' || map[y][x + 1] == '0')
+				if (!(check_zero_line(map, x, y - 1)
+					&& check_zero_line(map, x, y)
+					&& check_zero_line(map, x, y + 1)))
 					return (false);
-				if (y - 1 >= 0 && (map[y - 1][x - 1] == '0'
-					|| map[y - 1][x] == '0' || map[y - 1][x + 1] == '0'))
-					return (false);
-				if (map[y + 1] && (map[y + 1][x - 1] == '0'
-					|| map[y + 1][x] == '0' || map[y + 1][x + 1] == '0'))
-					return (false);
-			}
+				
 			x++;
 		}
 		y++;
 	}
 	return (ship(map));
-}
-
-bool	is_init(t_file file)
-{
-	if (!file.resolution.height
-		|| !file.north.data
-		|| !file.south.data
-		|| !file.east.data
-		|| !file.west.data
-		|| !file.floor.data
-		|| !file.ceil.data
-		|| !file.sprites)
-		return (false);
-	return (true);
 }

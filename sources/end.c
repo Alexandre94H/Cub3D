@@ -6,61 +6,59 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 18:42:04 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 20:09:56 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 21:07:21 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <stdlib.h>
-#include "mlx1.h"
+#include "mlx/mlx1.h"
+
+void	safe_free(void *item)
+{
+	if (!item)
+		free(item);
+}
 
 void	free_texture(void *mlx_ptr, t_texture *texture)
 {
-	if (texture->image)
+	if (!texture || !texture->data)
+		return ;
+	if (mlx_ptr && texture->image)
 		mlx_destroy_image(mlx_ptr, texture->image);
 	else
-		free(texture->data);
+		safe_free(texture->data);
 }
 
-void	leave(t_runtime *runtime)
+void	free_list(void	**list)
 {
 	unsigned short	index;
 
+	if (!list)
+		return ;
 	index = 0;
-	while (runtime->file.sprites[index])
-	{
-		free_texture(runtime->mlx.mlx, runtime->file.sprites[index]);
-		free(runtime->file.sprites[index++]);
-	}
-	free(runtime->file.sprites);
-	index = 0;
-	while (runtime->player.sprites[index])
-		free(runtime->player.sprites[index++]);
-	free(runtime->player.sprites);
-	index = 0;
-	while (runtime->file.map[index])
-		free(runtime->file.map[index++]);
-	free(runtime->file.map);
-	free(runtime->keys);
+	(void)index;
+	while (list[index])
+		safe_free(list[index]);
+	safe_free(list);
+}
+
+unsigned char	end(t_runtime *runtime, unsigned char exit_code)
+{
+
+	free_list((void **)runtime->file.map);
+	free_list((void **)runtime->file.sprites);
+	free_list((void **)runtime->player.sprites);
 	free_texture(runtime->mlx.mlx, &runtime->file.north);
 	free_texture(runtime->mlx.mlx, &runtime->file.south);
 	free_texture(runtime->mlx.mlx, &runtime->file.east);
 	free_texture(runtime->mlx.mlx, &runtime->file.west);
 	free_texture(runtime->mlx.mlx, &runtime->file.floor);
 	free_texture(runtime->mlx.mlx, &runtime->file.ceil);
-	free(runtime->mlx.buffer);
-}
-
-void	stop(t_runtime *runtime)
-{
+	safe_free((void **)runtime->keys);
+	safe_free((void **)runtime->mlx.buffer);
 	if (runtime->mlx.window)
 		mlx_destroy_window(runtime->mlx.mlx, runtime->mlx.window);
-	free(runtime->mlx.mlx);
-	exit(0);
-}
-
-void	end(t_runtime *runtime)
-{
-	leave(runtime);
-	stop(runtime);
+	safe_free(runtime->mlx.mlx);
+	return (exit_code);
 }

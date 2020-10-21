@@ -1,6 +1,7 @@
 SOURCES				=	libraries/get_next_line/get_next_line.c \
 						libraries/get_next_line/get_next_line_utils.c \
 						sources/error.c \
+						sources/end.c \
 						sources/library_1.c \
 						sources/library_2.c \
 						sources/library_3.c \
@@ -10,7 +11,6 @@ SOURCES				=	libraries/get_next_line/get_next_line.c \
 						sources/file/check_map.c \
 						sources/file/init.c \
 						sources/player/init.c \
-						sources/mlx/end.c \
 						sources/mlx/bitmap.c \
 						sources/mlx/keys/w.c \
 						sources/mlx/keys/s.c \

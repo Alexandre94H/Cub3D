@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 19:27:05 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 17:09:53 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 18:54:49 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,4 @@ int			ft_strstr(const char *str, const char *chunk)
 		ret++;
 	}
 	return (-1);
-}
-
-
-long long	ft_abs(long long number)
-{
-	if (number < 0)
-		return (-1 * number);
-	return (number);
 }

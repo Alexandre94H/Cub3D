@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   runtime.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/14 21:50:36 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 20:22:05 by ahallain         ###   ########.fr       */
+/*   Created: 2020/10/21 20:23:43 by ahallain          #+#    #+#             */
+/*   Updated: 2020/10/21 20:30:44 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef RUNTIME_H
+# define RUNTIME_H
 
-#include "mlx/mlx1.h"
-
-unsigned char	error(t_runtime *runtime, unsigned char error);
+typedef struct s_runtime	t_runtime;
+typedef	void				(*t_key_f)(t_runtime *);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 15:51:26 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 19:14:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:23:01 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int		destroy(t_runtime *runtime)
 {
-	end(runtime);
+	end(runtime, 0);
 	return (0);
 }
 
@@ -80,23 +80,23 @@ void	hook(t_runtime *runtime)
 	mlx_loop_hook(runtime->mlx.mlx, update, runtime);
 }
 
-void	loop(char *name, t_runtime runtime, bool save)
+void	loop(char *name, t_runtime *runtime, bool save)
 {
-	mlx_do_key_autorepeatoff(runtime.mlx.mlx);
+	mlx_do_key_autorepeatoff(runtime->mlx.mlx);
 	if (save)
 	{
-		press(XK_F2, &runtime);
-		press(XK_Escape, &runtime);
+		press(XK_F2, runtime);
+		press(XK_Escape, runtime);
 	}
 	else
 	{
-		check_resolution(runtime.mlx.mlx,
-			&runtime.file.resolution);
-		runtime.mlx.window = mlx_new_window(runtime.mlx.mlx,
-			runtime.file.resolution.width, runtime.file.resolution.height,
+		check_resolution(runtime->mlx.mlx,
+			&runtime->file.resolution);
+		runtime->mlx.window = mlx_new_window(runtime->mlx.mlx,
+			runtime->file.resolution.width, runtime->file.resolution.height,
 				name);
-		hook(&runtime);
-		mlx_loop(runtime.mlx.mlx);
+		hook(runtime);
+		mlx_loop(runtime->mlx.mlx);
 	}
-	update(&runtime);
+	update(runtime);
 }

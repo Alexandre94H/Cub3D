@@ -6,16 +6,17 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 21:11:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 19:08:48 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:22:09 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "end.h"
 #include "library.h"
 
-int		error(unsigned char error)
+unsigned char	error(t_runtime *runtime, unsigned char error)
 {
 	if (!error)
-		return (0);
+		return (end(runtime, 0));
 	ft_putstr_fd("Error\n", 2);
 	if (error == 1)
 		ft_putstr_fd("Please add the file path after the command.", 2);
@@ -25,5 +26,5 @@ int		error(unsigned char error)
 		ft_putstr_fd("You must compile with the bonuses.", 2);
 	else if (error == 4)
 		ft_putstr_fd("Unable to find player position on map.", 2);
-	return (error);
+	return (end(runtime, error));
 }

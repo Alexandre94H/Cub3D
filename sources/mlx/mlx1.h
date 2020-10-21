@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 21:57:38 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 19:06:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 20:31:23 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdbool.h>
 # include "../file/file.h"
 # include "../player/player.h"
+# include "../runtime.h"
 
 # define MAX_FPS 60
 
@@ -29,9 +30,6 @@ typedef struct	s_mlx
 
 }				t_mlx;
 
-typedef struct s_runtime	t_runtime;
-typedef	void				(*t_key_f)(t_runtime *);
-
 struct			s_runtime
 {
 	t_file		file;
@@ -43,5 +41,5 @@ struct			s_runtime
 };
 
 unsigned char	init_mlx(t_file *file, t_mlx *mlx, t_player *player);
-void			loop(char *name, t_runtime runtime, bool save);
+void			loop(char *name, t_runtime *runtime, bool save);
 #endif
