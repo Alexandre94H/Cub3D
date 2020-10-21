@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 07:33:06 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/19 12:38:51 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 18:52:19 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_resolution	sprite_x(t_runtime runtime, t_position transform,
 {
 	t_position		division;
 	t_resolution	sprite;
-	short			sprite_screen_x;
-	short			max;
+	int				sprite_screen_x;
+	int				max;
 
 	division = (t_position){1 + (texture.resolution.width < texture.resolution
 		.height) * ((float)texture.resolution.height / texture.resolution.width)
@@ -70,7 +70,7 @@ t_resolution	sprite_y(t_runtime runtime, t_position transform,
 	t_resolution sprite)
 {
 	unsigned short	screen_move;
-	short			max;
+	int				max;
 	t_resolution	y_max;
 
 	screen_move = runtime.player.pitch * 200

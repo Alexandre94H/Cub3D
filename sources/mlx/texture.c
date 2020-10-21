@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 06:19:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 16:21:26 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:33:08 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ unsigned char	color(char *line, int *color)
 			line++;
 		length++;
 	}
+	return (0);
 }
 
 unsigned char	color_texture(char *line, t_texture *texture)
@@ -48,7 +49,9 @@ unsigned char	color_texture(char *line, t_texture *texture)
 	unsigned char	ret;
 	int				color1;
 
-	ret = color(*line, &color1);
+	ret = color(line, &color1);
+	if (ret)
+		return (ret);
 	*texture = (t_texture){0, 0, {1, 1}};
 	if (!(texture->data = malloc(sizeof(int *))))
 		return (2);
