@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:31:13 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 16:32:52 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:40:20 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ unsigned char	map_add(char *line, t_file *file)
 	file->map[--length] = 0;
 	while (*line)
 	{
-		str_add((char **)&file->map[length], *line == ' ' ? '.' : *line);
+		str_add((char **)&file->map[length], *line);
 		line++;
 	}
-	str_add((char **)&file->map[length], '.');
 	if (copy)
 		while (length--)
 			file->map[length] = copy[length];

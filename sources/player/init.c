@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 20:18:33 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 16:28:01 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 08:09:18 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ unsigned char	init_player(char **map, t_player *player)
 				|| map[y][x] == 'W'
 				|| map[y][x] == 'E')
 			{
+				if (player->updated)
+					return (4);
 				*player = (t_player) {degree(map[y][x]),
 					{x + 0.5, y + 0.5, 0}, 0, 0, true};
-				return (0);
 			}
 			x++;
 		}
 		y++;
 	}
-	return (4);
+	return (player->updated ? 0 : 4);
 }

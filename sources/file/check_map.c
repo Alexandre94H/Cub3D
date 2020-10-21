@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 17:42:15 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 15:43:00 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "file_full.h"
 #include "../library.h"
 
-int		validate(char **map, unsigned int *x, unsigned int *y,
+int		validate(char **map, unsigned short *x, unsigned short *y,
 	unsigned char axe)
 {
 	char	direction;
@@ -22,9 +22,9 @@ int		validate(char **map, unsigned int *x, unsigned int *y,
 	if (axe % 2)
 	{
 		direction = (axe % 4 - 2) * -1;
-		if ((int)*x + direction >= 0
-			&& *x + direction < ft_strlen((char *)map[*y], 0)
-			&& map[*y][*x + direction] != '.')
+		if (*x + direction >= 0
+			&& *x + direction < (unsigned short)ft_strlen(map[*y], 0)
+			&& map[*y][*x + direction] != ' ')
 		{
 			*x += direction;
 			return (1);
@@ -33,9 +33,9 @@ int		validate(char **map, unsigned int *x, unsigned int *y,
 	else
 	{
 		direction = axe % 4 - 1;
-		if ((int)*y + direction >= 0 && map[*y + direction]
-			&& *x < ft_strlen((char *)map[*y + direction], 0)
-			&& map[*y + direction][*x] != '.')
+		if (*y + direction >= 0 && map[*y + direction]
+			&& *x < ft_strlen(map[*y + direction], 0)
+			&& map[*y + direction][*x] != ' ')
 		{
 			*y += direction;
 			return (1);
@@ -44,8 +44,8 @@ int		validate(char **map, unsigned int *x, unsigned int *y,
 	return (0);
 }
 
-int		ship_move(char **map, unsigned int *x, unsigned int *y,
-	unsigned int *axe)
+int		ship_move(char **map, unsigned short *x, unsigned short *y,
+	unsigned char *axe)
 {
 	unsigned char way;
 
@@ -62,15 +62,15 @@ int		ship_move(char **map, unsigned int *x, unsigned int *y,
 	return (-1);
 }
 
-bool	verification(char **map)
+bool	ship(char **map)
 {
-	unsigned int	begin;
-	unsigned int	x;
-	unsigned int	y;
-	unsigned int	axe;
+	unsigned short	begin;
+	unsigned short	x;
+	unsigned short	y;
+	unsigned char	axe;
 
 	begin = 0;
-	while (map[0][begin] == '.')
+	while (map[0][begin] == ' ')
 		begin++;
 	x = begin;
 	y = 0;
@@ -86,9 +86,38 @@ bool	verification(char **map)
 	return (true);
 }
 
+bool	verification(char **map)
+{
+	unsigned short	x;
+	unsigned short	y;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == ' ')
+			{
+				if (map[y][x - 1] == '0' || map[y][x + 1] == '0')
+					return (false);
+				if (y - 1 >= 0 && (map[y - 1][x - 1] == '0'
+					|| map[y - 1][x] == '0' || map[y - 1][x + 1] == '0'))
+					return (false);
+				if (map[y + 1] && (map[y + 1][x - 1] == '0'
+					|| map[y + 1][x] == '0' || map[y + 1][x + 1] == '0'))
+					return (false);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (ship(map));
+}
+
 bool	is_init(t_file file)
 {
-	if (!file.resolution.width
+	if (!file.resolution.height
 		|| !file.north.data
 		|| !file.south.data
 		|| !file.east.data

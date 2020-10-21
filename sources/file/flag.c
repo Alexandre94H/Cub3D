@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 23:24:47 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 20:42:15 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 07:44:45 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,15 @@ t_texture		texture(char *line)
 	return (texture_init(line, &texture1));
 }
 
-void			add_sprite(t_file *file, char *line)
+unsigned char	add_sprite(t_file *file, char *line)
 {
 	t_texture		*sprite;
 
 	if (!(sprite = malloc(sizeof(t_texture))))
-		return ;
+		return (0);
 	texture_init(line, sprite);
+	if (!BONUS && file->sprites)
+		return (2);
 	ft_array_add((void ***)&file->sprites, sprite);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 06:19:55 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 20:39:17 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 16:21:26 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,42 @@
 #include "../file/file.h"
 #include "../library.h"
 
-unsigned char	color(char *line, t_texture *texture)
+unsigned char	color(char *line, int *color)
 {
 	unsigned char	length;
-	int				color;
+	int				atoi;
 
 	length = 0;
-	color = 0;
+	*color = 0;
 	while (length < 3)
 	{
-		while (*line && (*line < '0' || *line > '9'))
-			line++;
-		if (!*line)
+		if (length && *line++ != ',')
 			return (2);
-		color *= 256;
-		color += ft_atoi(line);
+		while (*line == ' ')
+			line++;
+		if (!*line || *line < '0' || *line > '9')
+			return (2);
+		*color *= 256;
+		atoi = ft_atoi(line);
+		if (atoi < 0 || atoi > 255)
+			return (2);
+		*color += atoi;
 		while (*line >= '0' && *line <= '9')
 			line++;
 		length++;
 	}
+}
+
+unsigned char	color_texture(char *line, t_texture *texture)
+{
+	unsigned char	ret;
+	int				color1;
+
+	ret = color(*line, &color1);
 	*texture = (t_texture){0, 0, {1, 1}};
-	if (!(texture->data = malloc(sizeof(unsigned int))))
+	if (!(texture->data = malloc(sizeof(int *))))
 		return (2);
-	*texture->data = color;
+	*texture->data = color1;
 	return (0);
 }
 
@@ -64,7 +77,7 @@ unsigned char	init_texture(void *mlx, t_texture *texture)
 	path = (char *)texture->data;
 	ret = 0;
 	if (ft_strcchr(path, ','))
-		ret = color(path, texture);
+		ret = color_texture(path, texture);
 	else if (ft_strstr(path, ".xpm")
 		!= (int)(ft_strlen(path, 0) - ft_strlen(".xpm", 0))
 		|| (fd = open(path, O_RDONLY) == -1))

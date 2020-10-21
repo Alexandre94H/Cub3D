@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/20 20:41:40 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 07:41:59 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@ unsigned char	dispatch_flag(char *flag, char *line, t_file *file)
 {
 	if (file->map)
 		return (2);
-	if (flag[0] == 'R' && !file->resolution.width)
+	if (flag[0] == 'R' && !flag[1] && !file->resolution.width)
 		file->resolution = resolution(line);
-	else if (flag[0] == 'N' && flag[1] == 'O' && !file->north.data)
+	else if (flag[0] == 'N' && flag[1] == 'O' && !flag[2] && !file->north.data)
 		file->north = texture(line);
-	else if (flag[0] == 'S' && flag[1] == 'O' && !file->south.data)
+	else if (flag[0] == 'S' && flag[1] == 'O' && !flag[2] && !file->south.data)
 		file->south = texture(line);
-	else if (flag[0] == 'E' && flag[1] == 'A' && !file->east.data)
+	else if (flag[0] == 'E' && flag[1] == 'A' && !flag[2] && !file->east.data)
 		file->east = texture(line);
-	else if (flag[0] == 'W' && flag[1] == 'E' && !file->west.data)
+	else if (flag[0] == 'W' && flag[1] == 'E' && !flag[2] && !file->west.data)
 		file->west = texture(line);
-	else if (flag[0] == 'C' && !file->ceil.data)
+	else if (flag[0] == 'C' && !flag[1] && !file->ceil.data)
 		file->ceil = texture(line);
-	else if (flag[0] == 'F' && !file->floor.data)
+	else if (flag[0] == 'F' && !flag[1] && !file->floor.data)
 		file->floor = texture(line);
-	else if (flag[0] == 'S')
-		add_sprite(file, line);
-	else if (flag[0] == 'B' && !BONUS)
+	else if (flag[0] == 'S' && !flag[1])
+		return (add_sprite(file, line));
+	else if (flag[0] == 'B' && !flag[1] && !BONUS)
 		return (3);
 	else if (!BONUS && flag[0])
 		return (2);
