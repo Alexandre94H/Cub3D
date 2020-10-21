@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 22:40:28 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 19:44:38 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 22:21:10 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ unsigned char	dispatch_flag(char *flag, char *line, t_file *file)
 	return (0);
 }
 
-bool	is_init(t_file file)
+bool			is_init(t_file file)
 {
 	if (!file.resolution.height
 		|| !file.north.data

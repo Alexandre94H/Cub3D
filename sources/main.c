@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 20:05:46 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 20:26:20 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 22:19:41 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int	main(int argc, char **argv)
 		runtime = (t_runtime) {file, player, mlx, 0, 0, 0};
 		loop(*argv + 2, &runtime, ft_equals(ft_tolower(argv[2]), "--save"));
 	}
-	return (error(&runtime, ret));
+	return (error(ret));
 }

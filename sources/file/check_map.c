@@ -6,7 +6,7 @@
 /*   By: ahallain <ahallain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 14:52:45 by ahallain          #+#    #+#             */
-/*   Updated: 2020/10/21 20:03:59 by ahallain         ###   ########.fr       */
+/*   Updated: 2020/10/21 22:20:47 by ahallain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ bool	verification(char **map)
 					&& check_zero_line(map, x, y)
 					&& check_zero_line(map, x, y + 1)))
 					return (false);
-				
 			x++;
 		}
 		y++;
