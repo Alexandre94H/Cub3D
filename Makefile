@@ -1,4 +1,4 @@
-NAME	:= fdf
+NAME	:= cub3D
 CFLAGS	:= -Wall -Wextra -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 LIBGNL	:= ./lib/get_next_line
