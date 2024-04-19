@@ -22,9 +22,13 @@ t_value load_value(char *line) {
             .rgb = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2],
         };
 
+    xpm_t *xpm = mlx_load_xpm42(line);
+    if (xpm == NULL)
+        error(4, "Failed to load xpm %s: %s\n", line, mlx_strerror(mlx_errno));
+
     return (t_value){
         .type = XPM,
-        .xpm = mlx_load_xpm42(line),
+        .xpm = xpm,
     };
 }
 
@@ -59,6 +63,7 @@ void load_key(t_file *file, char *line) {
 void load_map(t_file *file, char **lines) {
     for (int y = 0; y < file->map_size.y; y++) {
         int x = 0;
+
         for (char *c = lines[y]; *c; c++)
             if (*c == ' ')
                 file->map[y * file->map_size.x + x++] = 0;
@@ -79,11 +84,18 @@ void load_map(t_file *file, char **lines) {
                 else
                     error(3, "Invalid character %c\n", *c);
 
+                if (file->player.pos.x != 0 || file->player.pos.y != 0)
+                    error(3, "Multiple players\n");
+
                 file->player = (t_player){
                     .pos = {x, y},
                     .angle = angle,
                 };
             }
+
+        for (int i = x; i < file->map_size.x; i++)
+            file->map[y * file->map_size.x + i] = 0;
+
         free(lines[y]);
     }
 }

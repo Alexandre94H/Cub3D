@@ -1,10 +1,10 @@
 R 600 400
-NO assets/north.xpm
-SO assets/south.xpm
-WE assets/west.xpm
-EA assets/east.xpm
+NO assets/north.xpm42
+SO assets/south.xpm42
+WE assets/west.xpm42
+EA assets/east.xpm42
 
-S assets/sprite.xpm
+S assets/sprite.xpm42
 C 146, 161, 207
 F 45, 74, 26
 
