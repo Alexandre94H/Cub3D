@@ -7,11 +7,9 @@
 #include <stdlib.h>
 #include <limits.h>
 
-t_vector load_vector(char *line) {
-    t_vector vector = {0};
-    if (sscanf(line, "%d %d", &vector.x, &vector.y) != 2)
+void load_resolution(t_file *file, char *line) {
+    if (sscanf(line, "%hd %hd", &file->resolution[0], &file->resolution[1]) != 2)
         error(4, "Failed to parse vector\n");
-    return vector;
 }
 
 t_value load_value(char *line) {
@@ -41,7 +39,7 @@ void load_key(t_file *file, char *line) {
     char *value = space + 1;
 
      if (ft_strncmp(key, "R", 1) == 0) {
-        file->resolution = load_vector(value);
+        load_resolution(file, value);
     } else if (ft_strncmp(key, "C", 1) == 0) {
         file->ceiling = load_value(value);
     } else if (ft_strncmp(key, "F", 1) == 0) {
@@ -61,40 +59,37 @@ void load_key(t_file *file, char *line) {
 }
 
 void load_map(t_file *file, char **lines) {
-    for (int y = 0; y < file->map_size.y; y++) {
+    for (int y = 0; y < file->map_size[1]; y++) {
         int x = 0;
 
         for (char *c = lines[y]; *c; c++)
             if (*c == ' ')
-                file->map[y * file->map_size.x + x++] = 0;
+                file->map[y * file->map_size[0] + x++] = 0;
             else if (ft_strchr("0123456789", *c))
-                file->map[y * file->map_size.x + x++] = *c - '0';
+                file->map[y * file->map_size[0] + x++] = *c - '0';
             else {
-                file->map[y * file->map_size.x + x++] = 0;
+                file->map[y * file->map_size[0] + x++] = 0;
 
-                int angle = 0;
-                if (*c == 'N')
-                    angle = 0;
-                else if (*c == 'E')
-                    angle = 90;
-                else if (*c == 'S')
-                    angle = 180;
-                else if (*c == 'W')
-                    angle = 270;
-                else
-                    error(3, "Invalid character %c\n", *c);
-
-                if (file->player.pos.x != 0 || file->player.pos.y != 0)
+                if (file->player_pos[0] != 0 || file->player_pos[1] != 0)
                     error(3, "Multiple players\n");
 
-                file->player = (t_player){
-                    .pos = {x, y},
-                    .angle = angle,
-                };
+                file->player_pos[0] = x;
+                file->player_pos[1] = y;
+
+                if (*c == 'N')
+                    file->player_angle = 0;
+                else if (*c == 'E')
+                    file->player_angle = 90;
+                else if (*c == 'S')
+                    file->player_angle = 180;
+                else if (*c == 'W')
+                    file->player_angle = 270;
+                else
+                    error(3, "Invalid character %c\n", *c);
             }
 
-        for (int i = x; i < file->map_size.x; i++)
-            file->map[y * file->map_size.x + i] = 0;
+        for (int i = x; i < file->map_size[0]; i++)
+            file->map[y * file->map_size[0] + i] = 0;
 
         free(lines[y]);
     }
@@ -115,18 +110,18 @@ t_file load_file(char *filename) {
             // Skip empty lines
         } else if (ft_strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", line[0]))
             load_key(&file, line);
-        else if (file.map_size.y < SHRT_MAX) {
-            map_lines[file.map_size.y++] = line;
+        else if (file.map_size[1] < SHRT_MAX) {
+            map_lines[file.map_size[1]++] = line;
             int len = ft_strlen(line);
-            if (len > file.map_size.x)
-                file.map_size.x = len;
+            if (len > file.map_size[0])
+                file.map_size[0] = len;
             continue;
         }
 
         free(line);
     }
 
-    file.map = malloc(file.map_size.x * file.map_size.y);
+    file.map = malloc(file.map_size[0] * file.map_size[1]);
     if (!file.map)
         error(2, "Failed to allocate memory\n");
     load_map(&file, map_lines);

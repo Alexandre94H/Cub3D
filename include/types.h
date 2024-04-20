@@ -2,6 +2,8 @@
 
 #include "MLX42/MLX42.h"
 
+#define FOV 60
+
 typedef enum e_type {
     RGB,
     XPM
@@ -15,18 +17,8 @@ typedef struct s_value {
     };
 } t_value;
 
-typedef struct s_vector {
-    int x;
-    int y;
-} t_vector;
-
-typedef struct s_player {
-    t_vector pos;
-    int angle;
-} t_player;
-
 typedef struct s_file {
-    t_vector resolution;
+    unsigned short resolution[2];
 
     t_value ceiling;
     t_value floor;
@@ -39,13 +31,21 @@ typedef struct s_file {
     t_value sprite;
 
     char *map;
-    t_vector map_size;
+    unsigned short map_size[2];
 
-    t_player player;
+    unsigned short player_pos[2];
+    unsigned short player_angle;
 } t_file;
+
+typedef struct s_player {
+    float pos[2];
+    double dir[2];
+    float plane[2];
+} t_player;
 
 typedef struct s_data {
     t_file file;
+    t_player player;
 } t_data;
 
 extern t_data g_data;
