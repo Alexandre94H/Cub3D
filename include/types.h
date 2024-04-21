@@ -3,6 +3,8 @@
 #include "MLX42/MLX42.h"
 
 #define FOV 60
+#define MOVEMENT 5.0
+#define ROTATION 2.0
 
 typedef enum e_type {
     RGB,

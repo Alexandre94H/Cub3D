@@ -1,6 +1,7 @@
 #include "types.h"
 
 #include <math.h>
+#include <sys/time.h>
 
 void move(float movement) {
     float update[2] = { movement * g_data.player.dir[0], movement * g_data.player.dir[1] };
@@ -27,8 +28,18 @@ void rotate(float rotation) {
 void hook_generic(void* param) {
     mlx_t *mlx = param;
 
-    double movement = 0.1;
-    double rotation = 0.02;
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    size_t current_time = tv.tv_sec * 1000000 + tv.tv_usec;
+
+    static size_t last_time = 0;
+    unsigned short fps = 1000000 / (current_time - last_time);
+    last_time = current_time;
+
+    if (fps == 0) return;
+
+    double movement = MOVEMENT / fps;
+    double rotation = ROTATION / fps;
 
     if (mlx_is_key_down(mlx, MLX_KEY_W))
         move(movement);
