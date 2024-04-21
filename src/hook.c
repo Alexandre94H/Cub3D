@@ -2,43 +2,50 @@
 
 #include <math.h>
 
-void key(mlx_key_data_t keydata, void* param) {
-    mlx_t *mlx = param;
-    (void)mlx;
+void move(float movement) {
+    float update[2] = { movement * g_data.player.dir[0], movement * g_data.player.dir[1] };
 
-    if (keydata.action == MLX_RELEASE)
-        return;
+    unsigned short x = floor(g_data.player.pos[0] + update[0]);
+    if (g_data.file.map[(int)floor(g_data.player.pos[1]) * g_data.file.map_size[0] + x] == 0)
+        g_data.player.pos[0] += update[0];
+
+    unsigned short y = floor(g_data.player.pos[1] + update[1]);
+    if (g_data.file.map[y * g_data.file.map_size[0] + (int)floor(g_data.player.pos[0])] == 0)
+        g_data.player.pos[1] += update[1];
+}
+void rotate(float rotation) {
+    double dir[2] = { g_data.player.dir[0], g_data.player.dir[1], };
+    g_data.player.dir[0] = dir[0] * cos(rotation) - dir[1] * sin(rotation);
+    g_data.player.dir[1] = dir[0] * sin(rotation) + dir[1] * cos(rotation);
+
+    double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
+    g_data.player.plane[0] = plane[0] * cos(rotation) - plane[1] * sin(rotation);
+    g_data.player.plane[1] = plane[0] * sin(rotation) + plane[1] * cos(rotation);
+
+}
+
+void hook_generic(void* param) {
+    mlx_t *mlx = param;
 
     double movement = 0.1;
-    double rotation = 0.1;
+    double rotation = 0.02;
 
-    if (keydata.key == MLX_KEY_W) {
-        g_data.player.pos[0] += g_data.player.dir[0] * movement;
-        g_data.player.pos[1] += g_data.player.dir[1] * movement;
-    }
+    if (mlx_is_key_down(mlx, MLX_KEY_W))
+        move(movement);
 
-    if (keydata.key == MLX_KEY_S) {
-        g_data.player.pos[0] -= g_data.player.dir[0] * movement;
-        g_data.player.pos[1] -= g_data.player.dir[1] * movement;
-    }
+    if (mlx_is_key_down(mlx, MLX_KEY_S))
+        move(-movement);
 
-    if (keydata.key == MLX_KEY_A) {
-        double dir[2] = { g_data.player.dir[0], g_data.player.dir[1], };
-        g_data.player.dir[0] = dir[0] * cos(-rotation) - dir[1] * sin(-rotation);
-        g_data.player.dir[1] = dir[0] * sin(-rotation) + dir[1] * cos(-rotation);
+    if (mlx_is_key_down(mlx, MLX_KEY_A))
+        rotate(-rotation);
 
-        double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
-        g_data.player.plane[0] = plane[0] * cos(-rotation) - plane[1] * sin(-rotation);
-        g_data.player.plane[1] = plane[0] * sin(-rotation) + plane[1] * cos(-rotation);
-    }
+    if (mlx_is_key_down(mlx, MLX_KEY_D))
+        rotate(rotation); 
+}
 
-    if (keydata.key == MLX_KEY_D) {
-        double dir[2] = { g_data.player.dir[0], g_data.player.dir[1], };
-        g_data.player.dir[0] = dir[0] * cos(rotation) - dir[1] * sin(rotation);
-        g_data.player.dir[1] = dir[0] * sin(rotation) + dir[1] * cos(rotation);
+void key(mlx_key_data_t keydata, void* param) {
+    mlx_t *mlx = param;
 
-        double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
-        g_data.player.plane[0] = plane[0] * cos(rotation) - plane[1] * sin(rotation);
-        g_data.player.plane[1] = plane[0] * sin(rotation) + plane[1] * cos(rotation);
-    }    
+    if (keydata.key == MLX_KEY_ESCAPE)
+        mlx_close_window(mlx);
 }

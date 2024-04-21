@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
 
 	mlx_t *mlx = mlx_init(g_data.file.resolution[0], g_data.file.resolution[1], argv[0], true);
 	mlx_key_hook(mlx, key, mlx);
+	mlx_loop_hook(mlx, hook_generic, mlx);
 	mlx_loop_hook(mlx, loop, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

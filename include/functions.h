@@ -12,4 +12,5 @@ t_file load_file(char *filename);
 void loop(void* param);
 
 // hook.c
+void hook_generic(void* param);
 void key(mlx_key_data_t keydata, void* param);
