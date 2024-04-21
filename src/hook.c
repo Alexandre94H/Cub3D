@@ -14,6 +14,7 @@ void move(float movement) {
     if (g_data.file.map[y * g_data.file.map_size[0] + (int)floor(g_data.player.pos[0])] == 0)
         g_data.player.pos[1] += update[1];
 }
+
 void rotate(float rotation) {
     double dir[2] = { g_data.player.dir[0], g_data.player.dir[1], };
     g_data.player.dir[0] = dir[0] * cos(rotation) - dir[1] * sin(rotation);
@@ -22,7 +23,6 @@ void rotate(float rotation) {
     double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
     g_data.player.plane[0] = plane[0] * cos(rotation) - plane[1] * sin(rotation);
     g_data.player.plane[1] = plane[0] * sin(rotation) + plane[1] * cos(rotation);
-
 }
 
 void hook_generic(void* param) {

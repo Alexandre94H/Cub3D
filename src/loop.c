@@ -19,14 +19,14 @@ void loop(void* param) {
             g_data.player.dir[1] + g_data.player.plane[1] * norm_x,
         };
 
+        unsigned short current[2] = {
+            floor(g_data.player.pos[0]),
+            floor(g_data.player.pos[1]),
+        };
+
         float delta[2] = {
             fabs(1 / ray[0]),
             fabs(1 / ray[1]),
-        };
-
-        unsigned short current[2] = {
-            g_data.player.pos[0],
-            g_data.player.pos[1],
         };
 
         double side[2];
@@ -51,10 +51,31 @@ void loop(void* param) {
         };
 
         double distance = side[0] < side[1] ? side[0] : side[1];
-        if (distance < 1) distance = 1;
         unsigned short height = image->height / distance;
+
+        double wall_x = side[0] < side[1]
+            ? g_data.player.pos[1] + distance * ray[1]
+            : g_data.player.pos[0] + distance * ray[0];
+        wall_x -= floor((wall_x));
+
+        unsigned short texture_x = wall_x * g_data.file.north.xpm->texture.width;
+        if(side[0] < side[1] && ray[0] > 0) texture_x = g_data.file.north.xpm->texture.width - texture_x - 1;
+        if(side[0] > side[1] && ray[1] < 0) texture_x = g_data.file.north.xpm->texture.width - texture_x - 1;
+
+        float step = (float)g_data.file.north.xpm->texture.height / height;
+        float texture_pos = 0;
+
+        int start = -height / 2 + image->height / 2;
+        int end = height / 2 + image->height / 2;
         
-        for (unsigned short y = -height / 2 + image->height / 2; y < height / 2 + image->height / 2; y++)
-            mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+        for (int y = start; y < end; y++) {
+            int texture_y = (int)texture_pos & (g_data.file.north.xpm->texture.height - 1);
+            texture_pos += step;
+
+            unsigned int color = ((int *)g_data.file.north.xpm->texture.pixels)[texture_y * g_data.file.north.xpm->texture.width + texture_x];
+
+            if (y >= 0 && y < (int)image->height)
+                mlx_put_pixel(image, x, y, color);
+        }
     }
 }
