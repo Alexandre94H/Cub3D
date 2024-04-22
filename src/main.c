@@ -27,9 +27,11 @@ int main(int argc, char **argv) {
 		.dir = { sin(g_data.file.player_angle * M_PI / 180), -cos(g_data.file.player_angle * M_PI / 180) },
 	};
 
-	g_data.player.plane[0] = -g_data.player.dir[1] * tan(FOV * M_PI / 360);
-	g_data.player.plane[1] = g_data.player.dir[0] * tan(FOV * M_PI / 360);
+	float ratio = (float)g_data.file.resolution[0] / g_data.file.resolution[1];
+	g_data.player.plane[0] = -g_data.player.dir[1] / ratio;
+	g_data.player.plane[1] = g_data.player.dir[0] / ratio;
 
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	mlx_t *mlx = mlx_init(g_data.file.resolution[0], g_data.file.resolution[1], argv[0], true);
 	mlx_key_hook(mlx, key, mlx);
 	mlx_loop_hook(mlx, hook_generic, mlx);

@@ -7,11 +7,11 @@ void move(float movement) {
     float update[2] = { movement * g_data.player.dir[0], movement * g_data.player.dir[1] };
 
     unsigned short x = floor(g_data.player.pos[0] + update[0]);
-    if (g_data.file.map[(int)floor(g_data.player.pos[1]) * g_data.file.map_size[0] + x] == 0)
+    if (g_data.file.map[(int)floor(g_data.player.pos[1]) * g_data.file.map_size[0] + x] != 1)
         g_data.player.pos[0] += update[0];
 
     unsigned short y = floor(g_data.player.pos[1] + update[1]);
-    if (g_data.file.map[y * g_data.file.map_size[0] + (int)floor(g_data.player.pos[0])] == 0)
+    if (g_data.file.map[y * g_data.file.map_size[0] + (int)floor(g_data.player.pos[0])] != 1)
         g_data.player.pos[1] += update[1];
 }
 
@@ -27,16 +27,7 @@ void rotate(float rotation) {
 
 void hook_generic(void* param) {
     mlx_t *mlx = param;
-
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    size_t current_time = tv.tv_sec * 1000000 + tv.tv_usec;
-
-    static size_t last_time = 0;
-    unsigned short fps = 1000000 / (current_time - last_time);
-    last_time = current_time;
-
-    if (fps == 0) return;
+    unsigned short fps = 1 / mlx->delta_time;
 
     double movement = MOVEMENT / fps;
     double rotation = ROTATION / fps;
