@@ -53,6 +53,14 @@ unsigned short texture_x(float ray[2], double side[2], unsigned short width) {
     return x;
 }
 
+mlx_texture_t value_to_texture(t_value value) {
+    if (value.type == XPM)
+        return value.xpm->texture;
+    if (value.type == RGBA)
+        return (mlx_texture_t){.width = 1, .height = 1, .pixels = (unsigned char *)&value.rgba};
+    return (mlx_texture_t){0};
+}
+
 void draw_x(mlx_image_t *image, unsigned short y, int line_x[2], mlx_texture_t texture, double current[2], float step[2]) {
     for (int x = line_x[0]; x < line_x[1]; x++) {
         int texture_x = current[0];
@@ -105,8 +113,7 @@ void draw_wall(mlx_image_t *image) {
             ? ray[0] < 0 ? g_data.file.west : g_data.file.east
             : ray[1] < 0 ? g_data.file.north : g_data.file.south;
 
-        mlx_texture_t texture = value.type == XPM ? value.xpm->texture
-            : (mlx_texture_t){.width = 1, .height = 1, .pixels = (unsigned char *)&value.rgba};
+        mlx_texture_t texture = value_to_texture(value);
 
         draw_y(image, x, line_y, texture,
         (double[]){texture_x(ray, side, texture.width), 0},
@@ -127,22 +134,30 @@ void draw_floor(mlx_image_t *image) {
         g_data.player.dir[1] + g_data.player.plane[1],
     };
 
+    mlx_texture_t texture_floor = value_to_texture(g_data.file.floor);
+    mlx_texture_t texture_ceiling = value_to_texture(g_data.file.ceiling);
+
     for(unsigned short y = 0; y < middle; y++)
     {
         float distance = middle / (y - middle);
-        xpm_t *xpm = g_data.file.floor.xpm;
 
         double current[2] = {
-            (distance * ray_min[0] - g_data.player.pos[0]) * xpm->texture.width,
-            (distance * ray_min[1] - g_data.player.pos[1]) * xpm->texture.height,
+            distance * ray_min[0] - g_data.player.pos[0],
+            distance * ray_min[1] - g_data.player.pos[1],
         };
 
         float step[2] = {
-            distance * (ray_max[0] - ray_min[0]) / image->width * xpm->texture.width,
-            distance * (ray_max[1] - ray_min[1]) / image->width * xpm->texture.height,
+            distance * (ray_max[0] - ray_min[0]) / image->width,
+            distance * (ray_max[1] - ray_min[1]) / image->width,
         };
 
-        draw_x(image, y, (int[2]){0, image->width}, xpm->texture, current, step);
+        draw_x(image, y, (int[2]){0, image->width}, texture_ceiling,
+        (double[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height},
+        (float[]){-step[0] * texture_ceiling.width, step[1] * texture_ceiling.height});
+
+        draw_x(image, image->height - y - 1, (int[2]){0, image->width}, texture_floor,
+        (double[]){current[0] * texture_floor.width, current[1] * texture_floor.height},
+        (float[]){step[0] * texture_floor.width, step[1] * texture_floor.height});
     }
 }
 
