@@ -13,7 +13,7 @@ typedef enum e_type {
 typedef struct s_value {
     t_type type;
     union {
-        int rgba;
+        unsigned int rgba;
         xpm_t *xpm;
     };
 } t_value;

@@ -53,6 +53,14 @@ unsigned short texture_x(float ray[2], double side[2], unsigned short width) {
     return x;
 }
 
+unsigned int texture_color(mlx_texture_t texture, unsigned short index[2]) {
+    if (texture.bytes_per_pixel != 4)
+        return 0;
+
+    unsigned char *ptr = texture.pixels + (index[1] * texture.width + index[0]) * 4;
+    return ptr[0] << 24 | ptr[1] << 16 | ptr[2] << 8 | ptr[3];
+}
+
 mlx_texture_t value_to_texture(t_value value) {
     if (value.type == XPM)
         return value.xpm->texture;
@@ -70,10 +78,8 @@ void draw_x(mlx_image_t *image, unsigned short y, int line_x[2], mlx_texture_t t
         current[0] += step[0];
         current[1] += step[1];
 
-        int color = ((int *)texture.pixels)[texture_y * texture.width + texture_x];
-
         if (x >= 0 && x < (int)image->width)
-            mlx_put_pixel(image, x, y, color);
+            mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
     }
 }
 
@@ -86,10 +92,8 @@ void draw_y(mlx_image_t *image, unsigned short x, int line_y[2], mlx_texture_t t
         current[0] += step[0];
         current[1] += step[1];
 
-        int color = ((int *)texture.pixels)[texture_y * texture.width + texture_x];
-
         if (y >= 0 && y < (int)image->height)
-            mlx_put_pixel(image, x, y, color);
+            mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
     }
 }
 
