@@ -5,8 +5,8 @@ WE assets/west.xpm42
 EA assets/east.xpm42
 
 S assets/sprite.xpm42
-C 146, 161, 207
-F 45, 74, 26
+C assets/ceil.xpm42
+F assets/floor.xpm42
 
         1111111111111111111111111
         1000000000110000000000001
