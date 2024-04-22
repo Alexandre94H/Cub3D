@@ -16,8 +16,8 @@ t_value load_value(char *line) {
     short rgb[3] = {0};
     if (sscanf(line, "%hd, %hd, %hd", &rgb[0], &rgb[1], &rgb[2]) == 3)
         return (t_value){
-            .type = RGB,
-            .rgb = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2],
+            .type = RGBA,
+            .rgba = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 0xFF,
         };
 
     xpm_t *xpm = mlx_load_xpm42(line);

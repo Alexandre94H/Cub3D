@@ -6,14 +6,14 @@
 #define ROTATION 2.0
 
 typedef enum e_type {
-    RGB,
+    RGBA,
     XPM
 } t_type;
 
 typedef struct s_value {
     t_type type;
     union {
-        int rgb;
+        int rgba;
         xpm_t *xpm;
     };
 } t_value;
