@@ -97,34 +97,6 @@ void draw_y(mlx_image_t *image, unsigned short x, int line_y[2], mlx_texture_t t
     }
 }
 
-void draw_wall(mlx_image_t *image) {
-    for (unsigned short x = 0; x < image->width; x++) {
-        float norm_x = 2 * x / (double)image->width - 1;
-        float ray[2] = {
-            g_data.player.dir[0] + g_data.player.plane[0] * norm_x,
-            g_data.player.dir[1] + g_data.player.plane[1] * norm_x,
-        };
-
-        double side[2];
-        unsigned short height = image->height / dda(ray, side);
-
-        int line_y[2] = {
-            -height / 2 + image->height / 2,
-            height / 2 + image->height / 2,
-        };
-
-        t_value value = side[0] < side[1]
-            ? ray[0] < 0 ? g_data.file.west : g_data.file.east
-            : ray[1] < 0 ? g_data.file.north : g_data.file.south;
-
-        mlx_texture_t texture = value_to_texture(value);
-
-        draw_y(image, x, line_y, texture,
-        (double[]){texture_x(ray, side, texture.width), 0},
-        (float[]){0, (float)texture.height / height});
-    }
-}
-
 void draw_floor(mlx_image_t *image) {
     float middle = image->height / 2;
 
@@ -162,6 +134,37 @@ void draw_floor(mlx_image_t *image) {
         draw_x(image, image->height - y - 1, (int[2]){0, image->width}, texture_floor,
         (double[]){current[0] * texture_floor.width, current[1] * texture_floor.height},
         (float[]){step[0] * texture_floor.width, step[1] * texture_floor.height});
+    }
+}
+
+#define MAX_WALL_HEIGHT 5
+void draw_wall(mlx_image_t *image) {
+    for (unsigned short x = 0; x < image->width; x++) {
+        float norm_x = 2 * x / (double)image->width - 1;
+        float ray[2] = {
+            g_data.player.dir[0] + g_data.player.plane[0] * norm_x,
+            g_data.player.dir[1] + g_data.player.plane[1] * norm_x,
+        };
+
+        double side[2];
+        float distance = dda(ray, side);
+        if (distance < 1.0 / MAX_WALL_HEIGHT) distance = 1.0 / MAX_WALL_HEIGHT;
+        int height = image->height / distance;
+
+        int line_y[2] = {
+            -height / 2 + image->height / 2,
+            height / 2 + image->height / 2,
+        };
+
+        t_value value = side[0] < side[1]
+            ? ray[0] < 0 ? g_data.file.west : g_data.file.east
+            : ray[1] < 0 ? g_data.file.north : g_data.file.south;
+
+        mlx_texture_t texture = value_to_texture(value);
+
+        draw_y(image, x, line_y, texture,
+        (double[]){texture_x(ray, side, texture.width), 0},
+        (float[]){0, (float)texture.height / height});
     }
 }
 

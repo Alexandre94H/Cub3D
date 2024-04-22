@@ -3,8 +3,11 @@
 #include <math.h>
 #include <sys/time.h>
 
-void move(float movement) {
-    float update[2] = { movement * g_data.player.dir[0], movement * g_data.player.dir[1] };
+void move(float movement[2]) {
+    float update[2] = {
+        g_data.player.dir[0] * movement[0] + g_data.player.dir[1] * movement[1],
+        g_data.player.dir[1] * movement[0] - g_data.player.dir[0] * movement[1],
+    };
 
     unsigned short x = floor(g_data.player.pos[0] + update[0]);
     if (g_data.file.map[(int)floor(g_data.player.pos[1]) * g_data.file.map_size[0] + x] != 1)
@@ -33,16 +36,22 @@ void hook_generic(void* param) {
     double rotation = ROTATION / fps;
 
     if (mlx_is_key_down(mlx, MLX_KEY_W))
-        move(movement);
+        move((float[2]){ movement, 0 });
 
     if (mlx_is_key_down(mlx, MLX_KEY_S))
-        move(-movement);
+        move((float[2]){ -movement, 0 });
 
     if (mlx_is_key_down(mlx, MLX_KEY_A))
-        rotate(-rotation);
+        move((float[2]){ 0, movement });
 
     if (mlx_is_key_down(mlx, MLX_KEY_D))
-        rotate(rotation); 
+        move((float[2]){ 0, -movement });
+
+    if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+        rotate(-rotation);
+
+    if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+        rotate(rotation);
 }
 
 void key(mlx_key_data_t keydata, void* param) {

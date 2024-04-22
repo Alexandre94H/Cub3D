@@ -2,8 +2,8 @@
 
 #include "MLX42/MLX42.h"
 
-#define MOVEMENT 5.0
-#define ROTATION 2.0
+#define MOVEMENT 3.0
+#define ROTATION 1.0
 
 typedef enum e_type {
     RGBA,
