@@ -60,6 +60,7 @@ void load_key(char *line) {
 }
 
 void load_map(char **lines) {
+    t_sprite *last = NULL;
     for (int y = 0; y < g_data.map.size[1]; y++) {
         int x = 0;
 
@@ -68,8 +69,7 @@ void load_map(char **lines) {
                 *c = '0';
 
             if (ft_strchr("NESW", *c)) {
-
-                if (g_data.player.pos[0] != 0 || g_data.player.pos[1] != 0)
+                if (g_data.player.position[0] != 0 || g_data.player.position[1] != 0)
                     error(3, "Multiple players\n");
 
                 int angle = 0;
@@ -77,17 +77,31 @@ void load_map(char **lines) {
                 else if (*c == 'E') angle = 90;
                 else if (*c == 'S') angle = 180;
                 else if (*c == 'W') angle = 270;
-
-                g_data.player.pos[0] = x + 0.5;
-                g_data.player.pos[1] = y + 0.5;
-                g_data.player.dir[0] = sin(angle * M_PI / 180);
-                g_data.player.dir[1] = -cos(angle * M_PI / 180);
-
                 *c = '0';
+
+                g_data.player.position[0] = x + 0.5;
+                g_data.player.position[1] = y + 0.5;
+                g_data.player.direction[0] = sin(angle * M_PI / 180);
+                g_data.player.direction[1] = -cos(angle * M_PI / 180);
             }
 
-            if (*c == '2')
+            if (*c == '2') {
                 *c = '0';
+
+                t_sprite *sprite = malloc(sizeof(t_sprite));
+                if (sprite == NULL)
+                    error(3, "Failed to allocate memory\n");
+
+                sprite->position[0] = x + 0.5;
+                sprite->position[1] = y + 0.5;
+                sprite->next = NULL;
+
+                if (last == NULL)
+                    g_data.sprites = sprite;
+                else
+                    last->next = sprite;
+                last = sprite;
+            }
 
             if (!ft_strchr("01", *c))
                 error(3, "Invalid character %c\n", *c);

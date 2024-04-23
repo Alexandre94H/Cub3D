@@ -1,27 +1,50 @@
 #include "types.h"
 
 #include <math.h>
-#include <sys/time.h>
+
+void sort_sprite() {
+    t_sprite *last = NULL;
+    for (t_sprite *sprite = g_data.sprites; sprite->next; last = sprite, sprite = sprite->next) {
+        t_sprite *next = sprite->next;
+        float distance = pow(sprite->position[0] - g_data.player.position[0], 2)
+            + pow(sprite->position[1] - g_data.player.position[1], 2);
+        float distance_next = pow(next->position[0] - g_data.player.position[0], 2)
+            + pow(next->position[1] - g_data.player.position[1], 2);
+
+        if (distance > distance_next) continue;
+
+        if (last)
+            last->next = next;
+        else
+            g_data.sprites = next;
+
+        sprite->next = next->next;
+        next->next = sprite;
+        sprite = next;
+    }
+}
 
 void move(float movement[2]) {
     float update[2] = {
-        g_data.player.dir[0] * movement[0] + g_data.player.dir[1] * movement[1],
-        g_data.player.dir[1] * movement[0] - g_data.player.dir[0] * movement[1],
+        g_data.player.direction[0] * movement[0] + g_data.player.direction[1] * movement[1],
+        g_data.player.direction[1] * movement[0] - g_data.player.direction[0] * movement[1],
     };
 
-    unsigned short x = floor(g_data.player.pos[0] + update[0]);
-    if (g_data.map.data[(int)floor(g_data.player.pos[1]) * g_data.map.size[0] + x] == 0)
-        g_data.player.pos[0] += update[0];
+    unsigned short x = floor(g_data.player.position[0] + update[0]);
+    if (g_data.map.data[(int)floor(g_data.player.position[1]) * g_data.map.size[0] + x] == 0)
+        g_data.player.position[0] += update[0];
 
-    unsigned short y = floor(g_data.player.pos[1] + update[1]);
-    if (g_data.map.data[y * g_data.map.size[0] + (int)floor(g_data.player.pos[0])] == 0)
-        g_data.player.pos[1] += update[1];
+    unsigned short y = floor(g_data.player.position[1] + update[1]);
+    if (g_data.map.data[y * g_data.map.size[0] + (int)floor(g_data.player.position[0])] == 0)
+        g_data.player.position[1] += update[1];
+
+    sort_sprite();
 }
 
 void rotate(float rotation) {
-    double dir[2] = { g_data.player.dir[0], g_data.player.dir[1], };
-    g_data.player.dir[0] = dir[0] * cos(rotation) - dir[1] * sin(rotation);
-    g_data.player.dir[1] = dir[0] * sin(rotation) + dir[1] * cos(rotation);
+    double direction[2] = { g_data.player.direction[0], g_data.player.direction[1], };
+    g_data.player.direction[0] = direction[0] * cos(rotation) - direction[1] * sin(rotation);
+    g_data.player.direction[1] = direction[0] * sin(rotation) + direction[1] * cos(rotation);
 
     double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
     g_data.player.plane[0] = plane[0] * cos(rotation) - plane[1] * sin(rotation);

@@ -3,7 +3,7 @@
 #include "MLX42/MLX42.h"
 
 #define MOVEMENT 3.0
-#define ROTATION 1.0
+#define ROTATION MOVEMENT / 2
 
 typedef enum e_type {
     RGBA,
@@ -30,20 +30,28 @@ typedef struct s_texture {
     t_value sprite;
 } t_texture;
 
+typedef struct s_sprite {
+    float position[2];
+
+    struct s_sprite *next;
+} t_sprite;
+
+typedef struct s_player {
+    float position[2];
+    float direction[2];
+    float plane[2];
+} t_player;
+
 typedef struct s_map {
     char *data;
     unsigned short size[2];
 } t_map;
 
-typedef struct s_player {
-    float pos[2];
-    double dir[2];
-    float plane[2];
-} t_player;
-
 typedef struct s_data {
     unsigned short resolution[2];
     t_texture texture;
+    t_sprite *sprites;
+
     t_player player;
     t_map map;
 } t_data;

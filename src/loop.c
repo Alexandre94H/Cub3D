@@ -1,13 +1,11 @@
 #include "types.h"
 
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 double dda(float ray[2], double side[2]) {
     unsigned short current[2] = {
-        floor(g_data.player.pos[0]),
-        floor(g_data.player.pos[1]),
+        floor(g_data.player.position[0]),
+        floor(g_data.player.position[1]),
     };
 
     float delta[2] = {
@@ -16,11 +14,11 @@ double dda(float ray[2], double side[2]) {
     };
 
     side[0] = ray[0] < 0
-        ? (g_data.player.pos[0] - current[0]) * delta[0]
-        : (current[0] + 1 - g_data.player.pos[0]) * delta[0];
+        ? (g_data.player.position[0] - current[0]) * delta[0]
+        : (current[0] + 1 - g_data.player.position[0]) * delta[0];
     side[1] = ray[1] < 0
-        ? (g_data.player.pos[1] - current[1]) * delta[1]
-        : (current[1] + 1 - g_data.player.pos[1]) * delta[1];
+        ? (g_data.player.position[1] - current[1]) * delta[1]
+        : (current[1] + 1 - g_data.player.position[1]) * delta[1];
 
     while (true) {
         if (side[0] < side[1])
@@ -42,8 +40,8 @@ double dda(float ray[2], double side[2]) {
 
 unsigned short texture_x(float ray[2], double side[2], unsigned short width) {
     double wall_x = side[0] < side[1]
-        ? g_data.player.pos[1] + side[0] * ray[1]
-        : g_data.player.pos[0] + side[1] * ray[0];
+        ? g_data.player.position[1] + side[0] * ray[1]
+        : g_data.player.position[0] + side[1] * ray[0];
     wall_x -= floor(wall_x);
 
     unsigned short x = wall_x * width;
@@ -87,13 +85,13 @@ void draw_floor(mlx_image_t *image) {
     float middle = image->height / 2;
 
     float ray_min[2] = {
-        g_data.player.dir[0] - g_data.player.plane[0],
-        g_data.player.dir[1] - g_data.player.plane[1],
+        g_data.player.direction[0] - g_data.player.plane[0],
+        g_data.player.direction[1] - g_data.player.plane[1],
     };
 
     float ray_max[2] = {
-        g_data.player.dir[0] + g_data.player.plane[0],
-        g_data.player.dir[1] + g_data.player.plane[1],
+        g_data.player.direction[0] + g_data.player.plane[0],
+        g_data.player.direction[1] + g_data.player.plane[1],
     };
 
     mlx_texture_t texture_floor = value_texture(g_data.texture.floor);
@@ -104,8 +102,8 @@ void draw_floor(mlx_image_t *image) {
         float distance = middle / (y - middle);
 
         double current[2] = {
-            distance * ray_min[0] - g_data.player.pos[0],
-            distance * ray_min[1] - g_data.player.pos[1],
+            distance * ray_min[0] - g_data.player.position[0],
+            distance * ray_min[1] - g_data.player.position[1],
         };
 
         float step[2] = {
@@ -129,8 +127,8 @@ void draw_wall(mlx_image_t *image, double distance[]) {
     for (unsigned short x = 0; x < image->width; x++) {
         float norm_x = 2 * x / (double)image->width - 1;
         float ray[2] = {
-            g_data.player.dir[0] + g_data.player.plane[0] * norm_x,
-            g_data.player.dir[1] + g_data.player.plane[1] * norm_x,
+            g_data.player.direction[0] + g_data.player.plane[0] * norm_x,
+            g_data.player.direction[1] + g_data.player.plane[1] * norm_x,
         };
 
         double side[2];
