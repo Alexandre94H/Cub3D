@@ -48,9 +48,16 @@ unsigned short texture_x(float ray[2], double side[2], unsigned short width) {
 
     unsigned short x = wall_x * width;
     if((side[0] < side[1] && ray[0] < 0) || (side[0] > side[1] && ray[1] > 0))
-        x = width - x - 1;
-
+        return width - x - 1;
     return x;
+}
+
+mlx_texture_t value_texture(t_value value) {
+    if (value.type == XPM)
+        return value.xpm->texture;
+    if (value.type == RGBA)
+        return (mlx_texture_t){.width = 1, .height = 1, .pixels = (unsigned char *)&value.rgba};
+    return (mlx_texture_t){0};
 }
 
 unsigned int texture_color(mlx_texture_t texture, unsigned short index[2]) {
@@ -61,40 +68,19 @@ unsigned int texture_color(mlx_texture_t texture, unsigned short index[2]) {
     return ptr[0] << 24 | ptr[1] << 16 | ptr[2] << 8 | ptr[3];
 }
 
-mlx_texture_t value_to_texture(t_value value) {
-    if (value.type == XPM)
-        return value.xpm->texture;
-    if (value.type == RGBA)
-        return (mlx_texture_t){.width = 1, .height = 1, .pixels = (unsigned char *)&value.rgba};
-    return (mlx_texture_t){0};
-}
+void draw(mlx_image_t *image, int pixel[4], mlx_texture_t texture, double current[2], float step[2]) {
+    for (int y = pixel[1]; y <= pixel[3]; y++)
+        for (int x = pixel[0]; x <= pixel[2]; x++) {
+            int texture_x = current[0];
+            int texture_y = current[1];
+            texture_x &= texture.width - 1;
+            texture_y &= texture.height - 1;
+            current[0] += step[0];
+            current[1] += step[1];
 
-void draw_x(mlx_image_t *image, unsigned short y, int line_x[2], mlx_texture_t texture, double current[2], float step[2]) {
-    for (int x = line_x[0]; x < line_x[1]; x++) {
-        int texture_x = current[0];
-        int texture_y = current[1];
-        texture_x &= texture.width - 1;
-        texture_y &= texture.height - 1;
-        current[0] += step[0];
-        current[1] += step[1];
-
-        if (x >= 0 && x < (int)image->width)
-            mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
-    }
-}
-
-void draw_y(mlx_image_t *image, unsigned short x, int line_y[2], mlx_texture_t texture, double current[2], float step[2]) {
-    for (int y = line_y[0]; y < line_y[1]; y++) {
-        int texture_x = current[0];
-        int texture_y = current[1];
-        texture_x &= texture.width - 1;
-        texture_y &= texture.height - 1;
-        current[0] += step[0];
-        current[1] += step[1];
-
-        if (y >= 0 && y < (int)image->height)
-            mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
-    }
+            if (x >= 0 && x < (int)image->width && y >= 0 && y < (int)image->height)
+                mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
+        }
 }
 
 void draw_floor(mlx_image_t *image) {
@@ -110,8 +96,8 @@ void draw_floor(mlx_image_t *image) {
         g_data.player.dir[1] + g_data.player.plane[1],
     };
 
-    mlx_texture_t texture_floor = value_to_texture(g_data.file.floor);
-    mlx_texture_t texture_ceiling = value_to_texture(g_data.file.ceiling);
+    mlx_texture_t texture_floor = value_texture(g_data.file.floor);
+    mlx_texture_t texture_ceiling = value_texture(g_data.file.ceiling);
 
     for(unsigned short y = 0; y < middle; y++)
     {
@@ -127,18 +113,19 @@ void draw_floor(mlx_image_t *image) {
             distance * (ray_max[1] - ray_min[1]) / image->width,
         };
 
-        draw_x(image, y, (int[2]){0, image->width}, texture_ceiling,
-        (double[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height},
+        draw(image, (int[4]){0, y, image->width, y}, texture_ceiling,
+        (double[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height - 1},
         (float[]){-step[0] * texture_ceiling.width, step[1] * texture_ceiling.height});
 
-        draw_x(image, image->height - y - 1, (int[2]){0, image->width}, texture_floor,
-        (double[]){current[0] * texture_floor.width, current[1] * texture_floor.height},
+        unsigned short reverse_y = image->height - y - 1;
+        draw(image, (int[4]){0, reverse_y, image->width, reverse_y}, texture_floor,
+        (double[]){current[0] * texture_floor.width - 1, current[1] * texture_floor.height - 1},
         (float[]){step[0] * texture_floor.width, step[1] * texture_floor.height});
     }
 }
 
 #define MAX_WALL_HEIGHT 5
-void draw_wall(mlx_image_t *image) {
+void draw_wall(mlx_image_t *image, double distance[]) {
     for (unsigned short x = 0; x < image->width; x++) {
         float norm_x = 2 * x / (double)image->width - 1;
         float ray[2] = {
@@ -147,22 +134,18 @@ void draw_wall(mlx_image_t *image) {
         };
 
         double side[2];
-        float distance = dda(ray, side);
-        if (distance < 1.0 / MAX_WALL_HEIGHT) distance = 1.0 / MAX_WALL_HEIGHT;
-        int height = image->height / distance;
+        distance[x] = dda(ray, side);
+        if (distance[x] < 1.0 / MAX_WALL_HEIGHT) distance[x] = 1.0 / MAX_WALL_HEIGHT;
 
-        int line_y[2] = {
-            -height / 2 + image->height / 2,
-            height / 2 + image->height / 2,
-        };
+        int height = image->height / distance[x];
+        int line[2] = { -height / 2 + image->height / 2, height / 2 + image->height / 2, };
 
         t_value value = side[0] < side[1]
             ? ray[0] < 0 ? g_data.file.west : g_data.file.east
             : ray[1] < 0 ? g_data.file.north : g_data.file.south;
-
-        mlx_texture_t texture = value_to_texture(value);
-
-        draw_y(image, x, line_y, texture,
+        mlx_texture_t texture = value_texture(value);
+        
+        draw(image, (int[4]){x, line[0], x, line[1] - 1}, texture,
         (double[]){texture_x(ray, side, texture.width), 0},
         (float[]){0, (float)texture.height / height});
     }
@@ -176,6 +159,7 @@ void loop(void* param) {
     image = mlx_new_image(mlx, g_data.file.resolution[0], g_data.file.resolution[1]);
     mlx_image_to_window(mlx, image, 0, 0);
 
+    double distance[image->width];
     draw_floor(image);
-    draw_wall(image);
+    draw_wall(image, distance);
 }
