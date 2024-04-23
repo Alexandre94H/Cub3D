@@ -18,9 +18,7 @@ typedef struct s_value {
     };
 } t_value;
 
-typedef struct s_file {
-    unsigned short resolution[2];
-
+typedef struct s_texture {
     t_value ceiling;
     t_value floor;
 
@@ -30,13 +28,12 @@ typedef struct s_file {
     t_value east;
 
     t_value sprite;
+} t_texture;
 
-    char *map;
-    unsigned short map_size[2];
-
-    unsigned short player_pos[2];
-    unsigned short player_angle;
-} t_file;
+typedef struct s_map {
+    char *data;
+    unsigned short size[2];
+} t_map;
 
 typedef struct s_player {
     float pos[2];
@@ -45,8 +42,10 @@ typedef struct s_player {
 } t_player;
 
 typedef struct s_data {
-    t_file file;
+    unsigned short resolution[2];
+    t_texture texture;
     t_player player;
+    t_map map;
 } t_data;
 
 extern t_data g_data;

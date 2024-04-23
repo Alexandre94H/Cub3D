@@ -10,11 +10,11 @@ void move(float movement[2]) {
     };
 
     unsigned short x = floor(g_data.player.pos[0] + update[0]);
-    if (g_data.file.map[(int)floor(g_data.player.pos[1]) * g_data.file.map_size[0] + x] != 1)
+    if (g_data.map.data[(int)floor(g_data.player.pos[1]) * g_data.map.size[0] + x] == 0)
         g_data.player.pos[0] += update[0];
 
     unsigned short y = floor(g_data.player.pos[1] + update[1]);
-    if (g_data.file.map[y * g_data.file.map_size[0] + (int)floor(g_data.player.pos[0])] != 1)
+    if (g_data.map.data[y * g_data.map.size[0] + (int)floor(g_data.player.pos[0])] == 0)
         g_data.player.pos[1] += update[1];
 }
 

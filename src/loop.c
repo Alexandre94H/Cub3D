@@ -28,7 +28,7 @@ double dda(float ray[2], double side[2]) {
         else
             current[1] += ray[1] < 0 ? -1 : 1;
 
-        if (g_data.file.map[current[1] * g_data.file.map_size[0] + current[0]] == 1)
+        if (g_data.map.data[current[1] * g_data.map.size[0] + current[0]] != 0)
             break;
 
         if (side[0] < side[1])
@@ -96,8 +96,8 @@ void draw_floor(mlx_image_t *image) {
         g_data.player.dir[1] + g_data.player.plane[1],
     };
 
-    mlx_texture_t texture_floor = value_texture(g_data.file.floor);
-    mlx_texture_t texture_ceiling = value_texture(g_data.file.ceiling);
+    mlx_texture_t texture_floor = value_texture(g_data.texture.floor);
+    mlx_texture_t texture_ceiling = value_texture(g_data.texture.ceiling);
 
     for(unsigned short y = 0; y < middle; y++)
     {
@@ -141,8 +141,8 @@ void draw_wall(mlx_image_t *image, double distance[]) {
         int line[2] = { -height / 2 + image->height / 2, height / 2 + image->height / 2, };
 
         t_value value = side[0] < side[1]
-            ? ray[0] < 0 ? g_data.file.west : g_data.file.east
-            : ray[1] < 0 ? g_data.file.north : g_data.file.south;
+            ? ray[0] < 0 ? g_data.texture.west : g_data.texture.east
+            : ray[1] < 0 ? g_data.texture.north : g_data.texture.south;
         mlx_texture_t texture = value_texture(value);
         
         draw(image, (int[4]){x, line[0], x, line[1] - 1}, texture,
@@ -156,7 +156,7 @@ void loop(void* param) {
 
     static mlx_image_t *image = NULL;
     if (image != NULL) mlx_delete_image(mlx, image);
-    image = mlx_new_image(mlx, g_data.file.resolution[0], g_data.file.resolution[1]);
+    image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
     mlx_image_to_window(mlx, image, 0, 0);
 
     double distance[image->width];

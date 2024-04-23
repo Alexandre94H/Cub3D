@@ -6,7 +6,7 @@
 void error(int code, char *str, ...);
 
 // file.c
-t_file load_file(char *filename);
+void load_file(char *filename);
 
 // loop.c
 void loop(void* param);

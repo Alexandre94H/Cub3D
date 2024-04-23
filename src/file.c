@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <math.h>
 
-void load_resolution(t_file *file, char *line) {
-    if (sscanf(line, "%hd %hd", &file->resolution[0], &file->resolution[1]) != 2)
+void load_resolution(char *line) {
+    if (sscanf(line, "%hd %hd", &g_data.resolution[0], &g_data.resolution[1]) != 2)
         error(4, "Failed to parse vector\n");
 }
 
@@ -30,7 +31,7 @@ t_value load_value(char *line) {
     };
 }
 
-void load_key(t_file *file, char *line) {
+void load_key(char *line) {
     char *space = ft_strchr(line, ' ');
     if (!space) error(3, "Invalid line %s\n", line);
     *space = '\0';
@@ -38,66 +39,69 @@ void load_key(t_file *file, char *line) {
     char *key = line;
     char *value = space + 1;
 
-     if (ft_strncmp(key, "R", 1) == 0) {
-        load_resolution(file, value);
-    } else if (ft_strncmp(key, "C", 1) == 0) {
-        file->ceiling = load_value(value);
-    } else if (ft_strncmp(key, "F", 1) == 0) {
-        file->floor = load_value(value);
-    } else if (ft_strncmp(key, "NO", 2) == 0) {
-        file->north = load_value(value);
-    } else if (ft_strncmp(key, "SO", 2) == 0) {
-        file->south = load_value(value);
-    } else if (ft_strncmp(key, "WE", 2) == 0) {
-        file->west = load_value(value);
-    } else if (ft_strncmp(key, "EA", 2) == 0) {
-        file->east = load_value(value);
-    } else if (ft_strncmp(key, "S", 1) == 0) {
-        file->sprite = load_value(value);
-    } else
+    if (ft_strncmp(key, "R", 1) == 0)
+        load_resolution(value);
+    else if (ft_strncmp(key, "C", 1) == 0)
+        g_data.texture.ceiling = load_value(value);
+    else if (ft_strncmp(key, "F", 1) == 0)
+        g_data.texture.floor = load_value(value);
+    else if (ft_strncmp(key, "NO", 2) == 0)
+        g_data.texture.north = load_value(value);
+    else if (ft_strncmp(key, "SO", 2) == 0)
+        g_data.texture.south = load_value(value);
+    else if (ft_strncmp(key, "WE", 2) == 0)
+        g_data.texture.west = load_value(value);
+    else if (ft_strncmp(key, "EA", 2) == 0)
+        g_data.texture.east = load_value(value);
+    else if (ft_strncmp(key, "S", 1) == 0)
+        g_data.texture.sprite = load_value(value);
+    else
         error(3, "Unknown key %s\n", line);
 }
 
-void load_map(t_file *file, char **lines) {
-    for (int y = 0; y < file->map_size[1]; y++) {
+void load_map(char **lines) {
+    for (int y = 0; y < g_data.map.size[1]; y++) {
         int x = 0;
 
-        for (char *c = lines[y]; *c; c++)
+        for (char *c = lines[y]; *c; c++) {
             if (*c == ' ')
-                file->map[y * file->map_size[0] + x++] = 0;
-            else if (ft_strchr("0123456789", *c))
-                file->map[y * file->map_size[0] + x++] = *c - '0';
-            else {
-                file->map[y * file->map_size[0] + x++] = 0;
+                *c = '0';
 
-                if (file->player_pos[0] != 0 || file->player_pos[1] != 0)
+            if (ft_strchr("NESW", *c)) {
+
+                if (g_data.player.pos[0] != 0 || g_data.player.pos[1] != 0)
                     error(3, "Multiple players\n");
 
-                file->player_pos[0] = x;
-                file->player_pos[1] = y;
+                int angle = 0;
+                if (*c == 'N') angle = 0;
+                else if (*c == 'E') angle = 90;
+                else if (*c == 'S') angle = 180;
+                else if (*c == 'W') angle = 270;
 
-                if (*c == 'N')
-                    file->player_angle = 0;
-                else if (*c == 'E')
-                    file->player_angle = 90;
-                else if (*c == 'S')
-                    file->player_angle = 180;
-                else if (*c == 'W')
-                    file->player_angle = 270;
-                else
-                    error(3, "Invalid character %c\n", *c);
+                g_data.player.pos[0] = x + 0.5;
+                g_data.player.pos[1] = y + 0.5;
+                g_data.player.dir[0] = sin(angle * M_PI / 180);
+                g_data.player.dir[1] = -cos(angle * M_PI / 180);
+
+                *c = '0';
             }
 
-        for (int i = x; i < file->map_size[0]; i++)
-            file->map[y * file->map_size[0] + i] = 0;
+            if (*c == '2')
+                *c = '0';
+
+            if (!ft_strchr("01", *c))
+                error(3, "Invalid character %c\n", *c);
+            g_data.map.data[y * g_data.map.size[0] + x++] = *c - '0';
+        }
+
+        for (int i = x; i < g_data.map.size[0]; i++)
+            g_data.map.data[y * g_data.map.size[0] + i] = 0;
 
         free(lines[y]);
     }
 }
 
-t_file load_file(char *filename) {
-    t_file file = {0};
-
+void load_file(char *filename) {
     int fd = open(filename, O_RDONLY);
     if (fd == -1)
         error(2, "Failed to open file %s\n", filename);
@@ -109,22 +113,21 @@ t_file load_file(char *filename) {
         if (line[0] == '\0') {
             // Skip empty lines
         } else if (ft_strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", line[0]))
-            load_key(&file, line);
-        else if (file.map_size[1] < SHRT_MAX) {
-            map_lines[file.map_size[1]++] = line;
-            int len = ft_strlen(line);
-            if (len > file.map_size[0])
-                file.map_size[0] = len;
+            load_key(line);
+        else if (g_data.map.size[1] < SHRT_MAX) {
+            map_lines[g_data.map.size[1]++] = line;
+
+            if (ft_strlen(line) > g_data.map.size[0])
+                g_data.map.size[0] = ft_strlen(line);
+    
             continue;
         }
 
         free(line);
     }
 
-    file.map = malloc(file.map_size[0] * file.map_size[1]);
-    if (!file.map)
+    g_data.map.data = malloc(g_data.map.size[0] * g_data.map.size[1]);
+    if (!g_data.map.data)
         error(2, "Failed to allocate memory\n");
-    load_map(&file, map_lines);
-
-    return file;
+    load_map(map_lines);
 }
