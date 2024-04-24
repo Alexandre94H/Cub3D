@@ -83,17 +83,17 @@ void draw(mlx_image_t *image, int pixel[4], mlx_texture_t texture, double curren
         }
 }
 
-void draw_floor(mlx_image_t *image) {
+void draw_floor(mlx_image_t *image, float plane[2]) {
     float middle = image->height / 2;
 
     float ray_min[2] = {
-        g_data.player.direction[0] - g_data.player.plane[0],
-        g_data.player.direction[1] - g_data.player.plane[1],
+        g_data.player.direction[0] - plane[0],
+        g_data.player.direction[1] - plane[1],
     };
 
     float ray_max[2] = {
-        g_data.player.direction[0] + g_data.player.plane[0],
-        g_data.player.direction[1] + g_data.player.plane[1],
+        g_data.player.direction[0] + plane[0],
+        g_data.player.direction[1] + plane[1],
     };
 
     mlx_texture_t texture_floor = value_texture(g_data.texture.floor);
@@ -124,18 +124,18 @@ void draw_floor(mlx_image_t *image) {
     }
 }
 
-#define MAX_WALL_HEIGHT 5
-void draw_wall(mlx_image_t *image, double distance[]) {
+#define MIN_DISTANCE 1.0 / 5
+void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
     for (unsigned short x = 0; x < image->width; x++) {
         float norm_x = 2 * x / (double)image->width - 1;
         float ray[2] = {
-            g_data.player.direction[0] + g_data.player.plane[0] * norm_x,
-            g_data.player.direction[1] + g_data.player.plane[1] * norm_x,
+            g_data.player.direction[0] + plane[0] * norm_x,
+            g_data.player.direction[1] + plane[1] * norm_x,
         };
 
         double side[2];
         distance[x] = dda(ray, side);
-        if (distance[x] < 1.0 / MAX_WALL_HEIGHT) distance[x] = 1.0 / MAX_WALL_HEIGHT;
+        if (distance[x] < MIN_DISTANCE) distance[x] = MIN_DISTANCE;
 
         int height = image->height / distance[x];
         int line[2] = { -height / 2 + image->height / 2, height / 2 + image->height / 2, };
@@ -151,17 +151,17 @@ void draw_wall(mlx_image_t *image, double distance[]) {
     }
 }
 
-void draw_sprite(mlx_image_t *image, double distance[]) {
+void draw_sprite(mlx_image_t *image, float plane[2], double distance[]) {
     for (t_sprite *sprite = g_data.sprites; sprite; sprite = sprite->next) {
         float position[2] = {
             g_data.sprites->position[0] - g_data.player.position[0],
             g_data.sprites->position[1] - g_data.player.position[1],
         };
 
-        float inv = 1.0 / (g_data.player.direction[1] * g_data.player.plane[0] - g_data.player.direction[0] * g_data.player.plane[1]);
+        float inv = 1.0 / (g_data.player.direction[1] * plane[0] - g_data.player.direction[0] * plane[1]);
         float transform[2] = {
             inv * (g_data.player.direction[1] * position[0] - g_data.player.direction[0] * position[1]),
-            inv * (-g_data.player.plane[1] * position[0] + g_data.player.plane[0] * position[1]),
+            inv * (-plane[1] * position[0] + plane[0] * position[1]),
         };
 
         int screen_x = (image->width / 2) * (1 + transform[0] / transform[1]);
@@ -207,8 +207,10 @@ void loop(void* param) {
     image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
     mlx_image_to_window(mlx, image, 0, 0);
 
+    float plane[2] = { -g_data.fov * g_data.player.direction[1], g_data.fov * g_data.player.direction[0] };
     double distance[image->width];
-    draw_floor(image);
-    draw_wall(image, distance);
-    draw_sprite(image, distance);
+
+    draw_floor(image, plane);
+    draw_wall(image, plane, distance);
+    draw_sprite(image, plane, distance);
 }

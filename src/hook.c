@@ -45,10 +45,6 @@ void rotate(float rotation) {
     double direction[2] = { g_data.player.direction[0], g_data.player.direction[1], };
     g_data.player.direction[0] = direction[0] * cos(rotation) - direction[1] * sin(rotation);
     g_data.player.direction[1] = direction[0] * sin(rotation) + direction[1] * cos(rotation);
-
-    double plane[2] = { g_data.player.plane[0], g_data.player.plane[1], };
-    g_data.player.plane[0] = plane[0] * cos(rotation) - plane[1] * sin(rotation);
-    g_data.player.plane[1] = plane[0] * sin(rotation) + plane[1] * cos(rotation);
 }
 
 void hook_generic(void* param) {
@@ -82,4 +78,9 @@ void key(mlx_key_data_t keydata, void* param) {
 
     if (keydata.key == MLX_KEY_ESCAPE)
         mlx_close_window(mlx);
+}
+
+void resize(int32_t width, int32_t height, void* param) {
+    (void)param;
+    g_data.fov = (float)width / height / 2;
 }

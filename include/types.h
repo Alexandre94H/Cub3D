@@ -39,7 +39,6 @@ typedef struct s_sprite {
 typedef struct s_player {
     float position[2];
     float direction[2];
-    float plane[2];
 } t_player;
 
 typedef struct s_map {
@@ -49,11 +48,13 @@ typedef struct s_map {
 
 typedef struct s_data {
     unsigned short resolution[2];
-    t_texture texture;
-    t_sprite *sprites;
+    float fov;
 
     t_player player;
     t_map map;
+
+    t_texture texture;
+    t_sprite *sprites;
 } t_data;
 
 extern t_data g_data;

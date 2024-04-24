@@ -11,6 +11,7 @@
 void load_resolution(char *line) {
     if (sscanf(line, "%hd %hd", &g_data.resolution[0], &g_data.resolution[1]) != 2)
         error(4, "Failed to parse vector\n");
+    g_data.fov = (float)g_data.resolution[0] / g_data.resolution[1] / 2;
 }
 
 t_value load_value(char *line) {
