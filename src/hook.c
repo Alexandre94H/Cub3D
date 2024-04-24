@@ -11,7 +11,7 @@ void sort_sprite() {
         float distance_next = pow(next->position[0] - g_data.player.position[0], 2)
             + pow(next->position[1] - g_data.player.position[1], 2);
 
-        if (distance > distance_next) continue;
+        if (distance < distance_next) continue;
 
         if (last)
             last->next = next;
