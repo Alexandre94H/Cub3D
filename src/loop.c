@@ -84,33 +84,29 @@ void draw(mlx_image_t *image, int pixel[4], mlx_texture_t texture, double curren
 }
 
 void draw_floor(mlx_image_t *image, float plane[2]) {
-    float middle = image->height / 2;
+    mlx_texture_t texture_floor = value_texture(g_data.texture.floor);
+    mlx_texture_t texture_ceiling = value_texture(g_data.texture.ceiling);
 
-    float ray_min[2] = {
+    float ray[4] = {
         g_data.player.direction[0] - plane[0],
         g_data.player.direction[1] - plane[1],
-    };
-
-    float ray_max[2] = {
         g_data.player.direction[0] + plane[0],
         g_data.player.direction[1] + plane[1],
     };
 
-    mlx_texture_t texture_floor = value_texture(g_data.texture.floor);
-    mlx_texture_t texture_ceiling = value_texture(g_data.texture.ceiling);
-
+    float middle = image->height / 2;
     for(unsigned short y = 0; y < middle; y++)
     {
         float distance = middle / (y - middle);
 
         double current[2] = {
-            distance * ray_min[0] - g_data.player.position[0],
-            distance * ray_min[1] - g_data.player.position[1],
+            distance * ray[0] - g_data.player.position[0],
+            distance * ray[1] - g_data.player.position[1],
         };
 
         float step[2] = {
-            distance * (ray_max[0] - ray_min[0]) / image->width,
-            distance * (ray_max[1] - ray_min[1]) / image->width,
+            distance * (ray[2] - ray[0]) / image->width,
+            distance * (ray[3] - ray[1]) / image->width,
         };
 
         draw(image, (int[4]){0, y, image->width, y}, texture_ceiling,
@@ -119,8 +115,8 @@ void draw_floor(mlx_image_t *image, float plane[2]) {
 
         unsigned short reverse_y = image->height - y - 1;
         draw(image, (int[4]){0, reverse_y, image->width, reverse_y}, texture_floor,
-        (double[]){current[0] * texture_floor.width - 1, current[1] * texture_floor.height - 1},
-        (float[]){step[0] * texture_floor.width, step[1] * texture_floor.height});
+        (double[]){-current[0] * texture_floor.width, -current[1] * texture_floor.height},
+        (float[]){-step[0] * texture_floor.width, -step[1] * texture_floor.height});
     }
 }
 
