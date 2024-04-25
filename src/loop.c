@@ -188,13 +188,9 @@ void draw_sprite(mlx_t *mlx, double distance_wall[]) {
             if (x < 0 || x >= (int)sprite->image->width) continue;
             if (distance_sprite[1] >= distance_wall[x]) continue;
 
-            int texture_x = (x - pixel[0]) * texture.width / size[0];
-            for (int y = pixel[1]; y < pixel[3]; y++) {
-                if (y < 0 || y >= (int)sprite->image->height) continue;
-    
-                int texture_y = (y - pixel[1]) * texture.height / size[1];
-                mlx_put_pixel(sprite->image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
-            }
+            draw(sprite->image, (int[4]){x, pixel[1], x, pixel[3] - 1}, texture,
+            (double[]){(x - pixel[0]) * texture.width / size[0], 0},
+            (float[]){0, (float)texture.height / size[1]});
         }
     }
 }
