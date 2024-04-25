@@ -42,18 +42,6 @@ double dda(float ray[2], double side[2]) {
     return side[0] < side[1] ? side[0] : side[1];
 }
 
-unsigned short texture_x(float ray[2], double side[2], unsigned short width) {
-    double wall_x = side[0] < side[1]
-        ? g_data.player.position[1] + side[0] * ray[1]
-        : g_data.player.position[0] + side[1] * ray[0];
-    wall_x -= floor(wall_x);
-
-    unsigned short x = wall_x * width;
-    if((side[0] < side[1] && ray[0] < 0) || (side[0] > side[1] && ray[1] > 0))
-        return width - x - 1;
-    return x;
-}
-
 mlx_texture_t value_texture(t_value value) {
     if (value.type == XPM)
         return value.xpm->texture;
@@ -141,10 +129,18 @@ void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
             ? ray[0] < 0 ? g_data.texture.west : g_data.texture.east
             : ray[1] < 0 ? g_data.texture.north : g_data.texture.south;
         mlx_texture_t texture = value_texture(value);
+
+        double wall_x = side[0] < side[1]
+            ? g_data.player.position[1] + side[0] * ray[1]
+            : g_data.player.position[0] + side[1] * ray[0];
+        wall_x -= floor(wall_x);
+
+        unsigned short texture_x = wall_x * texture.width;
+        if((side[0] < side[1] && ray[0] < 0) || (side[0] > side[1] && ray[1] > 0))
+            texture_x = texture.width - texture_x - 1;
         
         draw(image, (int[4]){x, line[0], x, line[1] - 1}, texture,
-        (double[]){texture_x(ray, side, texture.width), 0},
-        (float[]){0, (float)texture.height / height});
+        (double[]){texture_x, 0}, (float[]){0, (float)texture.height / height});
     }
 }
 
