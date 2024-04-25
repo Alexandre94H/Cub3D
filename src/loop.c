@@ -147,50 +147,43 @@ void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
     }
 }
 
-void draw_sprite(mlx_image_t *image, float plane[2], double distance[]) {
+void draw_sprite(mlx_image_t *image, double distance_wall[]) {
+    mlx_texture_t texture = value_texture(g_data.texture.sprite);
     for (t_sprite *sprite = g_data.sprites; sprite; sprite = sprite->next) {
-        float position[2] = {
-            g_data.sprites->position[0] - g_data.player.position[0],
-            g_data.sprites->position[1] - g_data.player.position[1],
+        float relative[2] = {
+            sprite->position[0] - g_data.player.position[0],
+            sprite->position[1] - g_data.player.position[1],
+        };
+        
+        float distance_sprite = g_data.player.direction[0] * relative[0] + g_data.player.direction[1] * relative[1];
+        if (distance_sprite < 0) continue;
+
+        unsigned short size[2] = {
+            image->width / distance_sprite / g_data.fov / 2,
+            image->height / distance_sprite,
         };
 
-        float inv = 1.0 / (g_data.player.direction[1] * plane[0] - g_data.player.direction[0] * plane[1]);
-        float transform[2] = {
-            inv * (g_data.player.direction[1] * position[0] - g_data.player.direction[0] * position[1]),
-            inv * (-plane[1] * position[0] + plane[0] * position[1]),
-        };
+        float position_x = g_data.player.direction[0] * relative[1] - g_data.player.direction[1] * relative[0];
+        int screen_x = (image->width / 2) * (1 + position_x / distance_sprite / g_data.fov);
+        if (screen_x < -size[0] / 2 || screen_x >= (int)image->width + size[0] / 2) continue;
 
-        int screen_x = (image->width / 2) * (1 + transform[0] / transform[1]);
-        int size[2] = {
-            abs((int)(image->height / transform[1])),
-            abs((int)(image->height / transform[1])),
-        };
-
-        int draw_start[2] = {
+        int pixel[4] = {
             -size[0] / 2 + screen_x,
             -size[1] / 2 + image->height / 2,
-        };
-        int draw_end[2] = {
             size[0] / 2 + screen_x,
             size[1] / 2 + image->height / 2,
         };
 
-        if (draw_start[0] < 0) draw_start[0] = 0;
-        if (draw_start[1] < 0) draw_start[1] = 0;
-        if (draw_end[0] >= (int)image->width) draw_end[0] = image->width - 1;
-        if (draw_end[1] >= (int)image->height) draw_end[1] = image->height - 1;
+        for (int x = pixel[0]; x < pixel[2]; x++) {
+            if (distance_sprite >= distance_wall[x]) continue;
 
-        mlx_texture_t texture = value_texture(g_data.texture.sprite);
-        for (int x = draw_start[0]; x < draw_end[0]; x++) {
-            int texture_x = (int)((x - (-size[0] / 2 + screen_x)) * texture.width / size[0]);
-            if (transform[1] > 0 && x > 0 && x < (int)image->width && transform[1] < distance[x])
-                for (int y = draw_start[1]; y < draw_end[1]; y++) {
-                    int d = (y) * 256 - image->height * 128 + size[1] * 128;
-                    int texture_y = ((d * texture.height) / size[1]) / 256;
-                    unsigned int color = texture_color(texture, (unsigned short[]){texture_x, texture_y});
-                    if ((color & 0xFF) != 0)
-                        mlx_put_pixel(image, x, y, color);
-                }
+            int texture_x = (x - pixel[0]) * texture.width / size[0];
+            for (int y = pixel[1]; y < pixel[3]; y++) {
+                int texture_y = (y - pixel[1]) * texture.height / size[1];
+                
+                if (x >= 0 && x < (int)image->width && y >= 0 && y < (int)image->height)
+                    mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
+            }
         }
     }
 }
@@ -198,15 +191,18 @@ void draw_sprite(mlx_image_t *image, float plane[2], double distance[]) {
 void loop(void* param) {
     mlx_t *mlx = param;
 
-    static mlx_image_t *image = NULL;
-    if (image != NULL) mlx_delete_image(mlx, image);
-    image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
-    mlx_image_to_window(mlx, image, 0, 0);
+    static mlx_image_t *image[3] = {0};
+    for (unsigned short i = 0; i < 3; i++) {
+        if (image[i] != NULL) mlx_delete_image(mlx, image[i]);
+        image[i] = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
+        mlx_image_to_window(mlx, image[i], 0, 0);
+        mlx_set_instance_depth(image[i]->instances, i);
+    }
 
     float plane[2] = { -g_data.fov * g_data.player.direction[1], g_data.fov * g_data.player.direction[0] };
-    double distance[image->width];
+    double distance_wall[g_data.resolution[0]];
 
-    draw_floor(image, plane);
-    draw_wall(image, plane, distance);
-    draw_sprite(image, plane, distance);
+    draw_floor(image[0], plane);
+    draw_wall(image[1], plane, distance_wall);
+    draw_sprite(image[2], distance_wall);
 }
