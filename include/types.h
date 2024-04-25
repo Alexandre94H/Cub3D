@@ -32,6 +32,7 @@ typedef struct s_texture {
 
 typedef struct s_sprite {
     float position[2];
+    mlx_image_t *image;
 
     struct s_sprite *next;
 } t_sprite;

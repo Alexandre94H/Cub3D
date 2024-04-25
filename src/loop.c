@@ -148,9 +148,16 @@ void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
     }
 }
 
-void draw_sprite(mlx_image_t *image, double distance_wall[]) {
+void draw_sprite(mlx_t *mlx, double distance_wall[]) {
     mlx_texture_t texture = value_texture(g_data.texture.sprite);
+
+    unsigned short index = 0;
     for (t_sprite *sprite = g_data.sprites; sprite; sprite = sprite->next) {
+        if (sprite->image != NULL) mlx_delete_image(mlx, sprite->image);
+        sprite->image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
+        mlx_image_to_window(mlx, sprite->image, 0, 0);
+        mlx_set_instance_depth(sprite->image->instances, ++index);
+
         float relative[2] = {
             sprite->position[0] - g_data.player.position[0],
             sprite->position[1] - g_data.player.position[1],
@@ -163,33 +170,30 @@ void draw_sprite(mlx_image_t *image, double distance_wall[]) {
         if (distance_sprite[1] < MIN_DISTANCE) continue;
 
         unsigned short size[2] = {
-            image->width / distance_sprite[1] / g_data.fov / 2,
-            image->height / distance_sprite[1],
+            sprite->image->width / distance_sprite[1] / g_data.fov / 2,
+            sprite->image->height / distance_sprite[1],
         };
 
-        int screen_x = (image->width / 2) * (1 + distance_sprite[0] / distance_sprite[1] / g_data.fov);
-        if (screen_x < -size[0] / 2 || screen_x >= (int)image->width + size[0] / 2) continue;
+        int screen_x = (sprite->image->width / 2) * (1 + distance_sprite[0] / distance_sprite[1] / g_data.fov);
+        if (screen_x < -size[0] / 2 || screen_x >= (int)sprite->image->width + size[0] / 2) continue;
 
         int pixel[4] = {
             -size[0] / 2 + screen_x,
-            -size[1] / 2 + image->height / 2,
+            -size[1] / 2 + sprite->image->height / 2,
             size[0] / 2 + screen_x,
-            size[1] / 2 + image->height / 2,
+            size[1] / 2 + sprite->image->height / 2,
         };
 
         for (int x = pixel[0]; x < pixel[2]; x++) {
-            if (x < 0 || x >= (int)image->width) continue;
+            if (x < 0 || x >= (int)sprite->image->width) continue;
             if (distance_sprite[1] >= distance_wall[x]) continue;
 
             int texture_x = (x - pixel[0]) * texture.width / size[0];
             for (int y = pixel[1]; y < pixel[3]; y++) {
-                if (y < 0 || y >= (int)image->height) continue;
+                if (y < 0 || y >= (int)sprite->image->height) continue;
     
                 int texture_y = (y - pixel[1]) * texture.height / size[1];
-                int color = texture_color(texture, (unsigned short[]){texture_x, texture_y});
-            
-                if (color)
-                    mlx_put_pixel(image, x, y, color);
+                mlx_put_pixel(sprite->image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
             }
         }
     }
@@ -198,18 +202,16 @@ void draw_sprite(mlx_image_t *image, double distance_wall[]) {
 void loop(void* param) {
     mlx_t *mlx = param;
 
-    static mlx_image_t *image[3] = {0};
-    for (unsigned short i = 0; i < 3; i++) {
-        if (image[i] != NULL) mlx_delete_image(mlx, image[i]);
-        image[i] = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
-        mlx_image_to_window(mlx, image[i], 0, 0);
-        mlx_set_instance_depth(image[i]->instances, i);
-    }
+    static mlx_image_t *image = NULL;
+    if (image != NULL) mlx_delete_image(mlx, image);
+    image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
+    mlx_image_to_window(mlx, image, 0, 0);
+    mlx_set_instance_depth(image->instances, 0);
 
     float plane[2] = { -g_data.fov * g_data.player.direction[1], g_data.fov * g_data.player.direction[0] };
     double distance_wall[g_data.resolution[0]];
 
-    draw_floor(image[0], plane);
-    draw_wall(image[1], plane, distance_wall);
-    draw_sprite(image[2], distance_wall);
+    draw_floor(image, plane);
+    draw_wall(image, plane, distance_wall);
+    draw_sprite(mlx, distance_wall);
 }

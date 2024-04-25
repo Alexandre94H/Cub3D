@@ -95,6 +95,7 @@ void load_map(char **lines) {
 
                 sprite->position[0] = x + 0.5;
                 sprite->position[1] = y + 0.5;
+                sprite->image = NULL;
                 sprite->next = NULL;
 
                 if (last == NULL)
