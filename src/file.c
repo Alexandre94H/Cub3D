@@ -34,7 +34,7 @@ t_value load_value(char *line) {
 
 void load_key(char *line) {
     char *space = ft_strchr(line, ' ');
-    if (!space) error(3, "Invalid line %s\n", line);
+    if (space == NULL) error(3, "Invalid line %s\n", line);
     *space = '\0';
 
     char *key = line;
@@ -105,7 +105,7 @@ void load_map(char **lines) {
                 last = sprite;
             }
 
-            if (!ft_strchr("01", *c))
+            if (ft_strchr("01", *c) == NULL)
                 error(3, "Invalid character %c\n", *c);
             g_data.map.data[y * g_data.map.size[0] + x++] = *c - '0';
         }
@@ -117,10 +117,10 @@ void load_map(char **lines) {
     }
 }
 
-void load_file(char *filename) {
-    int fd = open(filename, O_RDONLY);
+void load_file(char *path) {
+    int fd = open(path, O_RDONLY);
     if (fd == -1)
-        error(2, "Failed to open file %s\n", filename);
+        error(2, "Failed to open file %s\n", path);
 
     char *map_lines[SHRT_MAX] = {0};
 
@@ -143,7 +143,7 @@ void load_file(char *filename) {
     }
 
     g_data.map.data = malloc(g_data.map.size[0] * g_data.map.size[1]);
-    if (!g_data.map.data)
+    if (g_data.map.data == NULL)
         error(2, "Failed to allocate memory\n");
     load_map(map_lines);
 }

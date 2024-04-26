@@ -3,7 +3,7 @@
 #include <math.h>
 
 void sort_sprite() {
-    if (!g_data.sprites) return;
+    if (g_data.sprites == NULL) return;
 
     t_sprite *last = NULL;
     for (t_sprite *sprite = g_data.sprites; sprite->next; last = sprite, sprite = sprite->next) {
