@@ -30,5 +30,11 @@ int main(int argc, char **argv) {
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+
 	free(g_data.map.data);
+	while (g_data.sprites) {
+		t_sprite *sav = g_data.sprites;
+		g_data.sprites = g_data.sprites->next;
+		free(sav);
+	}
 }
