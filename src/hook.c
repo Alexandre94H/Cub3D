@@ -3,6 +3,8 @@
 #include <math.h>
 
 void sort_sprite() {
+    if (!g_data.sprites) return;
+
     t_sprite *last = NULL;
     for (t_sprite *sprite = g_data.sprites; sprite->next; last = sprite, sprite = sprite->next) {
         t_sprite *next = sprite->next;

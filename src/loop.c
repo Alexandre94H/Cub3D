@@ -1,7 +1,5 @@
 #include "types.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
 #define MIN_DISTANCE 1.0 / 5
@@ -46,7 +44,8 @@ mlx_texture_t value_texture(t_value value) {
     if (value.type == XPM)
         return value.xpm->texture;
     if (value.type == RGBA)
-        return (mlx_texture_t){.width = 1, .height = 1, .pixels = (unsigned char *)&value.rgba};
+        return (mlx_texture_t){.width = 1, .height = 1,
+            .pixels = (unsigned char *)&value.rgba, .bytes_per_pixel = 4};
     return (mlx_texture_t){0};
 }
 
@@ -58,15 +57,16 @@ unsigned int texture_color(mlx_texture_t texture, unsigned short index[2]) {
     return ptr[0] << 24 | ptr[1] << 16 | ptr[2] << 8 | ptr[3];
 }
 
-void draw(mlx_image_t *image, int pixel[4], mlx_texture_t texture, double current[2], float step[2]) {
-    for (int y = pixel[1]; y <= pixel[3]; y++)
-        for (int x = pixel[0]; x <= pixel[2]; x++) {
-            int texture_x = current[0];
-            int texture_y = current[1];
-            texture_x &= texture.width - 1;
-            texture_y &= texture.height - 1;
-            current[0] += step[0];
-            current[1] += step[1];
+void draw(mlx_image_t *image, int pixel[4], mlx_texture_t texture, float current[2], float step[2]) {
+    double copy[2] = {current[0], current[1]};
+    for (int x = pixel[0]; x <= pixel[2]; x++)
+        for (int y = pixel[1]; y <= pixel[3]; y++) {
+            double texture_x = floor(copy[0]);
+            double texture_y = floor(copy[1]);
+            texture_x -= floor(texture_x / texture.width) * texture.width;
+            texture_y -= floor(texture_y / texture.height) * texture.height;
+            copy[0] += step[0];
+            copy[1] += step[1];
 
             if (x >= 0 && x < (int)image->width && y >= 0 && y < (int)image->height)
                 mlx_put_pixel(image, x, y, texture_color(texture, (unsigned short[]){texture_x, texture_y}));
@@ -100,19 +100,19 @@ void draw_floor(mlx_image_t *image, float plane[2]) {
         };
 
         draw(image, (int[4]){0, y, image->width, y}, texture_ceiling,
-        (double[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height - 1},
+        (float[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height - 1},
         (float[]){-step[0] * texture_ceiling.width, step[1] * texture_ceiling.height});
 
         unsigned short reverse_y = image->height - y - 1;
         draw(image, (int[4]){0, reverse_y, image->width, reverse_y}, texture_floor,
-        (double[]){-current[0] * texture_floor.width, -current[1] * texture_floor.height},
+        (float[]){-current[0] * texture_floor.width, -current[1] * texture_floor.height},
         (float[]){-step[0] * texture_floor.width, -step[1] * texture_floor.height});
     }
 }
 
 void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
     for (unsigned short x = 0; x < image->width; x++) {
-        float norm_x = 2 * x / (double)image->width - 1;
+        float norm_x = 2 * x / (float)image->width - 1;
         float ray[2] = {
             g_data.player.direction[0] + plane[0] * norm_x,
             g_data.player.direction[1] + plane[1] * norm_x,
@@ -140,7 +140,7 @@ void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
             texture_x = texture.width - texture_x - 1;
         
         draw(image, (int[4]){x, line[0], x, line[1] - 1}, texture,
-        (double[]){texture_x, 0}, (float[]){0, (float)texture.height / height});
+        (float[]){texture_x, 0}, (float[]){0, (float)texture.height / height});
     }
 }
 
@@ -167,7 +167,7 @@ void draw_sprite(mlx_t *mlx, double distance_wall[]) {
 
         unsigned short size[2] = {
             sprite->image->width / distance_sprite[1] / g_data.fov / 2,
-            sprite->image->height / distance_sprite[1],
+            sprite->image->height / distance_sprite[1] * texture.height / texture.width,
         };
 
         int screen_x = (sprite->image->width / 2) * (1 + distance_sprite[0] / distance_sprite[1] / g_data.fov);
@@ -185,7 +185,7 @@ void draw_sprite(mlx_t *mlx, double distance_wall[]) {
             if (distance_sprite[1] >= distance_wall[x]) continue;
 
             draw(sprite->image, (int[4]){x, pixel[1], x, pixel[3] - 1}, texture,
-            (double[]){(x - pixel[0]) * texture.width / size[0], 0},
+            (float[]){(x - pixel[0]) * texture.width / size[0], 0},
             (float[]){0, (float)texture.height / size[1]});
         }
     }
