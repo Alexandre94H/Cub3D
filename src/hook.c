@@ -26,18 +26,34 @@ void sort_sprite() {
     }
 }
 
+bool can_move(bool is_x, float update) {
+    float min_distance = MIN_DISTANCE;
+    float position[2] = { g_data.player.position[0], g_data.player.position[1] };
+    position[!is_x] += update;
+
+    position[!is_x] += update < 0 ? -min_distance : min_distance;
+    if (g_data.map.data[(int)position[1] * g_data.map.size[0] + (int)position[0]] != 0)
+        return false;
+
+    position[is_x] -= update < 0 ? -min_distance : min_distance;
+    if (g_data.map.data[(int)position[1] * g_data.map.size[0] + (int)position[0]] != 0)
+        return false;
+    position[is_x] += (update < 0 ? -min_distance : min_distance) * 2;
+    if (g_data.map.data[(int)position[1] * g_data.map.size[0] + (int)position[0]] != 0)
+        return false;
+    return true;
+}
+
 void move(float movement[2]) {
     float update[2] = {
         g_data.player.direction[0] * movement[0] + g_data.player.direction[1] * movement[1],
         g_data.player.direction[1] * movement[0] - g_data.player.direction[0] * movement[1],
     };
 
-    unsigned short x = floor(g_data.player.position[0] + update[0]);
-    if (g_data.map.data[(int)floor(g_data.player.position[1]) * g_data.map.size[0] + x] == 0)
+    if (can_move(true, update[0]))
         g_data.player.position[0] += update[0];
 
-    unsigned short y = floor(g_data.player.position[1] + update[1]);
-    if (g_data.map.data[y * g_data.map.size[0] + (int)floor(g_data.player.position[0])] == 0)
+    if (can_move(false, update[1]))
         g_data.player.position[1] += update[1];
 
     sort_sprite();

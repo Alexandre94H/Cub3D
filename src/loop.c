@@ -2,8 +2,6 @@
 
 #include <math.h>
 
-#define MIN_DISTANCE 1.0 / 5
-
 double dda(float ray[2], double side[2]) {
     unsigned short current[2] = {
         floor(g_data.player.position[0]),

@@ -5,6 +5,8 @@
 #define MOVEMENT 3.0
 #define ROTATION MOVEMENT / 2
 
+#define MIN_DISTANCE 1.0 / 5
+
 typedef enum e_type {
     RGBA,
     XPM
