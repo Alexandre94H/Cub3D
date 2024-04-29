@@ -118,7 +118,6 @@ void draw_wall(mlx_image_t *image, float plane[2], double distance[]) {
 
         double side[2];
         distance[x] = dda(ray, side);
-        if (distance[x] < MIN_DISTANCE) distance[x] = MIN_DISTANCE;
 
         int height = image->height / distance[x];
         int line[2] = { -height / 2 + image->height / 2, height / 2 + image->height / 2, };
