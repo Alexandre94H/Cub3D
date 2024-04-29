@@ -98,7 +98,7 @@ void draw_floor(mlx_image_t *image, float plane[2]) {
         };
 
         draw(image, (int[4]){0, y, image->width, y}, texture_ceiling,
-        (float[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height - 1},
+        (float[]){-current[0] * texture_ceiling.width, current[1] * texture_ceiling.height},
         (float[]){-step[0] * texture_ceiling.width, step[1] * texture_ceiling.height});
 
         unsigned short reverse_y = image->height - y - 1;
