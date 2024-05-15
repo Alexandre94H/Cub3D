@@ -1,6 +1,6 @@
 #include "functions.h"
 #include "get_next_line.h"
-#include "libft.h"
+#include "ft.h"
 
 #include <fcntl.h>
 #include <stdio.h>
