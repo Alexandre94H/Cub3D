@@ -1,4 +1,4 @@
-project('cub3D', 'c', version : '1.0.0')
+project('Cub3D', 'c', version : '1.0.0')
 
 cc = meson.get_compiler('c')
 cmake = import('cmake')
