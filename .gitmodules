@@ -1,9 +1,0 @@
-[submodule "subprojects/MLX42"]
-	path = subprojects/MLX42
-	url = https://github.com/codam-coding-college/MLX42.git
-[submodule "subprojects/get_next_line"]
-	path = subprojects/get_next_line
-	url = https://github.com/alexandre-hallaine/get_next_line.git
-[submodule "subprojects/libft"]
-	path = subprojects/libft
-	url = https://github.com/alexandre-hallaine/libft.git

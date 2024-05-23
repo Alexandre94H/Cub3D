@@ -1,0 +1,4 @@
+[wrap-git]
+url = https://github.com/alexandre-hallaine/libft.git
+revision = head
+depth = 1

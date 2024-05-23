@@ -4,9 +4,9 @@ cc = meson.get_compiler('c')
 cmake = import('cmake')
 
 libm = cc.find_library('m')
-libft = subproject('libft').get_variable('ft')
-libgnl = subproject('get_next_line').get_variable('gnl')
-libmlx = cmake.subproject('MLX42').dependency('mlx42')
+libft = subproject('ft').get_variable('dep')
+libgnl = subproject('gnl').get_variable('dep')
+libmlx = cmake.subproject('mlx').dependency('mlx42')
 
 src = files(
     'src/main.c',
