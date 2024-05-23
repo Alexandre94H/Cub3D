@@ -2,3 +2,6 @@
 url = https://github.com/alexandre-hallaine/get_next_line.git
 revision = head
 depth = 1
+
+[provide]
+gnl = dep

@@ -2,3 +2,7 @@
 url = https://github.com/codam-coding-college/MLX42.git
 revision = head
 depth = 1
+method = cmake
+
+[provide]
+mlx = mlx42_dep

@@ -1,12 +1,11 @@
 project('Cub3D', 'c', version : '1.0.0')
 
 cc = meson.get_compiler('c')
-cmake = import('cmake')
 
 libm = cc.find_library('m')
-libft = subproject('ft').get_variable('dep')
-libgnl = subproject('gnl').get_variable('dep')
-libmlx = cmake.subproject('mlx').dependency('mlx42')
+libft = dependency('ft')
+libgnl = dependency('gnl')
+libmlx = dependency('mlx')
 
 src = files(
     'src/main.c',
