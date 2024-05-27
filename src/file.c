@@ -8,12 +8,6 @@
 #include <limits.h>
 #include <math.h>
 
-void load_resolution(char *line) {
-    if (sscanf(line, "%hd %hd", &g_data.resolution[0], &g_data.resolution[1]) != 2)
-        error(4, "Failed to parse vector\n");
-    g_data.fov = (float)g_data.resolution[0] / g_data.resolution[1] / 2;
-}
-
 t_value load_value(char *line) {
     short rgb[3] = {0};
     if (sscanf(line, "%hd, %hd, %hd", &rgb[0], &rgb[1], &rgb[2]) == 3)
@@ -40,9 +34,7 @@ void load_key(char *line) {
     char *key = line;
     char *value = space + 1;
 
-    if (ft_strncmp(key, "R", 1) == 0)
-        load_resolution(value);
-    else if (ft_strncmp(key, "C", 1) == 0)
+    if (ft_strncmp(key, "C", 1) == 0)
         g_data.texture.ceiling = load_value(value);
     else if (ft_strncmp(key, "F", 1) == 0)
         g_data.texture.floor = load_value(value);

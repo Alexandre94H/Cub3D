@@ -7,6 +7,9 @@
 
 #define MIN_DISTANCE 1.0 / 5
 
+#define WIDTH 960
+#define HEIGHT 540
+
 typedef enum e_type {
     RGBA,
     XPM
@@ -50,7 +53,6 @@ typedef struct s_map {
 } t_map;
 
 typedef struct s_data {
-    unsigned short resolution[2];
     float fov;
 
     t_player player;

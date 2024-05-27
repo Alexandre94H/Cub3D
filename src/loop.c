@@ -160,7 +160,7 @@ void draw_sprite(mlx_t *mlx, double distance_wall[]) {
     unsigned short index = 0;
     for (t_sprite *sprite = g_data.sprites; sprite; sprite = sprite->next) {
         if (sprite->image != NULL) mlx_delete_image(mlx, sprite->image);
-        sprite->image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
+        sprite->image = mlx_new_image(mlx, WIDTH, HEIGHT);
         mlx_image_to_window(mlx, sprite->image, 0, 0);
         mlx_set_instance_depth(sprite->image->instances, ++index);
 
@@ -206,12 +206,12 @@ void loop(void* param) {
 
     static mlx_image_t *image = NULL;
     if (image != NULL) mlx_delete_image(mlx, image);
-    image = mlx_new_image(mlx, g_data.resolution[0], g_data.resolution[1]);
+    image = mlx_new_image(mlx, WIDTH, HEIGHT);
     mlx_image_to_window(mlx, image, 0, 0);
     mlx_set_instance_depth(image->instances, 0);
 
     float plane[2] = { -g_data.fov * g_data.player.direction[1], g_data.fov * g_data.player.direction[0] };
-    double distance_wall[g_data.resolution[0]];
+    double distance_wall[image->width];
 
     draw_floor(image, plane);
     draw_wall(image, plane, distance_wall);

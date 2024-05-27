@@ -21,7 +21,8 @@ int main(int argc, char **argv) {
 	load_file(argv[1]);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	mlx_t *mlx = mlx_init(g_data.resolution[0], g_data.resolution[1], argv[0], true);
+	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, argv[0], true);
+ 	g_data.fov = (float)mlx->width / mlx->height / 2;
 
 	mlx_key_hook(mlx, key, mlx);
 	mlx_resize_hook(mlx, resize, mlx);
