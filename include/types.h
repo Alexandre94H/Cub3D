@@ -10,29 +10,16 @@
 #define WIDTH 960
 #define HEIGHT 540
 
-typedef enum e_type {
-    RGBA,
-    XPM
-} t_type;
-
-typedef struct s_value {
-    t_type type;
-    union {
-        unsigned int rgba;
-        xpm_t *xpm;
-    };
-} t_value;
-
 typedef struct s_texture {
-    t_value ceiling;
-    t_value floor;
+    mlx_image_t *ceiling;
+    mlx_image_t *floor;
 
-    t_value north;
-    t_value south;
-    t_value west;
-    t_value east;
+    mlx_image_t *north;
+    mlx_image_t *south;
+    mlx_image_t *west;
+    mlx_image_t *east;
 
-    t_value sprite;
+    mlx_image_t *sprite;
 } t_texture;
 
 typedef struct s_sprite {
@@ -53,6 +40,7 @@ typedef struct s_map {
 } t_map;
 
 typedef struct s_data {
+    mlx_t *mlx;
     float fov;
 
     t_player player;

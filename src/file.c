@@ -8,22 +8,21 @@
 #include <limits.h>
 #include <math.h>
 
-t_value load_value(char *line) {
+mlx_image_t *load(char *value) {
     short rgb[3] = {0};
-    if (sscanf(line, "%hd, %hd, %hd", &rgb[0], &rgb[1], &rgb[2]) == 3)
-        return (t_value){
-            .type = RGBA,
-            .rgba = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 0xFF,
-        };
+    if (sscanf(value, "%hd, %hd, %hd", &rgb[0], &rgb[1], &rgb[2]) == 3) {
+        mlx_image_t *image = mlx_new_image(g_data.mlx, 1, 1);
+        int color = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 0xff;
+        mlx_put_pixel(image, 0, 0, color);
+        return image;
+    }
 
-    xpm_t *xpm = mlx_load_xpm42(line);
+    xpm_t *xpm = mlx_load_xpm42(value);
     if (xpm == NULL)
-        error(4, "Failed to load xpm %s: %s\n", line, mlx_strerror(mlx_errno));
+        error(4, "Failed to load xpm %s: %s\n", value, mlx_strerror(mlx_errno));
 
-    return (t_value){
-        .type = XPM,
-        .xpm = xpm,
-    };
+    mlx_image_t *image = mlx_texture_to_image(g_data.mlx, &xpm->texture);
+    return image;
 }
 
 void load_key(char *line) {
@@ -35,19 +34,19 @@ void load_key(char *line) {
     char *value = space + 1;
 
     if (ft_strncmp(key, "C", 1) == 0)
-        g_data.texture.ceiling = load_value(value);
+        g_data.texture.ceiling = load(value);
     else if (ft_strncmp(key, "F", 1) == 0)
-        g_data.texture.floor = load_value(value);
+        g_data.texture.floor = load(value);
     else if (ft_strncmp(key, "NO", 2) == 0)
-        g_data.texture.north = load_value(value);
+        g_data.texture.north = load(value);
     else if (ft_strncmp(key, "SO", 2) == 0)
-        g_data.texture.south = load_value(value);
+        g_data.texture.south = load(value);
     else if (ft_strncmp(key, "WE", 2) == 0)
-        g_data.texture.west = load_value(value);
+        g_data.texture.west = load(value);
     else if (ft_strncmp(key, "EA", 2) == 0)
-        g_data.texture.east = load_value(value);
+        g_data.texture.east = load(value);
     else if (ft_strncmp(key, "S", 1) == 0)
-        g_data.texture.sprite = load_value(value);
+        g_data.texture.sprite = load(value);
     else
         error(3, "Unknown key %s\n", line);
 }

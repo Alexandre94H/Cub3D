@@ -16,13 +16,14 @@ void error(int code, char *str, ...) {
 }
 
 int main(int argc, char **argv) {
-	if (argc != 2)
-		error(1, "Usage: %s <file>\n", argv[0]);
-	load_file(argv[1]);
+    if (argc != 2)
+        error(1, "Usage: %s <file>\n", argv[0]);
 
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, argv[0], true);
- 	g_data.fov = (float)mlx->width / mlx->height / 2;
+    mlx_set_setting(MLX_STRETCH_IMAGE, true);
+    mlx_t *mlx = g_data.mlx = mlx_init(WIDTH, HEIGHT, argv[0], true);
+    g_data.fov = (float)mlx->width / mlx->height / 2;
+
+    load_file(argv[1]);
 
 	mlx_key_hook(mlx, key, mlx);
 	mlx_resize_hook(mlx, resize, mlx);
