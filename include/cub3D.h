@@ -1,8 +1,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
-# define WIDTH 960
-# define HEIGHT 540
+# define WIDTH 320
+# define HEIGHT 200
 # define MOVEMENT 3.0
+
 # include "MLX42/MLX42.h"
 # include <stddef.h>
 # include <stdint.h>
@@ -26,7 +27,7 @@ typedef struct sprite {
     mlx_image_t *image;
 } sprite_t;
 
-typedef enum textures {
+typedef enum texture {
     NORTH = 0,
     WEST,
     SOUTH,
@@ -34,12 +35,12 @@ typedef enum textures {
     FLOOR,
     CEIL,
     SPRITE,
-    TEXTURES__MAX,
-} textures_t;
+    TEXTURE_MAX,
+} texture_t;
 
 typedef struct data {
     mlx_t *mlx;
-    mlx_image_t *texture[TEXTURES__MAX];
+    mlx_image_t *texture[TEXTURE_MAX];
     sprite_t *sprites;
     map_t map;
     player_t player;

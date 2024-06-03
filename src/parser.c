@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 mlx_image_t *load(char *value) {
     mlx_image_t *image;
@@ -27,7 +26,7 @@ mlx_image_t *load(char *value) {
 
 void header(char *line) {
     char *comp = "NWSEFC";
-    textures_t type = strchr(comp, line[0]) - comp;
+    texture_t type = strchr(comp, line[0]) - comp;
     if (type == SOUTH && line[1] == ' ') type = SPRITE;
     data.texture[type] = load(strchr(line, ' ') + 1);
 }
@@ -36,19 +35,16 @@ void map_special(char c, unsigned short position[2]) {
     if (c == ' ') return;
 
     else if (strchr("NWSE", c) != NULL) {
-        int angle = 0;
-        if (c == 'N') angle = 0;
-        else if (c == 'E') angle = 90;
-        else if (c == 'S') angle = 180;
-        else if (c == 'W') angle = 270;
-
+        if (data.player.position[0] != 0 || data.player.position[1] != 0)
+            error(5, "Multiple player positions\n");
         data.player.position[0] = position[0] + 0.5;
         data.player.position[1] = position[1] + 0.5;
-        data.player.direction[0] = sin(angle * M_PI / 180);
-        data.player.direction[1] = -cos(angle * M_PI / 180);
-    }
 
-    else if (c == '2') {
+        if (c == 'N') data.player.direction[1] = -1;
+        else if (c == 'E') data.player.direction[0] = 1;
+        else if (c == 'S') data.player.direction[1] = 1;
+        else if (c == 'W') data.player.direction[0] = -1;
+    } else if (c == '2') {
         sprite_t *sprite = malloc(sizeof(sprite_t));
         if (sprite == NULL)
             error(5, "Failed to allocate memory\n");
@@ -66,16 +62,14 @@ void map_special(char c, unsigned short position[2]) {
                 last = last->next;
             last->next = sprite;
         }
-    }
-
-    else error(5, "Invalid character %c\n", c);
+    } else error(5, "Invalid character %c\n", c);
 }
 
 void map(char *line) {
     unsigned short len = strlen(line);
     unsigned short size[2] = {
-        data.map.size[0] < len ? len : data.map.size[0],
-        data.map.size[1] + 1,
+            data.map.size[0] < len ? len : data.map.size[0],
+            data.map.size[1] + 1,
     };
 
     char *map = malloc(size[0] * size[1]);
@@ -90,7 +84,7 @@ void map(char *line) {
     for (unsigned short x = 0; x < len; x++) {
         char c = line[x];
         if (strchr("01", c) == NULL) {
-            map_special(c, (unsigned short[2]){x, size[1] - 1});
+            map_special(c, (unsigned short[2]) {x, size[1] - 1});
             c = '0';
         }
         map[(size[1] - 1) * size[0] + x] = c - '0';

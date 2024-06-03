@@ -67,34 +67,31 @@ void rotate(float rotation) {
 }
 
 void hook_generic(void *param) {
-    mlx_t *mlx = param;
-    unsigned short fps = 1 / mlx->delta_time;
+    unsigned short fps = 1 / data.mlx->delta_time;
 
     double movement = MOVEMENT / fps;
     double rotation = MOVEMENT / fps / 2;
 
-    if (mlx_is_key_down(mlx, MLX_KEY_W))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_W))
         move((float[2]) {movement, 0});
 
-    if (mlx_is_key_down(mlx, MLX_KEY_S))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_S))
         move((float[2]) {-movement, 0});
 
-    if (mlx_is_key_down(mlx, MLX_KEY_A))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_A))
         move((float[2]) {0, movement});
 
-    if (mlx_is_key_down(mlx, MLX_KEY_D))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_D))
         move((float[2]) {0, -movement});
 
-    if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_LEFT))
         rotate(-rotation);
 
-    if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+    if (mlx_is_key_down(data.mlx, MLX_KEY_RIGHT))
         rotate(rotation);
 }
 
 void hook_key(mlx_key_data_t keydata, void *param) {
-    mlx_t *mlx = param;
-
     if (keydata.key == MLX_KEY_ESCAPE)
-        mlx_close_window(mlx);
+        mlx_close_window(data.mlx);
 }
