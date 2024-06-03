@@ -3,18 +3,20 @@
 #include "cub3D.h"
 #include <math.h>
 
+float distance(float position1[2], float position2[2]) {
+    return sqrt(pow(position1[0] - position2[0], 2) + pow(position1[1] - position2[1], 2));
+}
+
 void sort_sprite() {
-    if (data.sprites == NULL) return;
+    if (!data.sprites) return;
 
     sprite_t *last = NULL;
     for (sprite_t *sprite = data.sprites; sprite->next; last = sprite, sprite = sprite->next) {
         sprite_t *next = sprite->next;
-        float distance = pow(sprite->position[0] - data.player.position[0], 2)
-                         + pow(sprite->position[1] - data.player.position[1], 2);
-        float distance_next = pow(next->position[0] - data.player.position[0], 2)
-                              + pow(next->position[1] - data.player.position[1], 2);
 
-        if (distance > distance_next) continue;
+        if (distance(data.player.position, sprite->position)
+            > distance(data.player.position, next->position))
+            continue;
 
         if (last)
             last->next = next;
@@ -28,18 +30,17 @@ void sort_sprite() {
 }
 
 bool can_move(bool is_x, float update) {
-    float min_distance = MIN_DISTANCE;
     float position[2] = {data.player.position[0], data.player.position[1]};
     position[!is_x] += update;
 
-    position[!is_x] += update < 0 ? -min_distance : min_distance;
+    position[!is_x] += update < 0 ? -MIN_DISTANCE : MIN_DISTANCE;
     if (data.map.data[(int) position[1] * data.map.size[0] + (int) position[0]] != 0)
         return false;
 
-    position[is_x] -= update < 0 ? -min_distance : min_distance;
+    position[is_x] -= update < 0 ? -MIN_DISTANCE : MIN_DISTANCE;
     if (data.map.data[(int) position[1] * data.map.size[0] + (int) position[0]] != 0)
         return false;
-    position[is_x] += (update < 0 ? -min_distance : min_distance) * 2;
+    position[is_x] += (update < 0 ? -MIN_DISTANCE : MIN_DISTANCE) * 2;
     if (data.map.data[(int) position[1] * data.map.size[0] + (int) position[0]] != 0)
         return false;
     return true;
@@ -61,16 +62,15 @@ void move(float movement[2]) {
 }
 
 void rotate(float rotation) {
-    double direction[2] = {data.player.direction[0], data.player.direction[1],};
+    float direction[2] = {data.player.direction[0], data.player.direction[1],};
     data.player.direction[0] = direction[0] * cos(rotation) - direction[1] * sin(rotation);
     data.player.direction[1] = direction[0] * sin(rotation) + direction[1] * cos(rotation);
 }
 
 void hook_generic(void *param) {
     unsigned short fps = 1 / data.mlx->delta_time;
-
-    double movement = MOVEMENT / fps;
-    double rotation = MOVEMENT / fps / 2;
+    float movement = MOVEMENT / fps;
+    float rotation = MOVEMENT / fps / 2;
 
     if (mlx_is_key_down(data.mlx, MLX_KEY_W))
         move((float[2]) {movement, 0});
