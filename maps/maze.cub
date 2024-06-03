@@ -1,11 +1,10 @@
 NO maps/textures/faithful/copper_grate.xpm42
-SO maps/textures/faithful/copper_grate.xpm42
 WE maps/textures/faithful/copper_grate.xpm42
+SO maps/textures/faithful/copper_grate.xpm42
 EA maps/textures/faithful/copper_grate.xpm42
-
-S maps/textures/maze/win.xpm42
-C maps/textures/faithful/copper_block.xpm42
 F maps/textures/faithful/copper_block.xpm42
+C maps/textures/faithful/copper_block.xpm42
+S maps/textures/maze/win.xpm42
 
 111111111111111111111111111111111111111111
 1E0000000100000000000100000000000100000101

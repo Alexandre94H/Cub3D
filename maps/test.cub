@@ -1,11 +1,10 @@
 NO maps/textures/test/north.xpm42
-SO maps/textures/test/south.xpm42
 WE maps/textures/test/west.xpm42
+SO maps/textures/test/south.xpm42
 EA maps/textures/test/east.xpm42
-
-S maps/textures/test/sprite.xpm42
-C maps/textures/test/ceil.xpm42
 F maps/textures/test/floor.xpm42
+C maps/textures/test/ceil.xpm42
+S maps/textures/test/sprite.xpm42
 
         1111111111111111111111111
         1000000000110000000000001
