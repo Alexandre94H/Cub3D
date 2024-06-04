@@ -62,18 +62,4 @@ void hook_generic(void *param);
 
 void hook_loop(void *param);
 
-//= Draw Functions =//
-
-void draw_floor(mlx_image_t *image, float plane[2]);
-
-void draw_wall(mlx_image_t *image, float plane[2], double distance[]);
-
-void draw_sprite(mlx_t *mlx, float fov, double distance_wall[]);
-
-//= Movement Functions =//
-
-void move(float movement[2]);
-
-void rotate(float rotation);
-
 #endif
