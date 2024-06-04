@@ -12,9 +12,9 @@ int main(int argc, char **argv) {
 
     parse(argv[1]);
 
-    mlx_loop_hook(mlx, loop, NULL);
-    mlx_loop_hook(mlx, hook_generic, NULL);
     mlx_key_hook(mlx, hook_key, NULL);
+    mlx_loop_hook(mlx, hook_generic, NULL);
+    mlx_loop_hook(mlx, hook_loop, NULL);
 
     mlx_loop(mlx);
     mlx_terminate(mlx);

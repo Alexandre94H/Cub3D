@@ -9,8 +9,12 @@ libmlx = dependency('mlx')
 src = files(
     'src/utils.c',
     'src/main.c',
-    'src/parser.c',
-    'src/loop.c',
+    'src/parser/header.c',
+    'src/parser/map.c',
+    'src/parser/populate.c',
+    'src/parser/parser.c',
+    'src/movement.c',
+    'src/draw.c',
     'src/hook.c',
 )
 

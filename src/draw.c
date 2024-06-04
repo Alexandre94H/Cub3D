@@ -172,19 +172,3 @@ void draw_sprite(mlx_t *mlx, float fov, double distance_wall[]) {
         }
     }
 }
-
-void loop(void *param) {
-    static mlx_image_t *image = NULL;
-    if (image != NULL) mlx_delete_image(data.mlx, image);
-    image = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    mlx_image_to_window(data.mlx, image, 0, 0);
-    mlx_set_instance_depth(image->instances, 0);
-
-    float fov = (float) data.mlx->width / data.mlx->height / 2;
-    float plane[2] = {-fov * data.player.direction[1], fov * data.player.direction[0]};
-    double distance_wall[image->width];
-
-    draw_floor(image, plane);
-    draw_wall(image, plane, distance_wall);
-    draw_sprite(data.mlx, fov, distance_wall);
-}
