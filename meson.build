@@ -16,7 +16,10 @@ src = files(
     'src/hook/hook.c',
     'src/hook/movement.c',
     'src/hook/sort.c',
-    'src/hook/draw.c',
+    'src/hook/rendering/floor.c',
+    'src/hook/rendering/wall.c',
+    'src/hook/rendering/sprite.c',
+    'src/hook/rendering/draw.c',
 )
 
 inc = include_directories('include')

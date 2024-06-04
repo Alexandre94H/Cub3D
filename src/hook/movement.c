@@ -1,5 +1,3 @@
-#define MIN_DISTANCE (1.0f / 5.0f)
-
 #include "hook.h"
 #include "cub3D.h"
 #include <math.h>

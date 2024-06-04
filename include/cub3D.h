@@ -3,6 +3,7 @@
 # define WIDTH 320
 # define HEIGHT 200
 # define MOVEMENT 3.0
+# define MIN_DISTANCE (1.0f / 5.0f) // wall and sprite
 
 # include "MLX42/MLX42.h"
 # include <stddef.h>
