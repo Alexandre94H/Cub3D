@@ -1,5 +1,5 @@
 #ifndef PARSER_H
-# define PARSER_H
+#define PARSER_H
 
 void header(char *line);
 

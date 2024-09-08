@@ -5,20 +5,20 @@
 #include <stdlib.h>
 
 void parse(char *path) {
-    int fd = open(path, O_RDONLY);
-    char *line = NULL;
-    bool is_header = true;
+  int fd = open(path, O_RDONLY);
+  char *line = NULL;
+  bool is_header = true;
 
-    if (fd == -1)
-        error(2, "Failed to open file %s\n", path);
+  if (fd == -1)
+    error(2, "Failed to open file %s\n", path);
 
-    while ((line = get_next_line(fd)) != NULL) {
-        if (!is_header)
-            map(line);
-        else if (line[0] == '\0')
-            is_header = false;
-        else
-            header(line);
-        free(line);
-    }
+  while ((line = get_next_line(fd)) != NULL) {
+    if (!is_header)
+      map(line);
+    else if (line[0] == '\0')
+      is_header = false;
+    else
+      header(line);
+    free(line);
+  }
 }

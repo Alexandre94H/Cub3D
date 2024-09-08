@@ -1,7 +1,7 @@
 #ifndef HOOK_H
-# define HOOK_H
+#define HOOK_H
 
-# include "MLX42/MLX42.h"
+#include "MLX42/MLX42.h"
 
 //= Draw Functions =//
 
