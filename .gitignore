@@ -2,16 +2,6 @@
 build/
 subprojects/*/
 
-# Object files
-*.o
-
-# Executable files
-*.out
-
-# Backup files created by editors
-*.~
-*.swp
-*.idea
-
-# macOS-specific files
-.DS_Store
+# Config files created by Editors
+.cache
+.idea
